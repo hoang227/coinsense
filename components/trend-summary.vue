@@ -1,12 +1,12 @@
 <template>
   <div>
-
+    
     <div class="font-bold" :class="color">
       {{ title }}
     </div>
 
     <div class="text-2xl font-extrabold text-black dark:text-white mb-2">
-      <USkeleton class="h-8 w-full" v-if="loading" />
+      <USkeleton v-if="loading" class="h-8 w-full" />
       <div v-else>{{ currency }}</div>
     </div>
 
@@ -25,11 +25,26 @@
 
 <script setup lang="ts">
 const props = defineProps({
-  title: String,
-  amount: Number,
-  lastAmount: Number,
-  color: String,
-  loading: Boolean
+  title: {
+    type: String,
+    default: 'transaction'
+  },
+  amount: {
+    type: Number,
+    default: 0
+  },
+  lastAmount: {
+    type: Number,
+    default: 0
+  },
+  color: {
+    type: String,
+    default: 'green'
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const { amount } = toRefs(props)

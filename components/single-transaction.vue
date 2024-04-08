@@ -6,7 +6,7 @@
         <div>{{ transaction.description }}</div>
       </div>
       <div>
-        <UBadge color="white" v-if="transaction.category" class="px-3.5 py-1.5">
+        <UBadge v-if="transaction.category" color="white" class="px-3.5 py-1.5">
           {{ transaction.category }}
         </UBadge>
       </div>
