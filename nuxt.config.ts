@@ -4,11 +4,8 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: ['@nuxt/ui', '@nuxtjs/supabase', '@nuxtjs/eslint-module',],
+  modules: ['@nuxt/ui', '@nuxtjs/supabase'],
   supabase: {
     redirect: false
-  },
-  eslint: {
-
   }
 })
