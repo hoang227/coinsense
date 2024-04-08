@@ -14,11 +14,31 @@
     <Trend title="savings" :amount="100" :last-amount="200" color="yellow" :loading="false"/>
     <Trend title="investment" :amount="100" :last-amount="200" color="blue" :loading="false"/>
   </section>
+
+  <section>
+    <div>
+      <Transaction :transaction="transaction1" />
+      <Transaction :transaction="transaction2" />
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { transactionViewOptions } from '~/constants';
 
 const selectedView = ref(transactionViewOptions[1])
+
+const transaction1 = {
+  description: 'desc1',
+  category: 'cat1',
+  amount: 1000,
+  type: 'income'
+}
+const transaction2 = {
+  description: 'desc2',
+  category: 'cat2',
+  amount: 2000,
+  type: 'expense'
+}
 
 </script>
