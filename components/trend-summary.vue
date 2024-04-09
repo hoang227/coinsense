@@ -1,17 +1,18 @@
 <template>
   <div>
-    
     <div class="font-bold" :class="color">
       {{ title }}
     </div>
 
     <div class="text-2xl font-extrabold text-black dark:text-white mb-2">
       <USkeleton v-if="loading" class="h-8 w-full" />
-      <div v-else>{{ currency }}</div>
+      <div v-else>
+        {{ currency }}
+      </div>
     </div>
 
     <div>
-      <USkeleton class="h-6 w-full" v-if="loading" />
+      <USkeleton v-if="loading" class="h-6 w-full" />
       <div v-else class="flex space-x-1 items-center text-sm">
         <UIcon :name="icon" class="w-6 h-6" :class="{ 'green': trendingUp, 'red': !trendingUp }" />
         <div class="text-gray-500 dark:text-gray-400">
@@ -19,7 +20,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -60,7 +60,7 @@ const icon = computed(
 )
 
 const percentageTrend = computed(() => {
-  if (props.amount === 0 || props.lastAmount === 0) return '∞%'
+  if (props.amount === 0 || props.lastAmount === 0) { return '∞%' }
 
   const bigger = Math.max(props.amount ?? 0, props.lastAmount ?? 0)
   const smaller = Math.min(props.amount ?? 0, props.lastAmount ?? 0)
@@ -69,7 +69,6 @@ const percentageTrend = computed(() => {
 
   return `${Math.ceil(ratio)}%`
 })
-
 
 </script>
 
