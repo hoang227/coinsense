@@ -16,32 +16,73 @@
       <TrendSummary title="investment" :amount="100" :last-amount="200" color="blue" :loading="false" />
     </section>
 
-    <section>
-      <div>
-        <SingleTransaction :transaction="transaction1" />
-        <SingleTransaction :transaction="transaction2" />
+    <section v-if="!pending">
+      <div v-for="(transactionsOnDay, date) in transactionsGroupedByDate" :key="date" class="mb-8">
+        <SingleTransaction v-for="transaction in transactionsOnDay" :key="transaction.id" :transaction="transaction" />
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import TrendSummary from '~/components/trend-summary.vue'
 import { transactionViewOptions } from '~/constants'
 
 const selectedView = ref(transactionViewOptions[1])
+// const {
+//   pending, refresh, transactions: {
+//     income,
+//     expense,
+//     savings,
+//     investment,
+//     incomeCount,
+//     expenseCount,
+//     savingsCount,
+//     investmentCount,
+//     incomeTotal,
+//     expenseTotal,
+//     savingsTotal,
+//     investmentTotal,
+//     grouped: {
+//       byDate
+//     }
+//   }
+// } = useFetchTransactions()
+// await refresh()
 
-const transaction1 = {
-  description: 'desc1',
-  tag: 'cat1',
-  amount: 1000,
-  type: 'income'
+const supabase = useSupabaseClient()
+
+const transactions = ref<Transaction[]>([])
+
+const { data, pending } = await useAsyncData('transactions', async () => {
+  const { data, error } = await supabase
+    .from('transactions')
+    .select()
+
+  if (error) { return [] }
+
+  return data as Transaction[]
+})
+
+if (data.value) {
+  transactions.value = data.value as Transaction[]
 }
-const transaction2 = {
-  description: 'desc2',
-  tag: 'cat2',
-  amount: 2000,
-  type: 'expense'
-}
+
+const transactionsGroupedByDate = computed(() => {
+  const grouped = {} as Record<string, Transaction[]>
+
+  for (const transaction of transactions.value) {
+    if (transaction) {
+      const date = (new Date(transaction.created_at ?? 0)).toISOString().split('T')[0]
+
+      if (!grouped[date]) {
+        grouped[date] = []
+      }
+
+      grouped[date].push(transaction)
+    }
+  }
+
+  return grouped
+})
 
 </script>
