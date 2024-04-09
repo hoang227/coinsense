@@ -7,7 +7,7 @@
       </div>
       <div>
         <UBadge v-if="transaction.category" color="white" class="px-3.5 py-1.5">
-          {{ transaction.category }}
+          {{ transaction.tag }}
         </UBadge>
       </div>
     </div>

@@ -33,13 +33,13 @@ const selectedView = ref(transactionViewOptions[1])
 
 const transaction1 = {
   description: 'desc1',
-  category: 'cat1',
+  tag: 'cat1',
   amount: 1000,
   type: 'income'
 }
 const transaction2 = {
   description: 'desc2',
-  category: 'cat2',
+  tag: 'cat2',
   amount: 2000,
   type: 'expense'
 }
