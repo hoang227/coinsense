@@ -2,7 +2,7 @@ export const useAppToast = () => {
   const toast = useToast()
 
   return {
-    toastSuccess: ({ title, description = null }) => {
+    toastSuccess: ({ title, description } : { title: string, description?: string }) => {
       toast.add({
         title,
         description,
@@ -10,7 +10,7 @@ export const useAppToast = () => {
         color: 'green'
       })
     },
-    toastError: ({ title, description = null }) => {
+    toastError: ({ title, description } : { title: string, description?: string }) => {
       toast.add({
         title,
         description,
