@@ -8,14 +8,14 @@
         <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
       </div>
     </section>
-  
+
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10">
-      <TrendSummary title="income" :amount="10000" :last-amount="9000" color="green" :loading="false"/>
-      <TrendSummary title="expense" :amount="3000" :last-amount="3500" color="red" :loading="false"/>
-      <TrendSummary title="savings" :amount="100" :last-amount="200" color="yellow" :loading="false"/>
-      <TrendSummary title="investment" :amount="100" :last-amount="200" color="blue" :loading="false"/>
+      <TrendSummary title="income" :amount="10000" :last-amount="9000" color="green" :loading="false" />
+      <TrendSummary title="expense" :amount="3000" :last-amount="3500" color="red" :loading="false" />
+      <TrendSummary title="savings" :amount="100" :last-amount="200" color="yellow" :loading="false" />
+      <TrendSummary title="investment" :amount="100" :last-amount="200" color="blue" :loading="false" />
     </section>
-  
+
     <section>
       <div>
         <SingleTransaction :transaction="transaction1" />
@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import TrendSummary from '~/components/trend-summary.vue';
-import { transactionViewOptions } from '~/constants';
+import TrendSummary from '~/components/trend-summary.vue'
+import { transactionViewOptions } from '~/constants'
 
 const selectedView = ref(transactionViewOptions[1])
 
