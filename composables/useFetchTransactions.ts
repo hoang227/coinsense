@@ -126,6 +126,7 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
     currTransactions.value = tempData.currData
     prevTransactions.value = tempData.prevData
   }
+
   watch(current, async () => await refresh())
 
   const transactionsGroupedByDate = computed(() => {
