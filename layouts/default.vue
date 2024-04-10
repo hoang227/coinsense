@@ -25,7 +25,7 @@ useHead({
 
 const color = useColorMode()
 
-color.preference = 'dark'
+color.preference = 'light'
 </script>
 
 <style>
@@ -34,6 +34,6 @@ body {
 }
 
 body {
-  @apply dark:bg-gray-900 bg-stone-300
+  @apply dark:bg-gray-900 bg-stone-200
 }
 </style>

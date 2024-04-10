@@ -1,23 +1,61 @@
 <template>
   <div>
-    <section class="flex justify-between items-center mb-10">
-      <h1 class="text-4xl font-extrabold">
-        summary
-      </h1>
-      <div>
-        <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
+    <section class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
+      <div class="flex justify-between items-center mb-10">
+        <h1 class="text-4xl font-extrabold">
+          summary
+        </h1>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16">
+        <TrendSummary
+          :amount="incomeTotal"
+          :count="incomeCount"
+          :last-amount="9000"
+          :loading="pending"
+          color="green"
+          title="income"
+        />
+        <TrendSummary
+          :amount="expenseTotal"
+          :count="expenseCount"
+          :last-amount="3500"
+          :loading="pending"
+          color="red"
+          title="expense"
+        />
+        <TrendSummary
+          :amount="savingsTotal"
+          :count="savingsCount"
+          :last-amount="200"
+          :loading="pending"
+          color="yellow"
+          title="savings"
+        />
+        <TrendSummary
+          :amount="investmentTotal"
+          :count="investmentCount"
+          :last-amount="200"
+          :loading="pending"
+          color="blue"
+          title="investment"
+        />
       </div>
     </section>
 
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10">
-      <TrendSummary title="income" :amount="10000" :last-amount="9000" color="green" :loading="false" />
-      <TrendSummary title="expense" :amount="3000" :last-amount="3500" color="red" :loading="false" />
-      <TrendSummary title="savings" :amount="100" :last-amount="200" color="yellow" :loading="false" />
-      <TrendSummary title="investment" :amount="100" :last-amount="200" color="blue" :loading="false" />
+    <section class="my-8">
+      <div class="flex justify-between">
+        <div>
+          <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
+        </div>
+        <div>
+          <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" />
+        </div>
+      </div>
     </section>
 
-    <section v-if="!pending">
-      <div v-for="(transactionsOnDay, date) in transactionsGroupedByDate" :key="date" class="mb-8">
+    <section v-if="!pending" class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
+      <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-8">
         <SingleTransaction v-for="transaction in transactionsOnDay" :key="transaction.id" :transaction="transaction" />
       </div>
     </section>
@@ -28,61 +66,39 @@
 import { transactionViewOptions } from '~/constants'
 
 const selectedView = ref(transactionViewOptions[1])
-// const {
-//   pending, refresh, transactions: {
-//     income,
-//     expense,
-//     savings,
-//     investment,
-//     incomeCount,
-//     expenseCount,
-//     savingsCount,
-//     investmentCount,
-//     incomeTotal,
-//     expenseTotal,
-//     savingsTotal,
-//     investmentTotal,
-//     grouped: {
-//       byDate
-//     }
-//   }
-// } = useFetchTransactions()
-// await refresh()
-
-const supabase = useSupabaseClient()
-
-const transactions = ref<Transaction[]>([])
-
-const { data, pending } = await useAsyncData('transactions', async () => {
-  const { data, error } = await supabase
-    .from('transactions')
-    .select()
-
-  if (error) { return [] }
-
-  return data as Transaction[]
-})
-
-if (data.value) {
-  transactions.value = data.value as Transaction[]
-}
-
-const transactionsGroupedByDate = computed(() => {
-  const grouped = {} as Record<string, Transaction[]>
-
-  for (const transaction of transactions.value) {
-    if (transaction) {
-      const date = (new Date(transaction.created_at ?? 0)).toISOString().split('T')[0]
-
-      if (!grouped[date]) {
-        grouped[date] = []
-      }
-
-      grouped[date].push(transaction)
+const {
+  pending, refresh, transactions: {
+    incomeCount,
+    expenseCount,
+    savingsCount,
+    investmentCount,
+    incomeTotal,
+    expenseTotal,
+    savingsTotal,
+    investmentTotal,
+    grouped: {
+      byDate
     }
   }
-
-  return grouped
-})
+} = useFetchTransactions()
+await refresh()
 
 </script>
+
+<style scoped>
+.green {
+  @apply text-green-600 dark:text-green-400
+}
+
+.red {
+  @apply text-red-600 dark:text-red-400
+}
+
+.blue {
+  @apply text-blue-600 dark:text-blue-400
+}
+
+.yellow {
+  @apply text-yellow-600 dark:text-yellow-400
+}
+</style>

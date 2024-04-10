@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div class="font-bold" :class="color">
+    <div class="font-bold bg-stone-200 dark:bg-gray-900 py-1 mb-1 pl-2 rounded-md" :class="color">
       {{ title }}
     </div>
 
     <div class="text-2xl font-extrabold text-black dark:text-white mb-2">
-      <USkeleton v-if="loading" class="h-8 w-full" />
+      <USkeleton v-if="loading" class="h-8 w-full" :ui="{ background:'dark:bg-gray-700' }" />
       <div v-else>
         {{ currency }}
       </div>
     </div>
 
     <div>
-      <USkeleton v-if="loading" class="h-6 w-full" />
+      <USkeleton v-if="loading" class="h-6 w-full" :ui="{ background:'dark:bg-gray-700' }" />
       <div v-else class="flex space-x-1 items-center text-sm">
         <UIcon :name="icon" class="w-6 h-6" :class="{ 'green': trendingUp, 'red': !trendingUp }" />
         <div class="text-gray-500 dark:text-gray-400">
