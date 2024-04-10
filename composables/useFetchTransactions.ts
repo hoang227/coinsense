@@ -1,20 +1,26 @@
-export const useFetchTransactions = () => {
+export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<TimePeriod>) => {
   const supabase = useSupabaseClient()
-  const transactions = ref<Transaction[]>([])
+  const currTransactions = ref<Transaction[]>([])
+  const prevTransactions = ref<Transaction[]>([])
   const pending = ref(false)
 
-  const income = computed(() => transactions.value.filter(t => t.type === 'income'))
-  const expense = computed(() => transactions.value.filter(t => t.type === 'expense'))
-  const savings = computed(() => transactions.value.filter(t => t.type === 'savings'))
-  const investment = computed(() => transactions.value.filter(t => t.type === 'investment'))
+  const currIncome = computed(() => currTransactions.value.filter(t => t.type === 'income'))
+  const currExpense = computed(() => currTransactions.value.filter(t => t.type === 'expense'))
+  const currSavings = computed(() => currTransactions.value.filter(t => t.type === 'savings'))
+  const currInvestment = computed(() => currTransactions.value.filter(t => t.type === 'investment'))
 
-  const incomeCount = computed(() => income.value.length)
-  const expenseCount = computed(() => expense.value.length)
-  const savingsCount = computed(() => savings.value.length)
-  const investmentCount = computed(() => investment.value.length)
+  const prevIncome = computed(() => prevTransactions.value.filter(t => t.type === 'income'))
+  const prevExpense = computed(() => prevTransactions.value.filter(t => t.type === 'expense'))
+  const prevSavings = computed(() => prevTransactions.value.filter(t => t.type === 'savings'))
+  const prevInvestment = computed(() => prevTransactions.value.filter(t => t.type === 'investment'))
 
-  const incomeTotal = computed(() => {
-    return income.value.reduce((sum, transaction) => {
+  const currIncomeCount = computed(() => currIncome.value.length)
+  const currExpenseCount = computed(() => currExpense.value.length)
+  const currSavingsCount = computed(() => currSavings.value.length)
+  const currInvestmentCount = computed(() => currInvestment.value.length)
+
+  const currIncomeTotal = computed(() => {
+    return currIncome.value.reduce((sum, transaction) => {
       if (transaction.amount !== undefined) {
         return sum + transaction.amount
       } else {
@@ -22,8 +28,8 @@ export const useFetchTransactions = () => {
       }
     }, 0)
   })
-  const expenseTotal = computed(() => {
-    return expense.value.reduce((sum, transaction) => {
+  const currExpenseTotal = computed(() => {
+    return currExpense.value.reduce((sum, transaction) => {
       if (transaction.amount !== undefined) {
         return sum + transaction.amount
       } else {
@@ -31,8 +37,8 @@ export const useFetchTransactions = () => {
       }
     }, 0)
   })
-  const savingsTotal = computed(() => {
-    return savings.value.reduce((sum, transaction) => {
+  const currSavingsTotal = computed(() => {
+    return currSavings.value.reduce((sum, transaction) => {
       if (transaction.amount !== undefined) {
         return sum + transaction.amount
       } else {
@@ -40,8 +46,44 @@ export const useFetchTransactions = () => {
       }
     }, 0)
   })
-  const investmentTotal = computed(() => {
-    return investment.value.reduce((sum, transaction) => {
+  const currInvestmentTotal = computed(() => {
+    return currInvestment.value.reduce((sum, transaction) => {
+      if (transaction.amount !== undefined) {
+        return sum + transaction.amount
+      } else {
+        return sum
+      }
+    }, 0)
+  })
+  const prevIncomeTotal = computed(() => {
+    return prevIncome.value.reduce((sum, transaction) => {
+      if (transaction.amount !== undefined) {
+        return sum + transaction.amount
+      } else {
+        return sum
+      }
+    }, 0)
+  })
+  const prevExpenseTotal = computed(() => {
+    return prevExpense.value.reduce((sum, transaction) => {
+      if (transaction.amount !== undefined) {
+        return sum + transaction.amount
+      } else {
+        return sum
+      }
+    }, 0)
+  })
+  const prevSavingsTotal = computed(() => {
+    return prevSavings.value.reduce((sum, transaction) => {
+      if (transaction.amount !== undefined) {
+        return sum + transaction.amount
+      } else {
+        return sum
+      }
+    }, 0)
+  })
+  const prevInvestmentTotal = computed(() => {
+    return prevInvestment.value.reduce((sum, transaction) => {
       if (transaction.amount !== undefined) {
         return sum + transaction.amount
       } else {
@@ -54,25 +96,42 @@ export const useFetchTransactions = () => {
     pending.value = true
 
     try {
-      const { data, error } = await supabase
-        .from('transactions')
-        .select()
-        .order('created_at', { ascending: false })
+      const { data } = await useAsyncData(`transactions=${current.value.from.toDateString()}-${current.value.to.toDateString()}`, async () => {
+        const { data: currData, error: currError } = await supabase
+          .from('transactions')
+          .select()
+          .gte('created_at', useTOISOString(current.value.from))
+          .lte('created_at', useTOISOString(current.value.to))
+          .order('created_at', { ascending: false })
 
-      if (error) { return [] }
+        const { data: prevData, error: prevError } = await supabase
+          .from('transactions')
+          .select()
+          .gte('created_at', useTOISOString(previous.value.from))
+          .lte('created_at', useTOISOString(previous.value.to))
+          .order('created_at', { ascending: false })
 
-      return data
+        if (currError || prevError) { return [] }
+
+        return { currData, prevData }
+      })
+      return data.value as { currData: Transaction[], prevData: Transaction[] }
     } finally {
       pending.value = false
     }
   }
 
-  const refresh = async () => { transactions.value = await fetchTransactions() }
+  const refresh = async () => {
+    const tempData = await fetchTransactions()
+    currTransactions.value = tempData.currData
+    prevTransactions.value = tempData.prevData
+  }
+  watch(current, async () => await refresh())
 
   const transactionsGroupedByDate = computed(() => {
     const grouped = {} as Record<string, Transaction[]>
 
-    for (const transaction of transactions.value) {
+    for (const transaction of currTransactions.value) {
       if (transaction) {
         const date = (new Date(transaction.created_at ?? 0)).toISOString().split('T')[0]
 
@@ -88,23 +147,25 @@ export const useFetchTransactions = () => {
   })
 
   return {
-    transactions: {
-      all: transactions,
+    currTransactions: {
+      all: currTransactions,
       grouped: {
         byDate: transactionsGroupedByDate
       },
-      income,
-      expense,
-      savings,
-      investment,
-      incomeCount,
-      expenseCount,
-      savingsCount,
-      investmentCount,
-      incomeTotal,
-      expenseTotal,
-      savingsTotal,
-      investmentTotal
+      currIncomeCount,
+      currExpenseCount,
+      currSavingsCount,
+      currInvestmentCount,
+      currIncomeTotal,
+      currExpenseTotal,
+      currSavingsTotal,
+      currInvestmentTotal
+    },
+    prevTransactions: {
+      prevIncomeTotal,
+      prevExpenseTotal,
+      prevSavingsTotal,
+      prevInvestmentTotal
     },
     refresh,
     pending

@@ -9,33 +9,33 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16">
         <TrendSummary
-          :amount="incomeTotal"
-          :count="incomeCount"
-          :last-amount="9000"
+          :amount="currIncomeTotal"
+          :count="currIncomeCount"
+          :last-amount="prevIncomeTotal"
           :loading="pending"
           color="green"
           title="income"
         />
         <TrendSummary
-          :amount="expenseTotal"
-          :count="expenseCount"
-          :last-amount="3500"
+          :amount="currExpenseTotal"
+          :count="currExpenseCount"
+          :last-amount="prevExpenseTotal"
           :loading="pending"
           color="red"
           title="expense"
         />
         <TrendSummary
-          :amount="savingsTotal"
-          :count="savingsCount"
-          :last-amount="200"
+          :amount="currSavingsTotal"
+          :count="currSavingsCount"
+          :last-amount="prevSavingsTotal"
           :loading="pending"
           color="yellow"
           title="savings"
         />
         <TrendSummary
-          :amount="investmentTotal"
-          :count="investmentCount"
-          :last-amount="200"
+          :amount="currInvestmentTotal"
+          :count="currInvestmentCount"
+          :last-amount="prevInvestmentTotal"
           :loading="pending"
           color="blue"
           title="investment"
@@ -66,22 +66,30 @@
 <script setup lang="ts">
 import { transactionViewOptions } from '~/constants'
 
-const selectedView = ref(transactionViewOptions[1])
+const selectedView = ref(transactionViewOptions[0])
+const { current, previous } = useSelectedTimePeriod(selectedView)
+
 const {
-  pending, refresh, transactions: {
-    incomeCount,
-    expenseCount,
-    savingsCount,
-    investmentCount,
-    incomeTotal,
-    expenseTotal,
-    savingsTotal,
-    investmentTotal,
+  pending, refresh, currTransactions: {
+    currIncomeCount,
+    currExpenseCount,
+    currSavingsCount,
+    currInvestmentCount,
+    currIncomeTotal,
+    currExpenseTotal,
+    currSavingsTotal,
+    currInvestmentTotal,
     grouped: {
       byDate
     }
+  },
+  prevTransactions: {
+    prevIncomeTotal,
+    prevExpenseTotal,
+    prevSavingsTotal,
+    prevInvestmentTotal
   }
-} = useFetchTransactions()
+} = useFetchTransactions(current, previous)
 await refresh()
 
 </script>
