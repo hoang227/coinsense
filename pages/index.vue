@@ -49,7 +49,8 @@
           <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
         </div>
         <div>
-          <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" />
+          <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" @click="isOpen = true" />
+          <TransactionModal v-model="isOpen" @saved="refresh()" />
         </div>
       </div>
     </section>
@@ -68,6 +69,7 @@ import { transactionViewOptions } from '~/constants'
 
 const selectedView = ref(transactionViewOptions[0])
 const { current, previous } = useSelectedTimePeriod(selectedView)
+const isOpen = ref(false)
 
 const {
   pending, refresh, currTransactions: {
