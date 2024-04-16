@@ -6,7 +6,7 @@
         <div>{{ transaction.description }}</div>
       </div>
       <div>
-        <UBadge v-if="transaction.tag" color="white" class="px-3.5 py-1.5">
+        <UBadge v-if="showTags && transaction.tag" color="white" class="px-3.5 py-1.5">
           {{ transaction.tag }}
         </UBadge>
       </div>
@@ -30,7 +30,8 @@ const props = defineProps({
   transaction: {
     type: Object,
     required: true
-  }
+  },
+  showTags: Boolean
 })
 
 const emit = defineEmits(['deleted', 'edited'])

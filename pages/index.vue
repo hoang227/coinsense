@@ -7,7 +7,7 @@
         </h1>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-x-16 sm:gap-y-8 gap-y-8">
         <TrendSummary
           :amount="currIncomeTotal"
           :count="currIncomeCount"
@@ -45,8 +45,10 @@
 
     <section class="my-8">
       <div class="flex justify-between">
-        <div>
+        <div class="flex space-x-4">
           <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
+          <UButton v-if="showTags" color="red" variant="solid" label="hide tags" @click="showTags = !showTags" />
+          <UButton v-else color="green" variant="solid" label="show tags" @click="showTags = !showTags" />
         </div>
         <div>
           <TransactionModal v-model="isOpen" @saved="refresh()" />
@@ -58,7 +60,7 @@
     <section v-if="!pending" class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
       <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-10">
         <DailyTransactionSummary :date="date" :transactions="transactionsOnDay" />
-        <SingleTransaction v-for="transaction in transactionsOnDay" :key="transaction.id" :transaction="transaction" @deleted="refresh()" @edited="refresh()" />
+        <SingleTransaction v-for="transaction in transactionsOnDay" :key="transaction.id" :transaction="transaction" :showTags="showTags" @deleted="refresh()" @edited="refresh()" />
       </div>
     </section>
   </div>
@@ -67,9 +69,10 @@
 <script setup lang="ts">
 import { transactionViewOptions } from '~/constants'
 
-const selectedView = ref(transactionViewOptions[0])
+const selectedView = ref(transactionViewOptions[1])
 const { current, previous } = useSelectedTimePeriod(selectedView)
 const isOpen = ref(false)
+const showTags = ref(false)
 
 const {
   pending, refresh, currTransactions: {
