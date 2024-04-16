@@ -134,7 +134,7 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
 
     for (const transaction of currTransactions.value) {
       if (transaction) {
-        const date = (new Date(transaction.created_at ?? 0)).toISOString().split('T')[0]
+        const date = transaction.created_at?.split('T')[0] as string
 
         if (!grouped[date]) {
           grouped[date] = []

@@ -91,6 +91,8 @@ const save = async () => {
         id: props.transaction?.id
       } as never)
 
+    console.log({ ...state.value, id: props.transaction?.id })
+
     if (!error) {
       toastSuccess({
         title: 'transaction-saved'
