@@ -1,12 +1,12 @@
 <template>
-  <div class="grid grid-cols-3 py-4 border-b border-stone-100 dark:border-gray-700 text-gray-900 dark:text-gray-100">
-    <div class="flex items-center justify-between space-x-4 col-span-2">
-      <div class="flex items-center space-x-2">
-        <UIcon :name="icon" :class="iconColor" />
-        <div>{{ transaction.description }}</div>
-      </div>
+  <div class="grid grid-cols-5 py-4 border-b border-stone-100 dark:border-gray-700 text-gray-900 dark:text-gray-100">
+    <div class="flex items-center justify-between space-x-4 col-span-4">
       <div>
-        <UBadge v-if="showTags && transaction.tag" color="white" class="px-3.5 py-1.5">
+        <div class="flex items-center space-x-2 mb-2">
+          <UIcon :name="icon" :class="iconColor" />
+          <div>{{ transaction.description }}</div>
+        </div>
+        <UBadge v-if="showTags && transaction.tag && !isNoneTag" color="white" class="ml-[20px] px-3.5 py-1.5">
           {{ transaction.tag }}
         </UBadge>
       </div>
@@ -34,9 +34,13 @@ const props = defineProps({
   showTags: Boolean
 })
 
+const toast = useToast()
+
 const emit = defineEmits(['deleted', 'edited'])
 
 const isIncome = computed(() => props.transaction.type === 'income')
+
+const isNoneTag = computed(() => props.transaction.tag === 'none')
 
 const icon = computed(
   () => isIncome.value ? 'i-heroicons-arrow-up-right' : 'i-heroicons-arrow-down-left'
@@ -62,6 +66,12 @@ const deleteTransaction = async () => {
       .from('transactions')
       .delete()
       .eq('id', props.transaction.id)
+
+    toast.add({
+      title: 'transaction deleted',
+      icon: 'i-heroicons-check-circle',
+      color: 'green'
+    })
     toastSuccess({
       title: 'transaction deleted'
     })

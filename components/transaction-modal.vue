@@ -88,6 +88,7 @@ const save = async () => {
     const { error } = await supabase.from('transactions')
       .upsert({
         ...state.value,
+        tag: state.value.tag ?? 'none',
         id: props.transaction?.id
       } as never)
 

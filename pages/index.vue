@@ -60,7 +60,14 @@
     <section v-if="!pending" class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
       <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-10">
         <DailyTransactionSummary :date="date" :transactions="transactionsOnDay" />
-        <SingleTransaction v-for="transaction in transactionsOnDay" :key="transaction.id" :transaction="transaction" :showTags="showTags" @deleted="refresh()" @edited="refresh()" />
+        <SingleTransaction
+          v-for="transaction in transactionsOnDay"
+          :key="transaction.id"
+          :show-tags="showTags"
+          :transaction="transaction"
+          @deleted="refresh()"
+          @edited="refresh()"
+        />
       </div>
     </section>
   </div>

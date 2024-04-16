@@ -1,7 +1,7 @@
 export const useAppToast = () => {
   const toast = useToast()
 
-  return {
+  const res = {
     toastSuccess: ({ title, description } : { title: string, description?: string }) => {
       toast.add({
         title,
@@ -19,4 +19,6 @@ export const useAppToast = () => {
       })
     }
   }
+
+  return res
 }
