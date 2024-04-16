@@ -34,8 +34,6 @@ const props = defineProps({
   showTags: Boolean
 })
 
-const toast = useToast()
-
 const emit = defineEmits(['deleted', 'edited'])
 
 const isIncome = computed(() => props.transaction.type === 'income')
@@ -66,12 +64,6 @@ const deleteTransaction = async () => {
       .from('transactions')
       .delete()
       .eq('id', props.transaction.id)
-
-    toast.add({
-      title: 'transaction deleted',
-      icon: 'i-heroicons-check-circle',
-      color: 'green'
-    })
     toastSuccess({
       title: 'transaction deleted'
     })

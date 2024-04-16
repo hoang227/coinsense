@@ -15,6 +15,10 @@
 
         <UFormGroup label="date" :required="true" name="created_at" class="mb-4">
           <UInput v-model="state.created_at" type="date" placeholder="amount" icon="i-heroicons-calendar-days-20-solid" />
+          <UButton class="-ml-2 opacity-60" label="today" color="black" variant="link" @click="setDateToToday" />
+          <UButton class="-ml-2 opacity-60" label="clear" color="black" variant="link" @click="clearDate" />
+          <UButton class="-ml-2 opacity-60" label="stubIncome" color="black" variant="link" @click="addStubIncome" />
+          <UButton class="-ml-2 opacity-60" label="stubExpense" color="black" variant="link" @click="addStubExpense" />
         </UFormGroup>
 
         <UFormGroup label="description" name="description" class="mb-4">
@@ -140,5 +144,27 @@ const isOpen = computed({
     emit('update:modelValue', value)
   }
 })
+
+const setDateToToday = () => {
+  state.value.created_at = useDateTime(new Date())
+}
+
+const clearDate = () => {
+  state.value.created_at = undefined
+}
+
+const addStubIncome = () => {
+  state.value.type = 'income'
+  state.value.created_at = useDateTime(new Date())
+  state.value.amount = 1000
+  state.value.description = 'some income'
+}
+const addStubExpense = () => {
+  state.value.type = 'expense'
+  state.value.created_at = useDateTime(new Date())
+  state.value.amount = 1000
+  state.value.description = 'some expense'
+  state.value.tag = 'food'
+}
 
 </script>

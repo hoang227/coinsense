@@ -1,3 +1,8 @@
 export default defineAppConfig({
-  nuxtIcon: {}
+  nuxtIcon: {},
+  ui: {
+    notifications: {
+      position: 'bottom-0 top-auto'
+    }
+  }
 })
