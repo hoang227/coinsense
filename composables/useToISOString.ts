@@ -1,4 +1,4 @@
-export const useTOISOString = (date : Date) : string => {
+export const useToISOString = (date : Date) : string => {
   date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
   return date.toISOString()
 }

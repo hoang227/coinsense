@@ -6,7 +6,7 @@
       </template>
       <UForm ref="form" :state="state" :schema="schema" @submit="save">
         <UFormGroup label="transaction type" :required="true" name="type" class="mb-4">
-          <USelect v-model="state.type" placeholder="select transaction type" :options="types" />
+          <USelect v-model="state.type" :disabled="isEditing" placeholder="select transaction type" :options="types" />
         </UFormGroup>
 
         <UFormGroup label="amount" :required="true" name="amount" class="mb-4">
@@ -36,9 +36,15 @@ import { z } from 'zod'
 import { types, tags } from '~/constants'
 
 const props = defineProps({
-  modelValue: Boolean
+  modelValue: Boolean,
+  transaction: {
+    type: Object,
+    required: false,
+    default: () => {}
+  }
 })
 
+const isEditing = computed(() => !!props.transaction)
 const emit = defineEmits([
   'update:modelValue',
   'saved'
@@ -55,7 +61,7 @@ const incomeSchema = z.object({
 })
 const expenseSchema = z.object({
   type: z.literal('expense'),
-  tag: z.enum(tags as [string, ...[string]])
+  tag: z.enum(tags as [string, ...[string]]).optional()
 })
 const savingsSchema = z.object({
   type: z.literal('savings')
@@ -81,7 +87,8 @@ const save = async () => {
   try {
     const { error } = await supabase.from('transactions')
       .upsert({
-        ...state.value
+        ...state.value,
+        id: props.transaction?.id
       } as never)
 
     if (!error) {
@@ -103,22 +110,32 @@ const save = async () => {
   }
 }
 
-const state = ref({
-  type: undefined,
-  amount: 0,
-  created_at: undefined,
-  description: undefined,
-  tag: undefined
-})
+const initialState = isEditing.value
+  ? {
+      type: props.transaction.type,
+      amount: props.transaction.amount,
+      created_at: props.transaction.created_at,
+      description: props.transaction.description,
+      tag: props.transaction.tag
+    }
+  : {
+      type: undefined,
+      amount: 0,
+      created_at: undefined,
+      description: undefined,
+      tag: undefined
+    }
+
+const state = ref({ ...initialState })
 
 const resetForm = () => {
-  // Object.assign(state.value, initialState)
+  Object.assign(state.value, initialState)
   form.value.clear()
 }
 const isOpen = computed({
   get: () => props.modelValue,
   set: (value) => {
-    resetForm()
+    if (!value) { resetForm() }
     emit('update:modelValue', value)
   }
 })

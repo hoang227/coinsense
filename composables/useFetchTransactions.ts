@@ -100,15 +100,15 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
         const { data: currData, error: currError } = await supabase
           .from('transactions')
           .select()
-          .gte('created_at', useTOISOString(current.value.from))
-          .lte('created_at', useTOISOString(current.value.to))
+          .gte('created_at', useToISOString(current.value.from))
+          .lte('created_at', useToISOString(current.value.to))
           .order('created_at', { ascending: false })
 
         const { data: prevData, error: prevError } = await supabase
           .from('transactions')
           .select()
-          .gte('created_at', useTOISOString(previous.value.from))
-          .lte('created_at', useTOISOString(previous.value.to))
+          .gte('created_at', useToISOString(previous.value.from))
+          .lte('created_at', useToISOString(previous.value.to))
           .order('created_at', { ascending: false })
 
         if (currError || prevError) { return [] }

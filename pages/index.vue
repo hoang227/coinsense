@@ -49,8 +49,8 @@
           <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
         </div>
         <div>
-          <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" @click="isOpen = true" />
           <TransactionModal v-model="isOpen" @saved="refresh()" />
+          <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" @click="isOpen = true" />
         </div>
       </div>
     </section>
@@ -58,7 +58,7 @@
     <section v-if="!pending" class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
       <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-10">
         <DailyTransactionSummary :date="date" :transactions="transactionsOnDay" />
-        <SingleTransaction v-for="transaction in transactionsOnDay" :key="transaction.id" :transaction="transaction" />
+        <SingleTransaction v-for="transaction in transactionsOnDay" :key="transaction.id" :transaction="transaction" @deleted="refresh()" @edited="refresh()" />
       </div>
     </section>
   </div>
