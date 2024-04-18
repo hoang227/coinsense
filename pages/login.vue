@@ -1,76 +1,82 @@
 <template>
-  <UTabs :items="items" class="w-full">
-    <template #signin="{ item }">
-      <UForm ref="signinForm" :state="signinState" :schema="signinSchema" @submit="handleSignIn">
-        <UCard>
-          <template #header>
-            {{ item.label }} now !
-          </template>
+  <div>
+    <div v-if="success">
+      logging you in
+    </div>
+    <UTabs v-else :items="items" class="w-full">
+      <template #signin="{ item }">
+        <UForm ref="signinForm" :state="signinState" :schema="signinSchema" @submit="handleSignIn">
+          <UCard>
+            <template #header>
+              {{ item.label }} now !
+            </template>
 
-          <div class="space-y-3">
-            <UFormGroup label="email" name="email">
-              <UInput v-model="signinState.email" placeholder="email@example.com" />
-            </UFormGroup>
-            <UFormGroup label="password" name="password">
-              <UInput v-model="signinState.password" type="password" placeholder="password" />
-            </UFormGroup>
-          </div>
+            <div class="space-y-3">
+              <UFormGroup label="email" name="email">
+                <UInput v-model="signinState.email" placeholder="email@example.com" />
+              </UFormGroup>
+              <UFormGroup label="password" name="password">
+                <UInput v-model="signinState.password" type="password" placeholder="password" />
+              </UFormGroup>
+            </div>
 
-          <template #footer>
-            <UButton type="submit" color="black" :loading="isLoading">
-              {{ item.label }}
-            </UButton>
-          </template>
-        </UCard>
-      </UForm>
-    </template>
+            <template #footer>
+              <UButton type="submit" color="black" :loading="isLoading">
+                {{ item.label }}
+              </UButton>
+            </template>
+          </UCard>
+        </UForm>
+      </template>
 
-    <template #signup="{ item }">
-      <UForm ref="signupForm" :state="signupState" :schema="signupSchema" @submit="handleSignUp">
-        <UCard>
-          <template #header>
-            {{ item.label }} now !
-          </template>
+      <template #signup="{ item }">
+        <UForm ref="signupForm" :state="signupState" :schema="signupSchema" @submit="handleSignUp">
+          <UCard>
+            <template #header>
+              {{ item.label }} now !
+            </template>
 
-          <div class="space-y-3">
-            <UFormGroup label="email" name="email" required>
-              <UInput v-model="signupState.email" placeholder="email@example.com" />
-            </UFormGroup>
-            <UFormGroup label="username" name="username" required>
-              <UInput v-model="signupState.username" placeholder="username" />
-            </UFormGroup>
-            <UFormGroup label="password" name="password" required>
-              <UInput
-                v-model="signupState.password"
-                placeholder="password"
-                type="password"
-              />
-            </UFormGroup>
-            <p>
-              • password must be at least 8 characters
-            </p>
-            <p>
-              • password must be at most 20 characters
-            </p>
-            <p>
-              • password must contain at least one uppercase letter, one lowercase letter and one digit.
-            </p>
-          </div>
+            <div class="space-y-3">
+              <UFormGroup label="email" name="email" required>
+                <UInput v-model="signupState.email" placeholder="email@example.com" />
+              </UFormGroup>
+              <UFormGroup label="username" name="username" required>
+                <UInput v-model="signupState.username" placeholder="username" />
+              </UFormGroup>
+              <UFormGroup label="password" name="password" required>
+                <UInput
+                  v-model="signupState.password"
+                  placeholder="password"
+                  type="password"
+                />
+              </UFormGroup>
+              <p>
+                • password must be at least 8 characters
+              </p>
+              <p>
+                • password must be at most 20 characters
+              </p>
+              <p>
+                • password must contain at least one uppercase letter, one lowercase letter and one digit.
+              </p>
+            </div>
 
-          <template #footer>
-            <UButton type="submit" color="black" :loading="isLoading">
-              {{ item.label }}
-            </UButton>
-          </template>
-        </UCard>
-      </UForm>
-    </template>
-  </UTabs>
+            <template #footer>
+              <UButton type="submit" color="black" :loading="isLoading">
+                {{ item.label }}
+              </UButton>
+            </template>
+          </UCard>
+        </UForm>
+      </template>
+    </UTabs>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { z } from 'zod'
 
+const success = ref(false)
 const supabase = useSupabaseClient()
 const { toastSuccess, toastError } = useAppToast()
 const isLoading = ref(false)
@@ -125,9 +131,11 @@ const handleSignIn = async () => {
       toastSuccess({
         title: 'signed in successfully'
       })
+      success.value = true
+      setTimeout(() => useRedirectIfAuthenticated(), 2000)
+    } else {
+      throw error
     }
-
-    throw error
   } catch (error) {
     Object.assign(signinState.value, initialSigninState)
     signinForm.value.clear()
