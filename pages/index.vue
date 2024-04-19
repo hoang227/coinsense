@@ -1,13 +1,31 @@
 <template>
   <div>
     <section class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
-      <div class="flex justify-between items-center mb-10">
+      <div class="flex justify-between items-center mb-6">
         <h1 class="text-4xl font-extrabold">
           summary
         </h1>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-x-16 sm:gap-y-8 gap-y-8">
+      <div v-if="isSimple" class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-16 sm:gap-y-8 gap-y-8">
+        <TrendSummary
+          :amount="currIncomeTotal"
+          :count="currIncomeCount"
+          :last-amount="prevIncomeTotal"
+          :loading="pending"
+          color="green"
+          title="income"
+        />
+        <TrendSummary
+          :amount="currExpenseTotal"
+          :count="currExpenseCount"
+          :last-amount="prevExpenseTotal"
+          :loading="pending"
+          color="red"
+          title="expense"
+        />
+      </div>
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-x-16 sm:gap-y-8 gap-y-8">
         <TrendSummary
           :amount="currIncomeTotal"
           :count="currIncomeCount"
@@ -80,6 +98,7 @@ const selectedView = ref(transactionViewOptions[1])
 const { current, previous } = useSelectedTimePeriod(selectedView)
 const isOpen = ref(false)
 const showTags = ref(false)
+const isSimple = ref(false)
 
 const {
   pending, refresh, currTransactions: {
