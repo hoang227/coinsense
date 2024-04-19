@@ -57,16 +57,21 @@
 <script setup lang="ts">
 
 const props = defineProps({
-  analytics: {
-    type: Object,
-    required: true,
-    default: () => {
-      return {
-        currAnalytics: Object as () => Record<string, Record<string, number>>,
-        prevAnalytics: Object as () => Record<string, Record<string, number>>,
-        accounts: Array as () => string[]
-      }
-    }
+  currIncome: {
+    type: Number,
+    required: true
+  },
+  currExpense: {
+    type: Number,
+    required: true
+  },
+  prevIncome: {
+    type: Number,
+    required: true
+  },
+  prevExpense: {
+    type: Number,
+    required: true
   },
   account: {
     type: String,
@@ -78,16 +83,16 @@ const props = defineProps({
   }
 })
 
-const income = computed(() => useCurrency(props.analytics.currAnalytics[props.account].income))
+// console.log(props)
 
-console.log(income)
-const expense = computed(() => useCurrency(props.analytics.currAnalytics[props.account].expense))
+const income = computed(() => useCurrency(props.currIncome))
+const expense = computed(() => useCurrency(props.currExpense))
 
 const incomeTrendingUp = computed(
-  () => props.analytics.currAnalytics[props.account].income >= props.analytics.prevAnalytics[props.account].income
+  () => props.currIncome >= props.prevIncome
 )
 const expenseTrendingUp = computed(
-  () => props.analytics.currAnalytics[props.account].expense >= props.analytics.prevAnalytics[props.account].expense
+  () => props.currExpense >= props.prevExpense
 )
 
 const incomeIcon = computed(
@@ -98,10 +103,10 @@ const expenseIcon = computed(
 )
 
 const incomePercentageTrend = computed(() => {
-  if (props.analytics.currAnalytics[props.account].income === 0 || props.analytics.prevAnalytics[props.account].income === 0) { return '∞%' }
+  if (props.currIncome === 0 || props.prevIncome === 0) { return '∞%' }
 
-  const bigger = Math.max(props.analytics.currAnalytics[props.account].income, props.analytics.prevAnalytics[props.account].income)
-  const smaller = Math.min(props.analytics.currAnalytics[props.account].income, props.analytics.prevAnalytics[props.account].income)
+  const bigger = Math.max(props.currIncome, props.prevIncome)
+  const smaller = Math.min(props.currIncome, props.prevIncome)
 
   const ratio = ((bigger - smaller) / smaller) * 100
 
@@ -109,10 +114,10 @@ const incomePercentageTrend = computed(() => {
 })
 
 const expensePercentageTrend = computed(() => {
-  if (props.analytics.currAnalytics[props.account].expense === 0 || props.analytics.prevAnalytics[props.account].expense === 0) { return '∞%' }
+  if (props.currExpense === 0 || props.prevExpense === 0) { return '∞%' }
 
-  const bigger = Math.max(props.analytics.currAnalytics[props.account].expense, props.analytics.prevAnalytics[props.account].expense)
-  const smaller = Math.min(props.analytics.currAnalytics[props.account].expense, props.analytics.prevAnalytics[props.account].expense)
+  const bigger = Math.max(props.currExpense, props.prevExpense)
+  const smaller = Math.min(props.currExpense, props.prevExpense)
   const ratio = ((bigger - smaller) / smaller) * 100
 
   return `${Math.ceil(ratio)}%`

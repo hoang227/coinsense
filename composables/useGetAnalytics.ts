@@ -122,10 +122,6 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
     prevByAccountThenTypeTotal[account] = currAccount
   }
 
-  console.log(currByAccountThenTypeTotal)
-  console.log(prevByAccountThenTypeTotal)
-  console.log(accounts)
-
   return {
     currAnalytics: currByAccountThenTypeTotal,
     prevAnalytics: prevByAccountThenTypeTotal,

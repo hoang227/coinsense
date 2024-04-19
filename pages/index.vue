@@ -10,7 +10,10 @@
       <div class="grid grid-cols-1 md:grid-cols-2">
         <div v-for="account in analytics.accounts" :key="account" class="m-4">
           <AccountSummary
-            :analytics="analytics"
+            :curr-income="getAnalytics(account).currIncome"
+            :curr-expense="getAnalytics(account).currExpense"
+            :prev-income="getAnalytics(account).prevIncome"
+            :prev-expense="getAnalytics(account).prevExpense"
             :account="account"
             :loading="loading"
           />
@@ -51,7 +54,7 @@
 <script setup lang="ts">
 import { transactionViewOptions } from '~/constants'
 
-const selectedView = ref(transactionViewOptions[1])
+const selectedView = ref(transactionViewOptions[0])
 const { current, previous } = useSelectedTimePeriod(selectedView)
 const isOpen = ref(false)
 const showTags = ref(false)
@@ -65,6 +68,17 @@ const {
   }
 } = useFetchTransactions(current, previous)
 await refresh()
+
+const getAnalytics = (account: string) => {
+  return {
+    currIncome: analytics.value.currAnalytics[account].income,
+    currExpense: analytics.value.currAnalytics[account].expense,
+    prevIncome: analytics.value.prevAnalytics[account].income,
+    prevExpense: analytics.value.prevAnalytics[account].expense
+  }
+}
+
+console.log(getAnalytics('checking'))
 
 </script>
 
