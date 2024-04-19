@@ -42,7 +42,7 @@ import { types, tags } from '~/constants'
 const props = defineProps({
   modelValue: Boolean,
   transaction: {
-    type: Object,
+    type: Object as () => Transaction,
     required: false,
     default: () => {}
   }
@@ -130,6 +130,8 @@ const initialState = isEditing.value
       description: undefined,
       tag: undefined
     }
+
+console.log(initialState)
 
 const state = ref({ ...initialState })
 

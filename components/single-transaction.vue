@@ -28,7 +28,7 @@
 <script setup lang="ts">
 const props = defineProps({
   transaction: {
-    type: Object,
+    type: Object as () => Transaction,
     required: true
   },
   showTags: Boolean
@@ -81,7 +81,9 @@ const items = [
   [{
     label: 'edit',
     icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => { isOpen.value = true }
+    click: () => {
+      isOpen.value = true
+    }
   }],
   [{
     label: 'delete',
