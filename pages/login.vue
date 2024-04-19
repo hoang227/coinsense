@@ -120,16 +120,14 @@ const handleSignIn = async () => {
   isLoading.value = true
 
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: signinState.value.email,
       password: signinState.value.password
     })
 
-    console.log(data)
-
     if (!error) {
       toastSuccess({
-        title: 'signed in successfully'
+        title: 'signed in'
       })
       success.value = true
       setTimeout(() => useRedirectIfAuthenticated(), 2000)
@@ -140,15 +138,51 @@ const handleSignIn = async () => {
     Object.assign(signinState.value, initialSigninState)
     signinForm.value.clear()
     toastError({
-      title: 'wrong email or password'
+      title: 'failed to sign in',
+      description: (error as Error).message
     })
   } finally {
     isLoading.value = false
   }
 }
 
-const handleSignUp = () => {
-  console.log('hello')
+const handleSignUp = async () => {
+  isLoading.value = true
+
+  try {
+    const { error } = await supabase.auth.signUp({
+      email: signupState.value.email,
+      password: signupState.value.password,
+      options: {
+        data: {
+          username: signupState.value.username
+        }
+      }
+    })
+
+    if (!error) {
+      toastSuccess({
+        title: 'account created'
+      })
+      await supabase.auth.signInWithPassword({
+        email: signupState.value.email,
+        password: signupState.value.password
+      })
+      success.value = true
+      setTimeout(() => useRedirectIfAuthenticated(), 2000)
+    } else {
+      throw error
+    }
+  } catch (error) {
+    Object.assign(signupState.value, initialSignupState)
+    signupForm.value.clear()
+    toastError({
+      title: 'failed to create account',
+      description: (error as Error).message
+    })
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
