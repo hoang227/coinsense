@@ -1,63 +1,20 @@
 <template>
   <div>
     <section class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex justify-between items-center mb-2">
         <h1 class="text-4xl font-extrabold">
           summary
         </h1>
       </div>
 
-      <div v-if="isSimple" class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-16 sm:gap-y-8 gap-y-8">
-        <TrendSummary
-          :amount="currIncomeTotal"
-          :count="currIncomeCount"
-          :last-amount="prevIncomeTotal"
-          :loading="pending"
-          color="green"
-          title="income"
-        />
-        <TrendSummary
-          :amount="currExpenseTotal"
-          :count="currExpenseCount"
-          :last-amount="prevExpenseTotal"
-          :loading="pending"
-          color="red"
-          title="expense"
-        />
-      </div>
-      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-x-16 sm:gap-y-8 gap-y-8">
-        <TrendSummary
-          :amount="currIncomeTotal"
-          :count="currIncomeCount"
-          :last-amount="prevIncomeTotal"
-          :loading="pending"
-          color="green"
-          title="income"
-        />
-        <TrendSummary
-          :amount="currExpenseTotal"
-          :count="currExpenseCount"
-          :last-amount="prevExpenseTotal"
-          :loading="pending"
-          color="red"
-          title="expense"
-        />
-        <TrendSummary
-          :amount="currSavingsTotal"
-          :count="currSavingsCount"
-          :last-amount="prevSavingsTotal"
-          :loading="pending"
-          color="yellow"
-          title="savings"
-        />
-        <TrendSummary
-          :amount="currInvestmentTotal"
-          :count="currInvestmentCount"
-          :last-amount="prevInvestmentTotal"
-          :loading="pending"
-          color="blue"
-          title="investment"
-        />
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div v-for="account in analytics.accounts" :key="account" class="m-4">
+          <AccountSummary
+            :analytics="analytics"
+            :account="account"
+            :loading="loading"
+          />
+        </div>
       </div>
     </section>
 
@@ -75,7 +32,7 @@
       </div>
     </section>
 
-    <section v-if="!pending" class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
+    <section v-if="!loading" class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
       <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-10">
         <DailyTransactionSummary :date="date" :transactions="transactionsOnDay" />
         <SingleTransaction
@@ -98,27 +55,13 @@ const selectedView = ref(transactionViewOptions[1])
 const { current, previous } = useSelectedTimePeriod(selectedView)
 const isOpen = ref(false)
 const showTags = ref(false)
-const isSimple = ref(false)
 
 const {
-  pending, refresh, currTransactions: {
-    currIncomeCount,
-    currExpenseCount,
-    currSavingsCount,
-    currInvestmentCount,
-    currIncomeTotal,
-    currExpenseTotal,
-    currSavingsTotal,
-    currInvestmentTotal,
+  loading, refresh, analytics,
+  currTransactions: {
     grouped: {
       byDate
     }
-  },
-  prevTransactions: {
-    prevIncomeTotal,
-    prevExpenseTotal,
-    prevSavingsTotal,
-    prevInvestmentTotal
   }
 } = useFetchTransactions(current, previous)
 await refresh()

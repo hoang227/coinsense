@@ -2,98 +2,10 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
   const supabase = useSupabaseClient()
   const currTransactions = ref<Transaction[]>([])
   const prevTransactions = ref<Transaction[]>([])
-  const pending = ref(false)
-
-  const currIncome = computed(() => currTransactions.value.filter(t => t.type === 'income'))
-  const currExpense = computed(() => currTransactions.value.filter(t => t.type === 'expense'))
-  const currSavings = computed(() => currTransactions.value.filter(t => t.type === 'savings'))
-  const currInvestment = computed(() => currTransactions.value.filter(t => t.type === 'investment'))
-
-  const prevIncome = computed(() => prevTransactions.value.filter(t => t.type === 'income'))
-  const prevExpense = computed(() => prevTransactions.value.filter(t => t.type === 'expense'))
-  const prevSavings = computed(() => prevTransactions.value.filter(t => t.type === 'savings'))
-  const prevInvestment = computed(() => prevTransactions.value.filter(t => t.type === 'investment'))
-
-  const currIncomeCount = computed(() => currIncome.value.length)
-  const currExpenseCount = computed(() => currExpense.value.length)
-  const currSavingsCount = computed(() => currSavings.value.length)
-  const currInvestmentCount = computed(() => currInvestment.value.length)
-
-  const currIncomeTotal = computed(() => {
-    return currIncome.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
-  const currExpenseTotal = computed(() => {
-    return currExpense.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
-  const currSavingsTotal = computed(() => {
-    return currSavings.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
-  const currInvestmentTotal = computed(() => {
-    return currInvestment.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
-  const prevIncomeTotal = computed(() => {
-    return prevIncome.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
-  const prevExpenseTotal = computed(() => {
-    return prevExpense.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
-  const prevSavingsTotal = computed(() => {
-    return prevSavings.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
-  const prevInvestmentTotal = computed(() => {
-    return prevInvestment.value.reduce((sum, transaction) => {
-      if (transaction.amount !== undefined) {
-        return sum + transaction.amount
-      } else {
-        return sum
-      }
-    }, 0)
-  })
+  const loading = ref(false)
 
   const fetchTransactions = async () => {
-    pending.value = true
+    loading.value = true
 
     try {
       const { data } = await useAsyncData(`transactions=${current.value.from.toDateString()}-${current.value.to.toDateString()}`, async () => {
@@ -117,7 +29,7 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
       })
       return data.value as { currData: Transaction[], prevData: Transaction[] }
     } finally {
-      pending.value = false
+      loading.value = false
     }
   }
 
@@ -147,28 +59,16 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
     return grouped
   })
 
+  const analytics = computed(() => useGetAnalytics(currTransactions.value, prevTransactions.value))
+
   return {
     currTransactions: {
-      all: currTransactions,
       grouped: {
         byDate: transactionsGroupedByDate
-      },
-      currIncomeCount,
-      currExpenseCount,
-      currSavingsCount,
-      currInvestmentCount,
-      currIncomeTotal,
-      currExpenseTotal,
-      currSavingsTotal,
-      currInvestmentTotal
-    },
-    prevTransactions: {
-      prevIncomeTotal,
-      prevExpenseTotal,
-      prevSavingsTotal,
-      prevInvestmentTotal
+      }
     },
     refresh,
-    pending
+    loading,
+    analytics
   }
 }

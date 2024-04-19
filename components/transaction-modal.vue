@@ -9,6 +9,10 @@
           <USelect v-model="state.type" :disabled="isEditing" placeholder="select transaction type" :options="types" />
         </UFormGroup>
 
+        <UFormGroup label="account" :required="true" name="account" class="mb-4">
+          <USelect v-model="state.account" placeholder="select account" :options="accounts" />
+        </UFormGroup>
+
         <UFormGroup label="amount" :required="true" name="amount" class="mb-4">
           <UInput v-model.number="state.amount" type="number" placeholder="amount" />
         </UFormGroup>
@@ -37,7 +41,7 @@
 
 <script setup lang="ts">
 import { z } from 'zod'
-import { types, tags } from '~/constants'
+import { types, tags, accounts } from '~/constants'
 
 const props = defineProps({
   modelValue: Boolean,
@@ -67,17 +71,19 @@ const expenseSchema = z.object({
   type: z.literal('expense'),
   tag: z.enum(tags as [string, ...[string]]).optional()
 })
-const savingsSchema = z.object({
-  type: z.literal('savings')
+const checkingSchema = z.object({
+  account: z.literal('checking')
 })
-const investmentSchema = z.object({
-  type: z.literal('investment')
+const savingSchema = z.object({
+  account: z.literal('saving')
 })
 
-const schema = z.intersection(
-  z.discriminatedUnion('type', [incomeSchema, expenseSchema, savingsSchema, investmentSchema]),
-  defaultSchema
+const tempSchema = z.intersection(
+  z.discriminatedUnion('type', [incomeSchema, expenseSchema]),
+  z.discriminatedUnion('account', [checkingSchema, savingSchema])
 )
+
+const schema = z.intersection(tempSchema, defaultSchema)
 
 const form = ref()
 const isLoading = ref(false)
@@ -118,6 +124,7 @@ const save = async () => {
 const initialState = isEditing.value
   ? {
       type: props.transaction.type,
+      account: props.transaction.account,
       amount: props.transaction.amount,
       created_at: props.transaction.created_at.split('T')[0],
       description: props.transaction.description,
@@ -125,6 +132,7 @@ const initialState = isEditing.value
     }
   : {
       type: undefined,
+      account: undefined,
       amount: 0,
       created_at: undefined,
       description: undefined,
@@ -155,12 +163,14 @@ const clearDate = () => {
 
 const addStubIncome = () => {
   state.value.type = 'income'
+  state.value.account = 'checking'
   state.value.created_at = useDateTime(new Date())
   state.value.amount = 1000
   state.value.description = 'some income'
 }
 const addStubExpense = () => {
   state.value.type = 'expense'
+  state.value.account = 'checking'
   state.value.created_at = useDateTime(new Date())
   state.value.amount = 1000
   state.value.description = 'some expense'
