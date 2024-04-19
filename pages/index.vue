@@ -78,8 +78,6 @@ const getAnalytics = (account: string) => {
   }
 }
 
-console.log(getAnalytics('checking'))
-
 </script>
 
 <style scoped>

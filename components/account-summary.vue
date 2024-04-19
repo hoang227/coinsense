@@ -83,8 +83,6 @@ const props = defineProps({
   }
 })
 
-// console.log(props)
-
 const income = computed(() => useCurrency(props.currIncome))
 const expense = computed(() => useCurrency(props.currExpense))
 

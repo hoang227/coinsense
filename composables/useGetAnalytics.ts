@@ -5,10 +5,6 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
     accounts: string[]
   } => {
   // calculate the income and expenses for each account
-
-  // console.log(currTransactions)
-  // console.log(prevTransactions)
-
   const currByAccount = {} as Record<string, Transaction[]>
   const prevByAccount = {} as Record<string, Transaction[]>
 
@@ -34,9 +30,6 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
     }
   }
 
-  // console.log('curr before', currByAccount)
-  // console.log('prev before', prevByAccount)
-
   const currAccounts = Object.keys(currByAccount)
   const prevAccounts = Object.keys(prevByAccount)
 
@@ -52,9 +45,6 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
       prevByAccount[account] = []
     }
   }
-
-  // console.log('curr after', currByAccount)
-  // console.log('prev after', prevByAccount)
 
   // split all transactions into income and expense transactions
   const currByAccountThenType = {} as Record<string, Record<string, Transaction[]>>
@@ -91,9 +81,6 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
     }
     prevByAccountThenType[account] = currAccount
   }
-
-  // console.log(currByAccountThenType)
-  // console.log(prevByAccountThenType)
 
   const currByAccountThenTypeTotal = {} as Record<string, Record<string, number>>
   const prevByAccountThenTypeTotal = {} as Record<string, Record<string, number>>
