@@ -1,13 +1,13 @@
 <template>
   <div>
-    <section class="shadow-xl bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
+    <section>
       <div class="flex justify-between items-center mb-5">
         <h1 class="ml-1 text-3xl font-extrabold">
           accounts
         </h1>
       </div>
 
-      <div class="grid grid-cols-1 min-[900px]:grid-cols-2 min-[900px]:gap-10 max-[900px]:divide-y-[30px] max-[900px]:divide-gray-800">
+      <div class="summary-grid">
         <div v-for="account in analytics.accounts" :key="account" class="">
           <AccountSummary
             :curr-income="getAnalytics(account).currIncome"
@@ -21,7 +21,7 @@
       </div>
     </section>
 
-    <section class="my-8">
+    <section>
       <div class="flex justify-between">
         <div class="flex space-x-4">
           <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
@@ -35,7 +35,11 @@
       </div>
     </section>
 
-    <section v-if="!loading" class="shadow-xl bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
+    <section>
+      <TimePeriodSelector />
+    </section>
+
+    <section v-if="!loading">
       <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-10">
         <DailyTransactionSummary :date="date" :transactions="transactionsOnDay" />
         <SingleTransaction
@@ -95,5 +99,13 @@ const getAnalytics = (account: string) => {
 
 .yellow {
   @apply text-yellow-600 dark:text-yellow-400
+}
+
+.summary-grid {
+  @apply  grid grid-cols-1 min-[900px]:grid-cols-2 min-[900px]:gap-10 max-[900px]:divide-y-[30px] max-[900px]:divide-gray-800
+}
+
+section {
+  @apply shadow-xl bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl
 }
 </style>
