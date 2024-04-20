@@ -5,7 +5,7 @@
     </NuxtLink>
     <div class="flex items-center justify-between space-x-2">
       <UDropdown v-if="user" :items="items" :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }">
-        <UAvatar size="2xl" src="https://avatars.githubusercontent.com/u/739984?v=4" alt="Avatar" />
+        <img :src="url" class="size-20 object-cover rounded-full mt-6"></img>
 
         <template #account>
           <div class="text-left">
@@ -33,6 +33,7 @@ import type { DropdownItem } from '#ui/types'
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const { toastSuccess, toastError } = useAppToast()
+const { url } = useAvatarUrl()
 
 const handleLogout = async () => {
   try {
@@ -62,7 +63,7 @@ const items = [
   [{
     label: 'settings',
     icon: 'i-heroicons-cog-8-tooth',
-    click: () => console.log('settings')
+    click: () => navigateTo('/settings/profile')
   },
   {
     label: 'logout',
