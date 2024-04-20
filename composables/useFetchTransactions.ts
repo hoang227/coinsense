@@ -1,47 +1,30 @@
 export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<TimePeriod>) => {
-  const supabase = useSupabaseClient()
   const currTransactions = ref<Transaction[]>([])
   const prevTransactions = ref<Transaction[]>([])
   const loading = ref(false)
 
-  const timePeriod = useTimePeriodStore()
-
-  const fetchTransactions = async () => {
+  const firstFetch = async () => {
     loading.value = true
-
     try {
-      const { data } = await useAsyncData(`transactions=${current.value.from.toDateString()}-${current.value.to.toDateString()}`, async () => {
-        const { data: currData, error: currError } = await supabase
-          .from('transactions')
-          .select()
-          .gte('created_at', useToISOString(current.value.from))
-          .lte('created_at', useToISOString(current.value.to))
-          .order('created_at', { ascending: false })
-
-        const { data: prevData, error: prevError } = await supabase
-          .from('transactions')
-          .select()
-          .gte('created_at', useToISOString(previous.value.from))
-          .lte('created_at', useToISOString(previous.value.to))
-          .order('created_at', { ascending: false })
-
-        if (currError || prevError) { return [] }
-
-        return { currData, prevData }
-      })
-      return data.value as { currData: Transaction[], prevData: Transaction[] }
+      const tempData = await useFetchFromDB(current, previous)
+      currTransactions.value = tempData.currData
+      prevTransactions.value = tempData.prevData
     } finally {
       loading.value = false
     }
   }
 
-  const refresh = async () => {
-    const tempData = await fetchTransactions()
-    currTransactions.value = tempData.currData
-    prevTransactions.value = tempData.prevData
+  const refresh = async (state : { month: number, year: string}) => {
+    const { current: curr, previous: prev } = useSelectedTimePeriod(state)
+    loading.value = true
+    try {
+      const tempData = await useFetchFromDB(curr, prev)
+      currTransactions.value = tempData.currData
+      prevTransactions.value = tempData.prevData
+    } finally {
+      loading.value = false
+    }
   }
-
-  watch(timePeriod.$state, async () => await refresh())
 
   const transactionsGroupedByDate = computed(() => {
     const grouped = {} as Record<string, Transaction[]>
@@ -69,6 +52,7 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
         byDate: transactionsGroupedByDate
       }
     },
+    firstFetch,
     refresh,
     loading,
     analytics

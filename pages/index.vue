@@ -33,7 +33,7 @@
           <UButton v-else color="green" variant="solid" label="show tags" @click="showTags = !showTags" />
         </div>
         <div>
-          <TransactionModal v-model="isOpen" @saved="refresh()" />
+          <TransactionModal v-model="isOpen" @saved="refresh(useTimePeriodStore().getState)" />
           <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" @click="isOpen = true" />
         </div>
       </div>
@@ -47,8 +47,8 @@
           :key="transaction.id"
           :show-tags="showTags"
           :transaction="transaction"
-          @deleted="refresh()"
-          @edited="refresh()"
+          @deleted="refresh(useTimePeriodStore().getState)"
+          @edited="refresh(useTimePeriodStore().getState)"
         />
       </div>
     </section>
@@ -58,23 +58,23 @@
 <script setup lang="ts">
 import { transactionViewOptions } from '~/constants'
 
-const selectedView = ref(transactionViewOptions[0])
+const selectedView = ref(transactionViewOptions[1])
 const timePeriod = useTimePeriodStore()
 const { current, previous } = useSelectedTimePeriod(timePeriod.getState)
 const isOpen = ref(false)
 const showTags = ref(false)
 
-console.log(timePeriod.getState)
-
 const {
-  loading, refresh, analytics,
+  loading, firstFetch, refresh, analytics,
   currTransactions: {
     grouped: {
       byDate
     }
   }
 } = useFetchTransactions(current, previous)
-await refresh()
+await firstFetch()
+
+watch(timePeriod, async () => await refresh(timePeriod.getState))
 
 const getAnalytics = (account: string) => {
   return {
