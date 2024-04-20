@@ -9,14 +9,14 @@
           <div class="font-bold green">
             income
           </div>
-          <USkeleton v-if="loading" class="h-8 w-full" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
-          <div v-else>
+          <USkeleton v-if="loading" class="h-8 mr-2 min-[1300px]:w-24" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <div v-else class="mr-2 h-8">
             {{ income?.currency }}
           </div>
         </div>
         <div>
-          <USkeleton v-if="loading" class="h-6 w-full" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
-          <div v-else class="flex flex-col items-start text-sm">
+          <USkeleton v-if="loading" class="h-9 mr-2 min-[1300px]:w-24 min-[1300px]:-ml-2 min-[1300px]:h-14" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <div v-else class="flex flex-col items-start text-sm h-9 mr-2">
             <div class="flex items-center space-x-2">
               <UIcon :name="incomeIcon" class="size-6" :class="{ 'green': incomeTrendingUp, 'red': !incomeTrendingUp }" />
               <div class="font-bold">
@@ -33,14 +33,14 @@
           <div class="font-bold red">
             expenses
           </div>
-          <USkeleton v-if="loading" class="h-8 w-full" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
-          <div v-else>
+          <USkeleton v-if="loading" class="h-8 mr-2 min-[1300px]:w-24" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <div v-else class="mr-2 h-8">
             {{ expense.currency }}
           </div>
         </div>
         <div>
-          <USkeleton v-if="loading" class="h-6 w-full" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
-          <div v-else class="flex flex-col items-start text-sm">
+          <USkeleton v-if="loading" class="h-9 mr-2 min-[1300px]:w-24 min-[1300px]:-ml-2 min-[1300px]:h-14" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <div v-else class="flex flex-col items-start text-sm h-9 mr-2">
             <div class="flex items-center space-x-2">
               <UIcon :name="expenseIcon" class="size-6" :class="{ 'red': expenseTrendingUp, 'green': !expenseTrendingUp }" />
               <div class="font-bold">
