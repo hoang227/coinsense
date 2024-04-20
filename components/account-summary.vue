@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="shadow-inner font-bold text-2xl dark:bg-gray-700 bg-stone-100 px-2 py-1 rounded-lg mb-3">
+    <div class="account">
       {{ account }}
     </div>
-    <div class="shadow-inner flex items-center justify-between font-bold text-xl bg-stone-400 dark:bg-gray-900 px-2 py-1 rounded-lg mb-3">
+    <div class="balance">
       <div>
         balance
       </div>
@@ -12,18 +12,18 @@
       </div>
     </div>
     <div class="grid grid-cols-2 gap-10">
-      <div class="shadow-inner bg-stone-400 dark:bg-gray-900 rounded-lg pl-2 pt-2 pb-4 min-[1300px]:pb-1 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-4">
+      <div class="type-box">
         <div class="text-xl font-extrabold text-black dark:text-white mb-2">
           <div class="font-bold green">
             income
           </div>
-          <USkeleton v-if="loading" class="h-8 mr-2 min-[1300px]:w-24" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <USkeleton v-if="loading" class="amount-skeleton" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
           <div v-else class="mr-2 h-8">
             {{ income?.currency }}
           </div>
         </div>
         <div>
-          <USkeleton v-if="loading" class="h-9 mr-2 min-[1300px]:w-24 min-[1300px]:-ml-2 min-[1300px]:h-14" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <USkeleton v-if="loading" class="trend-skeleton" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
           <div v-else class="flex flex-col items-start text-sm h-9 mr-2">
             <div class="flex items-center space-x-2">
               <UIcon :name="incomeIcon" class="size-6" :class="{ 'green': incomeTrendingUp, 'red': !incomeTrendingUp }" />
@@ -36,18 +36,18 @@
         </div>
       </div>
 
-      <div class="shadow-inner bg-stone-400 dark:bg-gray-900 rounded-lg pl-2 pt-2 pb-4 min-[1300px]:pb-1 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-4">
+      <div class="type-box">
         <div class="text-xl font-extrabold text-black dark:text-white mb-2">
           <div class="font-bold red">
             expenses
           </div>
-          <USkeleton v-if="loading" class="h-8 mr-2 min-[1300px]:w-24" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <USkeleton v-if="loading" class="amount-skeleton" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
           <div v-else class="mr-2 h-8">
             {{ expense.currency }}
           </div>
         </div>
         <div>
-          <USkeleton v-if="loading" class="h-9 mr-2 min-[1300px]:w-24 min-[1300px]:-ml-2 min-[1300px]:h-14" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
+          <USkeleton v-if="loading" class="trend-skeleton" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
           <div v-else class="flex flex-col items-start text-sm h-9 mr-2">
             <div class="flex items-center space-x-2">
               <UIcon :name="expenseIcon" class="size-6" :class="{ 'red': expenseTrendingUp, 'green': !expenseTrendingUp }" />
@@ -151,5 +151,25 @@ const expensePercentageTrend = computed(() => {
 
 .yellow {
   @apply text-yellow-600 dark:text-yellow-400
+}
+
+.account {
+  @apply shadow-inner font-bold text-2xl dark:bg-gray-700 bg-stone-100 px-2 py-1 rounded-lg mb-3
+}
+
+.balance {
+  @apply shadow-inner flex items-center justify-between font-bold text-xl bg-stone-100 dark:bg-gray-900 px-2 py-1 rounded-lg mb-3
+}
+
+.type-box {
+  @apply shadow-inner bg-stone-100 dark:bg-gray-900 rounded-lg pl-2 pt-2 pb-4 min-[1300px]:pb-1 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-4
+}
+
+.amount-skeleton {
+  @apply h-8 mr-2 min-[1300px]:w-24
+}
+
+.trend-skeleton {
+  @apply h-9 mr-2 min-[1300px]:w-24 min-[1300px]:-ml-2 min-[1300px]:h-14
 }
 </style>

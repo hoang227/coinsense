@@ -22,6 +22,10 @@
     </section>
 
     <section>
+      <TimePeriodSelector />
+    </section>
+
+    <section>
       <div class="flex justify-between">
         <div class="flex space-x-4">
           <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
@@ -33,10 +37,6 @@
           <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" @click="isOpen = true" />
         </div>
       </div>
-    </section>
-
-    <section>
-      <TimePeriodSelector />
     </section>
 
     <section v-if="!loading">
