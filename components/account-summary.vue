@@ -1,10 +1,18 @@
 <template>
   <div>
-    <div class="font-bold text-2xl dark:bg-gray-700 bg-stone-100 px-2 py-1 rounded-lg mb-3">
+    <div class="font-bold text-3xl dark:bg-gray-700 bg-stone-100 px-2 py-1 rounded-lg mb-3">
       {{ account }}
     </div>
+    <div class="flex items-center justify-between font-bold text-xl bg-stone-400 dark:bg-gray-900 px-2 py-1 rounded-lg mb-3">
+      <div>
+        balance
+      </div>
+      <div :class="{ 'red': isBroke, 'green': !isBroke }">
+        {{ balance?.currency }}
+      </div>
+    </div>
     <div class="grid grid-cols-2 gap-10">
-      <div class="bg-gray-900 rounded-lg pl-2 pt-2 pb-4 min-[1300px]:pb-1 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-4">
+      <div class="bg-stone-400 dark:bg-gray-900 rounded-lg pl-2 pt-2 pb-4 min-[1300px]:pb-1 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-4">
         <div class="text-xl font-extrabold text-black dark:text-white mb-2">
           <div class="font-bold green">
             income
@@ -86,6 +94,10 @@ const props = defineProps({
 
 const income = computed(() => useCurrency(props.currIncome))
 const expense = computed(() => useCurrency(props.currExpense))
+
+const balance = computed(() => useCurrency(props.currIncome - props.currExpense))
+
+const isBroke = computed(() => props.currIncome < props.currExpense)
 
 const incomeTrendingUp = computed(
   () => props.currIncome >= props.prevIncome
