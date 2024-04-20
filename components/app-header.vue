@@ -5,7 +5,7 @@
     </NuxtLink>
     <div class="flex items-center justify-between space-x-2">
       <UDropdown v-if="user" :items="items" :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }">
-        <img :src="url" class="size-20 object-cover rounded-full mt-6"></img>
+        <img :src="url" class="shadow-lg size-20 object-cover rounded-full mt-6"></img>
 
         <template #account>
           <div class="text-left">

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
+    <section class="shadow-xl bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
       <div class="flex justify-between items-center mb-5">
-        <h1 class="ml-1 text-4xl font-extrabold">
+        <h1 class="ml-1 text-3xl font-extrabold">
           accounts
         </h1>
       </div>
@@ -35,7 +35,7 @@
       </div>
     </section>
 
-    <section v-if="!loading" class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
+    <section v-if="!loading" class="shadow-xl bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
       <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-10">
         <DailyTransactionSummary :date="date" :transactions="transactionsOnDay" />
         <SingleTransaction
