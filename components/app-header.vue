@@ -1,28 +1,55 @@
 <template>
-  <header class="flex items-center justify-between mt-10">
-    <NuxtLink to="/" class="text-4xl">
-      coin.sense
-    </NuxtLink>
+  <header class="flex items-center justify-between mt-4 mx-10">
+    <div class="flex items-center justify-between space-x-8">
+      <NuxtLink to="/">
+        <h1>
+          Coinsense
+        </h1>
+      </NuxtLink>
+      <UButton
+        v-if="user && isWelcomePage"
+        class="text-xl font-light"
+        color="gray"
+        label="Get Started"
+        variant="ghost"
+        @click="navigateTo('/mainpage')"
+      />
+    </div>
     <div class="flex items-center justify-between space-x-2">
       <UDropdown v-if="user" :items="items" :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }">
-        <img :src="url" class="shadow-lg size-20 object-cover rounded-full mt-6"></img>
+        <div class="flex justify-between items-center space-x-4">
+          <p class="text-stone-700">
+            {{ user?.user_metadata.username ?? user?.email }}
+          </p>
+          <img :src="url" class="shadow-md size-14 object-cover rounded-full"></img>
+        </div>
 
         <template #account>
           <div class="text-left">
             <p>
-              signed in as
+              Signed in as
             </p>
-            <p class="font-medium text-gray-900 dark:text-white">
+            <p class="text-gray-900 dark:text-white">
               {{ user?.user_metadata.username ?? user?.email }}
             </p>
           </div>
         </template>
 
         <template #item="{ item }">
-          <span class="truncate">{{ item.label }}</span>
+          <p class="truncate">
+            {{ item.label }}
+          </p>
           <UIcon :name="item.icon" class="flex-shrink-0 size-4 text-gray-400 dark:text-gray-500 ms-auto" />
         </template>
       </UDropdown>
+      <UButton
+        v-else
+        class="text-xl font-light"
+        color="white"
+        label="Log In"
+        variant="ghost"
+        @click="navigateTo('/login')"
+      />
     </div>
   </header>
 </template>
@@ -32,8 +59,11 @@ import type { DropdownItem } from '#ui/types'
 
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
+const route = useRoute()
 const { toastSuccess, toastError } = useAppToast()
 const { url } = useAvatarUrl()
+
+const isWelcomePage = computed(() => route.path === '/')
 
 const handleLogout = async () => {
   try {
@@ -52,7 +82,7 @@ const handleLogout = async () => {
     })
   }
 
-  return navigateTo('/login')
+  return navigateTo('/')
 }
 
 const items = [

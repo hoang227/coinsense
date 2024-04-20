@@ -3,7 +3,8 @@ module.exports = {
   darkMode: 'class',
   theme: {
     fontFamily: {
-      clean: ['SF Pro Display', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif']
+      clean: ['SF Pro Display', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+      inter: ['"Inter"']
     },
     extend: {
       width: {
@@ -39,5 +40,20 @@ module.exports = {
         bounceX: 'bounceX 1s infinite'
       }
     }
-  }
+  },
+  plugins: [
+    function ({ addUtilities } : { addUtilities : any }) {
+      const newUtilities = {
+        '.no-scrollbar::webkit-scrollbar': {
+          display: 'none'
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none'
+        }
+      }
+
+      addUtilities(newUtilities)
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-export const useRedirectIfAuthenticated = (url = '/') => {
+export const useRedirectIfAuthenticated = (url = '/mainpage') => {
   const user = useSupabaseUser()
 
   watch(user, (user) => {
