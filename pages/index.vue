@@ -1,14 +1,14 @@
 <template>
   <div>
     <section class="bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl">
-      <div class="flex justify-between items-center mb-2">
-        <h1 class="text-4xl font-extrabold">
-          summary
+      <div class="flex justify-between items-center mb-5">
+        <h1 class="ml-1 text-4xl font-extrabold">
+          accounts
         </h1>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2">
-        <div v-for="account in analytics.accounts" :key="account" class="m-4">
+      <div class="grid grid-cols-1 min-[900px]:grid-cols-2 min-[900px]:gap-10 max-[900px]:divide-y-[30px] max-[900px]:divide-gray-800">
+        <div v-for="account in analytics.accounts" :key="account" class="">
           <AccountSummary
             :curr-income="getAnalytics(account).currIncome"
             :curr-expense="getAnalytics(account).currExpense"
