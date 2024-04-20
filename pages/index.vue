@@ -28,7 +28,6 @@
     <section>
       <div class="flex justify-between">
         <div class="flex space-x-4">
-          <USelectMenu v-model="selectedView" :options="transactionViewOptions" />
           <UButton v-if="showTags" color="red" variant="solid" label="hide tags" @click="showTags = !showTags" />
           <UButton v-else color="green" variant="solid" label="show tags" @click="showTags = !showTags" />
         </div>
@@ -56,9 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { transactionViewOptions } from '~/constants'
 
-const selectedView = ref(transactionViewOptions[1])
 const timePeriod = useTimePeriodStore()
 const { current, previous } = useSelectedTimePeriod(timePeriod.getState)
 const isOpen = ref(false)
