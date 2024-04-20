@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="grid grid-cols-6 gap-8">
     <UVerticalNavigation :links="links" />
-    <div>
+    <div class="col-span-4">
       <NuxtPage />
     </div>
   </div>
@@ -12,10 +12,6 @@ const links = [
   {
     label: 'profile',
     to: '/settings/profile'
-  },
-  {
-    label: 'avatar',
-    to: '/settings/avatar'
   },
   {
     label: 'settings',
