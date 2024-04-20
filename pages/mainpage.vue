@@ -2,9 +2,9 @@
   <div>
     <div class="section">
       <div class="flex justify-between items-center mb-5">
-        <h1 class="ml-1 text-3xl font-extrabold">
-          accounts
-        </h1>
+        <h2 class="ml-1">
+          Accounts
+        </h2>
       </div>
 
       <div class="summary-grid">
@@ -102,10 +102,10 @@ const getAnalytics = (account: string) => {
 }
 
 .summary-grid {
-  @apply  grid grid-cols-1 min-[900px]:grid-cols-2 min-[900px]:gap-10 max-[900px]:divide-y-[30px] max-[900px]:divide-gray-800
+  @apply  grid grid-cols-1 min-[900px]:grid-cols-2 min-[900px]:gap-10 max-[900px]:divide-y-[30px] max-[900px]:divide-neutral-800
 }
 
 .section {
-  @apply shadow-xl bg-stone-300 dark:bg-gray-800 -mx-6 p-4 my-6 rounded-2xl
+  @apply shadow-md shadow-neutral-400 bg-neutral-100 dark:bg-neutral-800 -mx-6 p-4 my-6 rounded-2xl
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-5 py-4 border-b border-stone-100 dark:border-gray-700 text-gray-900 dark:text-gray-100">
+  <div class="grid grid-cols-5 py-4 border-b border-neutral-300 dark:border-gray-700 text-gray-900 dark:text-gray-100">
     <div class="flex items-center justify-between space-x-4 col-span-4">
       <div>
         <div class="flex items-center space-x-2 mb-2">

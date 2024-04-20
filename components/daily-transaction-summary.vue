@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 py-4 border-b border-stone-100 dark:border-gray-700 text-gray-500 dark:text-gray-400">
+  <div class="grid grid-cols-2 py-4 border-b border-neutral-300 dark:border-gray-700 text-gray-500 dark:text-gray-400">
     <div class="flex items-center justify-between">
       {{ date }}
     </div>

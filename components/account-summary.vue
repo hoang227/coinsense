@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="account">
+    <h3 class="account">
       {{ account }}
-    </div>
+    </h3>
     <div class="balance">
       <div>
         balance
@@ -154,15 +154,15 @@ const expensePercentageTrend = computed(() => {
 }
 
 .account {
-  @apply shadow-inner font-bold text-2xl dark:bg-gray-700 bg-stone-100 px-2 py-1 rounded-lg mb-3
+  @apply shadow-md shadow-neutral-400 font-bold text-2xl dark:bg-gray-700 bg-neutral-200 px-2 py-1 rounded-lg mb-3
 }
 
 .balance {
-  @apply shadow-inner flex items-center justify-between font-bold text-xl bg-stone-100 dark:bg-gray-900 px-2 py-1 rounded-lg mb-3
+  @apply shadow-md shadow-neutral-400 flex items-center justify-between font-bold text-xl bg-neutral-200 dark:bg-gray-900 px-2 py-1 rounded-lg mb-3
 }
 
 .type-box {
-  @apply shadow-inner bg-stone-100 dark:bg-gray-900 rounded-lg pl-2 pt-2 pb-4 min-[1300px]:pb-1 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-4
+  @apply shadow-md shadow-neutral-400  bg-neutral-200 dark:bg-gray-900 rounded-lg pl-2 pt-2 pb-4 min-[1300px]:pb-1 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-2
 }
 
 .amount-skeleton {

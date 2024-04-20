@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import('tailwindcss/plugin')
+
 module.exports = {
   darkMode: 'class',
   theme: {
@@ -42,18 +44,18 @@ module.exports = {
     }
   },
   plugins: [
-    function ({ addUtilities } : { addUtilities : any }) {
-      const newUtilities = {
-        '.no-scrollbar::webkit-scrollbar': {
-          display: 'none'
-        },
-        '.no-scrollbar': {
-          '-ms-overflow-style': 'none',
-          'scrollbar-width': 'none'
-        }
-      }
+    // plugin(({ theme, addUtilities }) => {
+    //   const themeUtilities = {}
+    //   const colors = theme('colors')
+    //   for (const color in colors) {
+    //     if (typeof colors[color] === 'object') {
+    //       const color1 = colors[color]['500']
+    //       const color2 = colors[color]['700']
+    //       themeUtilities[`.section-${color}`] = {
 
-      addUtilities(newUtilities)
-    }
+    //       }
+    //     }
+    //   }
+    // })
   ]
 }
