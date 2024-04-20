@@ -1,5 +1,3 @@
-import { defineStore } from 'pinia'
-
 export const useTimePeriodStore = defineStore({
   id: 'time-period',
   state: () => ({ month: (new Date().getMonth()).toString(), year: new Date().getFullYear().toString() }),
@@ -22,3 +20,7 @@ export const useTimePeriodStore = defineStore({
     }
   }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useTimePeriodStore, import.meta.hot))
+}
