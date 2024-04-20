@@ -4,6 +4,8 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
   const prevTransactions = ref<Transaction[]>([])
   const loading = ref(false)
 
+  const timePeriod = useTimePeriodStore()
+
   const fetchTransactions = async () => {
     loading.value = true
 
@@ -34,12 +36,14 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
   }
 
   const refresh = async () => {
+    console.log(current.value)
+    console.log(previous.value)
     const tempData = await fetchTransactions()
     currTransactions.value = tempData.currData
     prevTransactions.value = tempData.prevData
   }
 
-  watch(current, async () => await refresh())
+  watch(timePeriod.$state, async () => await refresh())
 
   const transactionsGroupedByDate = computed(() => {
     const grouped = {} as Record<string, Transaction[]>

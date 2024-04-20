@@ -59,9 +59,12 @@
 import { transactionViewOptions } from '~/constants'
 
 const selectedView = ref(transactionViewOptions[0])
-const { current, previous } = useSelectedTimePeriod(selectedView)
+const timePeriod = useTimePeriodStore()
+const { current, previous } = useSelectedTimePeriod(timePeriod.getState)
 const isOpen = ref(false)
 const showTags = ref(false)
+
+console.log(timePeriod.getState)
 
 const {
   loading, refresh, analytics,

@@ -6,6 +6,7 @@
     "heroicons",
     "Nuxt",
     "nuxtjs",
+    "pinia",
     "signin",
     "supabase"
   ]

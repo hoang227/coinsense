@@ -4,7 +4,18 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: ['@nuxt/ui', '@nuxtjs/supabase'],
+  modules: [
+    '@nuxt/ui',
+    '@nuxtjs/supabase',
+    ['@pinia/nuxt',
+      {
+        autoImports: ['defineStore', 'acceptHMRUpdate']
+      }
+    ]
+  ],
+  imports: {
+    dirs: ['stores']
+  },
   supabase: {
     redirect: false
   }
