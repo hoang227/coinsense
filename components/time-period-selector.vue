@@ -54,66 +54,68 @@ const activeMonthTab = computed(() => {
   return isActive.value ? 'pt-4' : ''
 })
 
-// TODO: remove hard coded date
-const state = ref({
-  month: (new Date().getMonth() + 1).toString(),
-  year: new Date().getFullYear().toString()
-})
-
 const currFocus = useTimePeriodStore()
 
+const state = {
+  month: currFocus.getMonth,
+  year: currFocus.getYear
+}
+
 const yearFocus = () => {
-  const month = `.month-${months.value[parseInt(state.value.month) - 1]}`
-  const year = `.year-${state.value.year}`
+  // remove old focus
+  const prevFocusMonth = `.month-${months.value[parseInt(currFocus.month)]}`
+  const prevFocusYear = `.year-${currFocus.year}`
 
-  if (currFocus.month !== '' && currFocus.year !== '') {
-    const currFocusMonth = document.querySelector(currFocus.month)
-    const currFocusYear = document.querySelector(currFocus.year)
+  const monthElement = document.querySelector(prevFocusMonth)
+  const yearElement = document.querySelector(prevFocusYear)
 
-    currFocusMonth?.classList.remove('focus')
-    currFocusYear?.classList.remove('focus')
-  }
+  monthElement?.classList.remove('focus')
+  yearElement?.classList.remove('focus')
 
-  const focusMonth = document.querySelector(month)
-  const focusYear = document.querySelector(year)
+  // add new focus
+  const currFocusMonth = `.month-${months.value[state.month]}`
+  const currFocusYear = `.year-${state.year}`
+
+  const focusMonth = document.querySelector(currFocusMonth)
+  const focusYear = document.querySelector(currFocusYear)
 
   focusMonth?.classList.add('focus')
   focusYear?.classList.add('focus')
 
-  currFocus.month = month
-  currFocus.year = year
+  currFocus.setMonth(state.month.toString())
+  currFocus.setYear(state.year)
 }
 
 const handleYearClicked = (yearClicked: string) => {
-  if (yearClicked === state.value.year) {
-    state.value.month = '' // in year mode
+  if (yearClicked === state.year) {
+    state.month = -1 // in year mode
     isActive.value = !isActive.value
   } else {
-    state.value.month = ''
-    state.value.year = yearClicked
+    state.month = -1
+    state.year = yearClicked
     isActive.value = true
   }
-  printState()
+  // printState()
   yearFocus()
 }
 
 const handleMonthClicked = (monthClicked: string) => {
-  const monthMap : {[month: string]: string} = {}
+  const monthMap : {[month: string]: number} = {}
   months.value.forEach((month, index) => {
-    monthMap[month] = (index + 1).toString()
+    monthMap[month] = index
   })
-  if (monthMap[monthClicked] !== state.value.month) {
-    state.value.month = monthMap[monthClicked]
+  if (monthMap[monthClicked] !== state.month) {
+    state.month = monthMap[monthClicked]
   }
-  printState()
+  // printState()
   yearFocus()
 }
 
-function printState () {
-  console.log('month:', state.value.month, typeof state.value.month)
-  console.log('year:', state.value.year, typeof state.value.year)
-  console.log('\n\n\n')
-}
+// function printState () {
+//   console.log('month:', state.month, typeof state.month)
+//   console.log('year:', state.year, typeof state.year)
+//   console.log('\n\n\n')
+// }
 
 const customButton = {
   rounded: 'rounded-full',

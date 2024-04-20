@@ -36,8 +36,6 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
   }
 
   const refresh = async () => {
-    console.log(current.value)
-    console.log(previous.value)
     const tempData = await fetchTransactions()
     currTransactions.value = tempData.currData
     prevTransactions.value = tempData.prevData
