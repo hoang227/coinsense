@@ -1,128 +1,104 @@
 <template>
-  <div class="divide-y divide-gray-200 dark:divide-gray-700">
-    <div :class="activeYearTab">
-      <div class="flex items-center justify-start space-x-2">
-        <div class="w-14">
-          year
+  <div class="mx-4 flex justify-start items-center space-x-4">
+    <div class="flex flex-col justify-center items-start">
+      <div class="font-bold tracking-tight pb-2 flex justify-end items-center space-x-1">
+        <div class="ml-2 text-green-500">
+          {{ useTimePeriodStore().getYear }}
         </div>
-        <div v-for="year in years" :key="year">
-          <UButton
-            :class="'year-' + year"
-            :label="year"
-            :ui="customButton"
-            color="black"
-            variant="solid"
-            @click="handleYearClicked(year)"
-          />
+        <div v-if="timeMode === 'Monthly'" class="w-[80px] text-neutral-700">
+          {{ months[useTimePeriodStore().getMonth] }}
         </div>
+        <div v-else class="w-[80px]" />
       </div>
-    </div>
-    <div v-if="isActive" :class="activeMonthTab">
-      <div class="flex items-center justify-start space-x-2">
-        <div class="w-14">
-          month
-        </div>
-        <div v-for="month in months" :key="month">
-          <UButton
-            :class="'month-' + month"
-            :label="month"
-            :ui="customButton"
-            class="flex w-[42px] justify-center"
-            color="black"
-            variant="solid"
-            @click="handleMonthClicked(month)"
-          />
-        </div>
+      <div>
+        <UButton
+          color="white"
+          icon="i-heroicons-chevron-left"
+          size="xs"
+          variant="ghost"
+          @click="decreasePeriod"
+        />
+        <UButton
+          color="white"
+          icon="i-heroicons-chevron-right"
+          size="xs"
+          variant="ghost"
+          @click="increasePeriod"
+        />
       </div>
+      <UButton class="ml-1 text-neutral-500 font-light" label="now" color="white" variant="link" @click="setCurrPeriod" />
     </div>
+    <UTabs class="pt-2" :ui="customTabs" :items="modes" @change="onChange" />
   </div>
 </template>
 
 <script setup lang="ts">
 
-const isActive = ref(false)
+const currPeriod = useTimePeriodStore()
+
+const timeMode = ref('Monthly')
+
+const modes = [{
+  label: 'Monthly'
+}, {
+  label: 'Yearly'
+}]
+
+const customTabs = {
+  list: {
+    background: 'bg-neutral-200 dark:bg-gray-800',
+    tab: {
+      font: 'font-light'
+    }
+  }
+}
+
+function onChange (index : any) {
+  const mode = modes[index]
+  timeMode.value = mode.label
+  if (mode.label === 'Monthly') {
+    currPeriod.setMonth(0)
+  } else {
+    currPeriod.setMonth(-1)
+  }
+}
 
 // compute years and months
-const years = computed(() => Array.from({ length: 9 }, (_, index) => (2024 - 1 + index).toString()))
-const months: Ref<string[]> = computed(() => [...Array(12)].map((_, index) => new Date(0, index).toLocaleString('en-US', { month: 'short' }).toLowerCase()))
+const months: Ref<string[]> = computed(() => [...Array(12)].map((_, index) => new Date(0, index).toLocaleString('en-US', { month: 'long' })))
 
-const activeYearTab = computed(() => {
-  return isActive.value ? 'pb-4' : ''
-})
-
-const activeMonthTab = computed(() => {
-  return isActive.value ? 'pt-4' : ''
-})
-
-const currFocus = useTimePeriodStore()
-
-const state = {
-  month: currFocus.getMonth,
-  year: currFocus.getYear
-}
-
-const yearFocus = () => {
-  // remove old focus
-  const prevFocusMonth = `.month-${months.value[parseInt(currFocus.month)]}`
-  const prevFocusYear = `.year-${currFocus.year}`
-
-  const monthElement = document.querySelector(prevFocusMonth)
-  const yearElement = document.querySelector(prevFocusYear)
-
-  monthElement?.classList.remove('focus')
-  yearElement?.classList.remove('focus')
-
-  // add new focus
-  const currFocusMonth = `.month-${months.value[state.month]}`
-  const currFocusYear = `.year-${state.year}`
-
-  const focusMonth = document.querySelector(currFocusMonth)
-  const focusYear = document.querySelector(currFocusYear)
-
-  focusMonth?.classList.add('focus')
-  focusYear?.classList.add('focus')
-
-  currFocus.setMonth(state.month.toString())
-  currFocus.setYear(state.year)
-}
-
-const handleYearClicked = (yearClicked: string) => {
-  if (yearClicked === state.year) {
-    state.month = -1 // in year mode
-    isActive.value = !isActive.value
-  } else {
-    state.month = -1
-    state.year = yearClicked
-    isActive.value = true
-  }
-  // printState()
-  yearFocus()
-}
-
-const handleMonthClicked = (monthClicked: string) => {
-  const monthMap : {[month: string]: number} = {}
-  months.value.forEach((month, index) => {
-    monthMap[month] = index
-  })
-  if (monthMap[monthClicked] !== state.month) {
-    state.month = monthMap[monthClicked]
-  }
-  // printState()
-  yearFocus()
-}
-
-// function printState () {
-//   console.log('month:', state.month, typeof state.month)
-//   console.log('year:', state.year, typeof state.year)
-//   console.log('\n\n\n')
-// }
-
-const customButton = {
-  rounded: 'rounded-full',
-  color: {
-    black: {
-      solid: 'bg-white text-gray-900 hover:bg-green-500 dark:hover:bg-green-400'
+const increasePeriod = () => {
+  if (timeMode.value === 'Monthly') {
+    if (currPeriod.getMonth === 11) {
+      currPeriod.setYear(currPeriod.getYear + 1)
+      currPeriod.setMonth(0)
+    } else {
+      currPeriod.setMonth(currPeriod.getMonth + 1)
     }
+  } else {
+    currPeriod.setYear(currPeriod.getYear + 1)
+  }
+}
+
+const decreasePeriod = () => {
+  if (timeMode.value === 'Monthly') {
+    if (currPeriod.getMonth === 0) {
+      currPeriod.setYear(currPeriod.getYear - 1)
+      currPeriod.setMonth(11)
+    } else {
+      currPeriod.setMonth(currPeriod.getMonth - 1)
+    }
+  } else {
+    currPeriod.setYear(currPeriod.getYear - 1)
+  }
+}
+
+const setCurrPeriod = () => {
+  if (timeMode.value === 'Monthly') {
+    currPeriod.setMonth(new Date().getMonth())
+    currPeriod.setYear(new Date().getFullYear())
+  } else {
+    currPeriod.setMonth(-1)
+    currPeriod.setYear(new Date().getFullYear())
   }
 }
 

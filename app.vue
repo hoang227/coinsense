@@ -11,7 +11,7 @@
 <style>
 
 body {
-  @apply font-inter dark:bg-gray-900 bg-white
+  @apply font-inter dark:bg-gray-900 bg-white text-neutral-900 dark:text-white
 }
 
 h1 {

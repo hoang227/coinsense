@@ -5,7 +5,7 @@
     </h3>
     <div class="balance">
       <div>
-        balance
+        Balance
       </div>
       <div :class="{ 'red': isBroke, 'green': !isBroke }">
         {{ balance?.currency }}
@@ -15,7 +15,7 @@
       <div class="type-box">
         <div class="text-xl font-extrabold text-black dark:text-white mb-2">
           <div class="font-bold green">
-            income
+            Income
           </div>
           <USkeleton v-if="loading" class="amount-skeleton" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
           <div v-else class="mr-2 h-8">
@@ -39,7 +39,7 @@
       <div class="type-box">
         <div class="text-xl font-extrabold text-black dark:text-white mb-2">
           <div class="font-bold red">
-            expenses
+            Expenses
           </div>
           <USkeleton v-if="loading" class="amount-skeleton" :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }" />
           <div v-else class="mr-2 h-8">

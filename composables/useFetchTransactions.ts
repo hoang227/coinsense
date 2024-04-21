@@ -14,7 +14,7 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
     }
   }
 
-  const refresh = async (state : { month: number, year: string}) => {
+  const refresh = async (state : { month: number, year: number}) => {
     const { current: curr, previous: prev } = useSelectedTimePeriod(state)
     loading.value = true
     try {
