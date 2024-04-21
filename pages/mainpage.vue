@@ -6,12 +6,33 @@
 
         <div class="mr-4 flex justify-between space-x-4">
           <div class="flex space-x-4">
-            <UButton v-if="showTags" color="red" variant="solid" label="hide tags" @click="showTags = !showTags" />
-            <UButton v-else color="green" variant="solid" label="show tags" @click="showTags = !showTags" />
+            <UButton
+              v-if="showTags"
+              class="shadow-md shadow-neutral-400"
+              color="red"
+              label="hide tags"
+              variant="solid"
+              @click="showTags = !showTags"
+            />
+            <UButton
+              v-else
+              class="shadow-md shadow-neutral-400"
+              color="green"
+              label="show tags"
+              variant="solid"
+              @click="showTags = !showTags"
+            />
           </div>
           <div>
             <TransactionModal v-model="isOpen" @saved="refresh(useTimePeriodStore().getState)" />
-            <UButton icon="i-heroicons-plus-circle" color="green" variant="solid" label="add transaction" @click="isOpen = true" />
+            <UButton
+              class="shadow-md shadow-neutral-400"
+              color="black"
+              icon="i-heroicons-plus-circle"
+              label="add transaction"
+              variant="solid"
+              @click="isOpen = true"
+            />
           </div>
         </div>
       </div>
