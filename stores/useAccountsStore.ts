@@ -23,10 +23,23 @@ export const useAccountsStore = defineStore({
       loading.value = true
       try {
         const newAccounts : string[] = user.value?.user_metadata.accounts
-        if (typeof account === 'string') {
-          newAccounts.push(account)
-        } else {
+
+        if (Array.isArray(account)) {
+          for (const acc in account) {
+            if (newAccounts.includes(acc)) {
+              throw new Error('Account already exists.')
+            }
+          }
+        }
+
+        if (newAccounts.includes(account as string)) {
+          throw new Error('Account already exists.')
+        }
+
+        if (Array.isArray(account)) {
           newAccounts.push(...account)
+        } else {
+          newAccounts.push(account)
         }
 
         const { error } = await supabase
