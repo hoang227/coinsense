@@ -41,7 +41,9 @@
 
 <script setup lang="ts">
 import { z } from 'zod'
-import { types, tags, accounts } from '~/constants'
+import { types, tags } from '~/constants'
+
+const accountsStore = useAccountsStore()
 
 const props = defineProps({
   modelValue: Boolean,
@@ -52,6 +54,8 @@ const props = defineProps({
   }
 })
 
+const accounts = accountsStore.getAccounts
+
 const isEditing = computed(() => !!props.transaction)
 const emit = defineEmits([
   'update:modelValue',
@@ -61,7 +65,8 @@ const emit = defineEmits([
 const defaultSchema = z.object({
   created_at: z.string(),
   description: z.string().optional(),
-  amount: z.number().positive('amount needs to be greater than 0')
+  amount: z.number().positive('amount needs to be greater than 0'),
+  account: z.enum(accounts as [string, ...[string]])
 })
 
 const incomeSchema = z.object({
@@ -71,19 +76,11 @@ const expenseSchema = z.object({
   type: z.literal('expense'),
   tag: z.enum(tags as [string, ...[string]]).optional()
 })
-const checkingSchema = z.object({
-  account: z.literal('checking')
-})
-const savingSchema = z.object({
-  account: z.literal('saving')
-})
 
-const tempSchema = z.intersection(
+const schema = z.intersection(
   z.discriminatedUnion('type', [incomeSchema, expenseSchema]),
-  z.discriminatedUnion('account', [checkingSchema, savingSchema])
+  defaultSchema
 )
-
-const schema = z.intersection(tempSchema, defaultSchema)
 
 const form = ref()
 const isLoading = ref(false)
