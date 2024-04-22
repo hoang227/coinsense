@@ -46,7 +46,7 @@
       </div>
 
       <div class="summary-grid">
-        <div v-for="account in analytics.accounts" :key="account" class="">
+        <div v-for="account in useAccountsStore().getAccounts" :key="account" class="">
           <AccountSummary
             :curr-income="getAnalytics(account).currIncome"
             :curr-expense="getAnalytics(account).currExpense"
@@ -101,6 +101,14 @@ await firstFetch()
 watch(timePeriod, async () => await refresh(timePeriod.getState))
 
 const getAnalytics = (account: string) => {
+  if (!analytics.value.accounts.includes(account)) {
+    return {
+      currIncome: 0,
+      currExpense: 0,
+      prevIncome: 0,
+      prevExpense: 0
+    }
+  }
   return {
     currIncome: analytics.value.currAnalytics[account].income,
     currExpense: analytics.value.currAnalytics[account].expense,

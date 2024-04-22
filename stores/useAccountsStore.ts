@@ -6,19 +6,13 @@ const { toastSuccess, toastError } = useAppToast()
 export const useAccountsStore = defineStore({
   id: 'accounts',
   state: () => ({
-    accounts: [] as string[]
+    accounts: user.value?.user_metadata.accounts
   }),
   getters: {
     getAccounts: state => state.accounts,
     getCount: state => state.accounts.length
   },
   actions: {
-    initStore () {
-      this.accounts = user.value?.user_metadata.accounts
-    },
-    closeStore () {
-      this.accounts = [] as string[]
-    },
     async addAccount (account : string | string[]) {
       loading.value = true
       try {
@@ -54,6 +48,8 @@ export const useAccountsStore = defineStore({
 
         this.accounts = user.value?.user_metadata.accounts
 
+        navigateTo('/settings/settings')
+
         toastSuccess({
           title: 'Account added'
         })
@@ -85,6 +81,8 @@ export const useAccountsStore = defineStore({
         if (error) { throw error }
 
         this.accounts = user.value?.user_metadata.accounts
+
+        navigateTo('/settings/settings')
 
         toastSuccess({
           title: 'Account removed'

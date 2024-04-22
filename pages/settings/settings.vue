@@ -62,14 +62,6 @@ import { z } from 'zod'
 
 const accountStore = useAccountsStore()
 
-onMounted(() => {
-  accountStore.initStore()
-})
-
-onUnmounted(() => {
-  accountStore.closeStore()
-})
-
 const isOpen = ref(false)
 const isSure = ref(false)
 
