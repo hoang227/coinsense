@@ -1,22 +1,91 @@
+const supabase = useSupabaseClient()
+const user = useSupabaseUser()
+const loading = ref(false)
+const { toastSuccess, toastError } = useAppToast()
+
 export const useAccountsStore = defineStore({
-  id: 'time-period',
+  id: 'accounts',
   state: () => ({
-    accounts: ['account1', 'account2'] as string[]
+    accounts: [] as string[]
   }),
   getters: {
     getAccounts: state => state.accounts,
     getCount: state => state.accounts.length
   },
   actions: {
-    addAccount (account : string | string[]) {
-      if (typeof account === 'string') {
-        this.accounts.push(account)
-      } else {
-        this.accounts.push(...account)
-      }
+    initStore () {
+      this.accounts = user.value?.user_metadata.accounts
     },
-    removeAccount (account : string) {
-      this.accounts = this.accounts.filter(item => item !== account)
+    closeStore () {
+      this.accounts = [] as string[]
+    },
+    async addAccount (account : string | string[]) {
+      loading.value = true
+      try {
+        const newAccounts : string[] = user.value?.user_metadata.accounts
+        if (typeof account === 'string') {
+          newAccounts.push(account)
+        } else {
+          newAccounts.push(...account)
+        }
+
+        const { error } = await supabase
+          .auth
+          .updateUser({
+            data: {
+              accounts: newAccounts
+            }
+          })
+
+        if (error) { throw error }
+
+        this.accounts = user.value?.user_metadata.accounts
+
+        toastSuccess({
+          title: 'Account added'
+        })
+      } catch (error) {
+        toastError({
+          title: 'Error adding account',
+          description: (error as Error).message
+        })
+      } finally {
+        loading.value = false
+      }
+
+      return loading
+    },
+    async removeAccount (account : string) {
+      loading.value = true
+      try {
+        const newAccounts : string[] = user.value?.user_metadata.accounts
+          .filter((item : string) => item !== account)
+
+        const { error } = await supabase
+          .auth
+          .updateUser({
+            data: {
+              accounts: newAccounts
+            }
+          })
+
+        if (error) { throw error }
+
+        this.accounts = user.value?.user_metadata.accounts
+
+        toastSuccess({
+          title: 'Account removed'
+        })
+      } catch (error) {
+        toastError({
+          title: 'Error removing account',
+          description: (error as Error).message
+        })
+      } finally {
+        loading.value = false
+      }
+
+      return loading
     }
   }
 })

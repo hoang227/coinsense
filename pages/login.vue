@@ -155,7 +155,8 @@ const handleSignUp = async () => {
       password: signupState.value.password,
       options: {
         data: {
-          username: signupState.value.username
+          username: signupState.value.username,
+          accounts: [] as string[]
         }
       }
     })
