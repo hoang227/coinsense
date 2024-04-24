@@ -1,42 +1,42 @@
 <template>
   <div>
-    <UFormGroup label="current avatar" class="w-full mb-4">
-      <img :src="url" class="size-40 object-cover rounded-full mt-6"></img>
-      <img :src="url" class="size-40 object-cover rounded-full mt-6"></img>
+    <UFormGroup label="Current Avatar" class="w-full mb-4">
+      <img v-if="url" :src="url" class="size-40 object-cover rounded-full mt-6"></img>
+      <img v-else src="/public/img/blank_profile.png" class="size-40 object-cover rounded-full mt-6"></img>
     </UFormGroup>
 
-    <UFormGroup label="new avatar" class="w-full mb-4" name="avatar" help="choose an image">
+    <UFormGroup label="New Avatar" class="w-full mb-4" name="avatar" help="Choose an image">
       <UInput ref="fileInput" type="file" />
     </UFormGroup>
 
-    <UButton
-      :disabled="uploading"
-      :loading="uploading"
-      class="mr-2"
-      color="black"
-      label="save"
-      type="submit"
-      variant="solid"
-      @click="saveAvatar"
-    />
-    <UButton
-      :disabled="deleting"
-      :loading="deleting"
-      color="red"
-      label="delete"
-      type="submit"
-      variant="solid"
-      @click="deleteAvatar"
-    />
+    <div class="flex items-center justify-start space-x-2">
+      <UButton
+        :disabled="uploading"
+        :loading="uploading"
+        color="black"
+        label="Save"
+        type="submit"
+        variant="solid"
+        @click="saveAvatar"
+      />
+      <UButton
+        :disabled="deleting"
+        :loading="deleting"
+        color="red"
+        label="Delete"
+        type="submit"
+        variant="solid"
+        @click="deleteAvatar"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
-
+const { url } : { url: Ref<string | undefined> } = useAvatarUrl()
 const { toastSuccess, toastError } = useAppToast()
-const { url }: { url: Ref<string | undefined> } = useAvatarUrl()
 
 const uploading = ref(false)
 const deleting = ref(false)
@@ -101,7 +101,9 @@ const deleteAvatar = async () => {
     deleting.value = true
     const currentAvatarUrl : string = user.value?.user_metadata?.avatar_url
 
-    console.log(currentAvatarUrl)
+    if (!currentAvatarUrl) {
+      throw new Error('no avatar chosen')
+    }
 
     await supabase.auth.updateUser({
       data: {

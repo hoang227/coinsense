@@ -12,6 +12,7 @@
     "seed": "node seed.mjs"
   },
   "dependencies": {
+    "@nuxt/image": "^1.6.0",
     "@nuxt/ui": "^2.15.1",
     "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.11.2",

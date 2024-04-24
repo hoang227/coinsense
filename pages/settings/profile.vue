@@ -1,10 +1,10 @@
 <template>
   <UForm :state="state" :schema="schema" @submit="saveProfile">
-    <UFormGroup class="mb-4" label="username" name="username">
-      <UInput v-model="state.username" placeholder="set new username" />
+    <UFormGroup class="mb-4" label="Username" name="username">
+      <UInput v-model="state.username" placeholder="Set new username" />
     </UFormGroup>
 
-    <UFormGroup class="mb-4" label="email" name="email" help="you will receive a confirmation email on both the old and the new email addresses if you modify the email address">
+    <UFormGroup class="mb-4" label="Email" name="email" help="You will receive a confirmation email on both the old and the new email addresses if you modify the email address">
       <UInput v-model="state.email" />
     </UFormGroup>
 
@@ -12,7 +12,7 @@
       :disabled="pending"
       :pending="pending"
       color="black"
-      label="save"
+      label="Save"
       type="submit"
       variant="solid"
     />

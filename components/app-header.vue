@@ -21,7 +21,8 @@
           <p class="text-stone-700">
             {{ user?.user_metadata.username ?? user?.email }}
           </p>
-          <img :src="url" class="shadow-md size-14 object-cover rounded-full"></img>
+          <img v-if="url" :src="url" class="shadow-md size-14 object-cover rounded-full"></img>
+          <img v-else src="/public/img/blank_profile.png" class="shadow-md size-14 object-cover rounded-full"></img>
         </div>
 
         <template #account>

@@ -3,7 +3,7 @@ export const useAvatarUrl = () => {
   const user = useSupabaseUser()
 
   const getPublicUrl = () => {
-    if (!user.value?.user_metadata?.avatar_url) { return '/public/img/blank_profile.png' }
+    if (!user.value?.user_metadata?.avatar_url) { return undefined }
 
     const { data } = supabase.storage
       .from('avatars')
