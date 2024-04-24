@@ -137,7 +137,7 @@ const getAnalytics = (account: string) => {
 }
 
 .summary-grid {
-  @apply  grid grid-cols-1 min-[900px]:grid-cols-2 min-[900px]:gap-10 max-[900px]:gap-y-10
+  @apply  grid grid-cols-1 pb-3 min-[900px]:grid-cols-2 min-[900px]:gap-x-10 min-[900px]:gap-y-6 max-[900px]:gap-y-10
 }
 
 .section {

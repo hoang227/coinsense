@@ -3,7 +3,7 @@
     <h3 class="account">
       <button
         :class="isPinnedStyle"
-        class="flex justify-between items-center w-full px-2 py-1 text-left rounded-lg hover:bg-neutral-700 hover:text-neutral-200"
+        class="flex justify-between items-center w-full px-2 py-1 text-left rounded-t-lg hover:bg-neutral-700 hover:text-neutral-200"
         @click="isPinned = !isPinned"
         @mouseenter="isOpen = true"
         @mouseleave="isOpen = false"
@@ -13,17 +13,12 @@
         </div>
         <UIcon :name="accountIcon" />
       </button>
+      <div :class="balanceColor" class="font-bold text-xl bg-neutral-200 dark:bg-gray-900 px-2 py-1 rounded-b-lg">
+        {{ balance?.currency }}
+      </div>
     </h3>
     <Transition name="summary">
       <div v-if="isPinned ? true : isOpen">
-        <div class="balance">
-          <div>
-            Balance
-          </div>
-          <div :class="{ 'red': isBroke, 'green': !isBroke }">
-            {{ balance?.currency }}
-          </div>
-        </div>
         <div class="grid grid-cols-2 gap-10">
           <div class="type-box">
             <div class="text-xl font-extrabold text-black dark:text-white mb-2">
@@ -119,7 +114,9 @@ const expense = computed(() => useCurrency(props.currExpense))
 
 const balance = computed(() => useCurrency(props.currIncome - props.currExpense))
 
-const isBroke = computed(() => props.currIncome < props.currExpense)
+const balanceColor = computed(() => {
+  return props.currIncome < props.currExpense ? 'red' : props.currIncome > props.currExpense ? 'green' : ''
+})
 
 const incomeTrendingUp = computed(
   () => props.currIncome >= props.prevIncome
@@ -177,10 +174,6 @@ const expensePercentageTrend = computed(() => {
 
 .account {
   @apply shadow-md shadow-neutral-400 font-bold text-2xl dark:bg-gray-700 bg-neutral-200 rounded-lg mb-3
-}
-
-.balance {
-  @apply shadow-md shadow-neutral-400 flex items-center justify-between font-bold text-xl bg-neutral-200 dark:bg-gray-900 px-2 py-1 rounded-lg mb-3
 }
 
 .type-box {

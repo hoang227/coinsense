@@ -14,7 +14,7 @@
         </UFormGroup>
 
         <UFormGroup label="amount" :required="true" name="amount" class="mb-4">
-          <UInput v-model.number="state.amount" type="number" placeholder="amount" />
+          <UInput v-model="state.amount" placeholder="amount" />
         </UFormGroup>
 
         <UFormGroup label="date" :required="true" name="created_at" class="mb-4">
