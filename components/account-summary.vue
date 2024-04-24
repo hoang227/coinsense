@@ -2,7 +2,8 @@
   <div>
     <h3 class="account">
       <button
-        class="flex justify-between items-center w-full px-2 py-1 text-left rounded-lg hover:bg-neutral-400"
+        :class="isPinnedStyle"
+        class="flex justify-between items-center w-full px-2 py-1 text-left rounded-lg hover:bg-neutral-700 hover:text-neutral-200"
         @click="isPinned = !isPinned"
         @mouseenter="isOpen = true"
         @mouseleave="isOpen = false"
@@ -47,7 +48,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="type-box">
             <div class="text-xl font-extrabold text-black dark:text-white mb-2">
               <div class="font-bold red">
@@ -110,6 +111,8 @@ const isPinned = ref(false)
 const isOpen = ref(false)
 
 const accountIcon = computed(() => { return isPinned.value ? 'i-heroicons-chevron-down' : isOpen.value ? 'i-heroicons-chevron-down' : 'i-heroicons-chevron-up' })
+
+const isPinnedStyle = computed(() => { return isPinned.value ? 'bg-neutral-700 text-neutral-200' : 'bg-neutral-200' })
 
 const income = computed(() => useCurrency(props.currIncome))
 const expense = computed(() => useCurrency(props.currExpense))

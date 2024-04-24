@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex items-center justify-between space-x-4">
-      <h3>accounts</h3>
+      <h3>Accounts</h3>
       <UButton size="xs" label="add account" color="black" icon="i-heroicons-plus-circle" @click="isOpen = true" />
       <UModal v-model="isOpen">
         <UCard>
@@ -18,13 +18,24 @@
         </UCard>
       </UModal>
     </div>
-    <div class="grid grid-cols-2">
-      <div v-for="account in useAccountsStore().getAccounts" :key="account" class="mt-4">
-        <div class="flex items-center col-span-1">
-          <UButton :ui="customButton" color="white" variant="ghost" icon="i-heroicons-x-mark" @click="handleRemoveAccount(account)" />
-          <UBadge size="md" color="black" :ui="customBadge">
+    <div class="grid grid-cols-2 gap-x-8">
+      <div
+        v-for="account in useAccountsStore().getAccounts"
+        :key="account"
+        class="shadow-sm shadow-neutral-400 mt-4 rounded-lg bg-neutral-200 hover:bg-neutral-400"
+      >
+        <div class="group flex items-center justify-between col-span-1">
+          <div class="pl-2">
             {{ account }}
-          </UBadge>
+          </div>
+          <UButton
+            :ui="customButton"
+            class="pr-2 text-neutral-200 group-hover:text-neutral-800 hover:bg-neutral-400"
+            color="white"
+            icon="i-heroicons-x-mark"
+            variant="ghost"
+            @click="handleRemoveAccount(account)"
+          />
         </div>
       </div>
       <UModal v-model="isSure">
@@ -65,11 +76,15 @@ const accountStore = useAccountsStore()
 const isOpen = ref(false)
 const isSure = ref(false)
 
-const customBadge = {
-  rounded: 'rounded-full'
-}
 const customButton = {
-  rounded: 'rounded-full'
+  rounded: 'rounded-lg'
+  // color: {
+  //   white: {
+  //     ghost: {
+
+  //     }
+  //   }
+  // }
 }
 
 const state = ref({

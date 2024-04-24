@@ -46,7 +46,7 @@
       </div>
 
       <div class="summary-grid">
-        <div v-for="account in useAccountsStore().getAccounts" :key="account" class="">
+        <div v-for="account in useAccountsStore().getAccounts" :key="account">
           <AccountSummary
             :curr-income="getAnalytics(account).currIncome"
             :curr-expense="getAnalytics(account).currExpense"
