@@ -78,13 +78,6 @@ const isSure = ref(false)
 
 const customButton = {
   rounded: 'rounded-lg'
-  // color: {
-  //   white: {
-  //     ghost: {
-
-  //     }
-  //   }
-  // }
 }
 
 const state = ref({

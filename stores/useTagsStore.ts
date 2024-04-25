@@ -18,7 +18,7 @@ export const useTagsStore = defineStore({
       try {
         const newTags : Tag[] = user.value?.user_metadata.tags
 
-        if (newTags.includes(tag)) {
+        if (newTags.some(currTag => (currTag.name === tag.name || currTag.color === tag.color))) {
           throw new Error('Tag already exists.')
         }
 

@@ -9,7 +9,7 @@
             New tag
           </template>
           <UForm ref="form" :state="state" :schema="schema" @submit="addTag">
-            <UFormGroup label="name" :required="true" name="newTag" class="mb-4">
+            <UFormGroup label="name" :required="true" name="name" class="mb-4">
               <UInput v-model="state.name" placeholder="tag" />
             </UFormGroup>
 
@@ -95,7 +95,7 @@ const state = ref({
 const tagToRemove = ref('')
 
 const schema = z.object({
-  name: z.string().min(3, { message: 'tag name must be at least 3 characters' }),
+  name: z.string().min(3, { message: 'Tag name must be at least 3 characters' }),
   color: z.enum(colors as [string, ... [string]])
 })
 
