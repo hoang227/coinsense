@@ -28,13 +28,14 @@
         class="shadow-sm shadow-neutral-400 mt-4 rounded-2xl bg-neutral-200 hover:bg-neutral-400"
         :class="tag.color"
       >
-        <div class="group flex items-center justify-between col-span-1">
-          <div class="pl-2">
+        <div :class="tag.color" class="group flex items-center justify-between col-span-1 rounded-2xl">
+          <div class="ml-2 group-hover:text-neutral-100">
             {{ tag.name }}
           </div>
           <UButton
             :ui="customButton"
-            class="pr-2 text-neutral-200 group-hover:text-neutral-800 hover:bg-neutral-400"
+            :class="`group-hover:bg-${tag.color}-700 hover:bg-${tag.color}-500 text-${tag.color}-500 group-hover:text-neutral-100`"
+            class="pr-2"
             color="white"
             icon="i-heroicons-x-mark"
             variant="ghost"
@@ -84,7 +85,7 @@ const customButton = {
   rounded: 'rounded-2xl'
 }
 
-const colors : string[] = ['red', 'green', 'blue', 'yellow', 'pink', 'purple', 'orange', 'white']
+const colors : string[] = ['red', 'green', 'blue', 'yellow', 'pink', 'purple', 'orange']
 
 const state = ref({
   name: '',
@@ -125,3 +126,35 @@ const addTag = async () => {
   }
 }
 </script>
+
+<style scoped>
+
+.red {
+  @apply bg-red-500 hover:bg-red-700 text-neutral-100
+}
+
+.green {
+  @apply bg-green-500 hover:bg-green-700 text-neutral-100
+}
+
+.blue {
+  @apply bg-blue-500 hover:bg-blue-700 text-neutral-100
+}
+
+.yellow {
+  @apply bg-yellow-500 hover:bg-yellow-700 text-neutral-100
+}
+
+.pink {
+  @apply bg-pink-500 hover:bg-pink-700 text-neutral-100
+}
+
+.purple {
+  @apply bg-purple-500 hover:bg-purple-700 text-neutral-100
+}
+
+.orange {
+  @apply bg-orange-500 hover:bg-orange-700 text-neutral-100
+}
+
+</style>
