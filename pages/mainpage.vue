@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 shadow-md shadow-neutral-400 dark:bg-neutral-800"
-    >
+    <div class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 dark:bg-neutral-800">
       <div class="-mx-4 flex items-center justify-between">
         <TimePeriodSelector />
 
@@ -99,7 +97,7 @@
 const timePeriod = useTimePeriodStore()
 const { current, previous } = useSelectedTimePeriod(timePeriod.getState)
 const isOpen = ref(false)
-const showTags = ref(false)
+const showTags = ref(true)
 
 const {
   loading,

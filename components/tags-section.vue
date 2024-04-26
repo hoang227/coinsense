@@ -37,24 +37,22 @@
     <div class="grid grid-cols-4 gap-x-6">
       <div
         v-for="tag in useTagsStore().getTags"
-        :key="tag"
-        class="mt-4 rounded-2xl bg-neutral-200 shadow-sm shadow-neutral-400 hover:bg-neutral-400"
-        :class="tag.color"
+        :key="`${tag.name as string}`"
+        :class="tag.color.toLowerCase()"
+        class="mt-4 rounded-2xl shadow-sm shadow-neutral-400"
       >
         <div
-          :class="tag.color"
-          class="group col-span-1 flex items-center justify-between rounded-2xl"
+          class="group col-span-1 flex items-center justify-between rounded-2xl text-neutral-100"
         >
           <div class="ml-2 group-hover:text-neutral-100">
             {{ tag.name }}
           </div>
           <UButton
             :ui="customButton"
-            :class="`group-hover:bg-${tag.color}-700 hover:bg-${tag.color}-500 text-${tag.color}-500 group-hover:text-neutral-100`"
-            class="pr-2"
-            color="white"
+            class="pr-2 text-white"
+            color="black"
             icon="i-heroicons-x-mark"
-            variant="ghost"
+            variant="link"
             @click="handleRemoveTag(tag.name)"
           />
         </div>
@@ -101,13 +99,14 @@ const customButton = {
 }
 
 const colors: string[] = [
-  'red',
-  'green',
-  'blue',
-  'yellow',
-  'pink',
-  'purple',
-  'orange'
+  'Red',
+  'Orange',
+  'Yellow',
+  'Green',
+  'Blue',
+  'Purple',
+  'Pink',
+  'Gray'
 ]
 
 const state = ref({
@@ -154,30 +153,30 @@ const addTag = async () => {
 
 <style scoped>
 .red {
-  @apply bg-red-500 text-neutral-100 hover:bg-red-700;
+  @apply bg-tagRed-light hover:bg-tagRed-dark;
 }
 
 .green {
-  @apply bg-green-500 text-neutral-100 hover:bg-green-700;
+  @apply bg-tagGreen-light hover:bg-tagGreen-dark;
 }
 
 .blue {
-  @apply bg-blue-500 text-neutral-100 hover:bg-blue-700;
+  @apply bg-tagBlue-light hover:bg-tagBlue-dark;
 }
 
 .yellow {
-  @apply bg-yellow-500 text-neutral-100 hover:bg-yellow-700;
+  @apply bg-tagYellow-light hover:bg-tagYellow-dark;
 }
 
 .pink {
-  @apply bg-pink-500 text-neutral-100 hover:bg-pink-700;
+  @apply bg-tagPink-light hover:bg-tagPink-dark;
 }
 
 .purple {
-  @apply bg-purple-500 text-neutral-100 hover:bg-purple-700;
+  @apply bg-tagPurple-light hover:bg-tagPurple-dark;
 }
 
 .orange {
-  @apply bg-orange-500 text-neutral-100 hover:bg-orange-700;
+  @apply bg-tagOrange-light hover:bg-tagOrange-dark;
 }
 </style>

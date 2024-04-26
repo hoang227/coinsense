@@ -9,6 +9,7 @@
 </template>
 
 <script setup lang="ts">
+import '@/assets/main.css'
 useHead({
   link: [
     {
@@ -29,6 +30,8 @@ useHead({
 </script>
 
 <style>
+@import url('@/assets/main.css');
+
 body {
   @apply bg-white font-inter text-neutral-900 dark:bg-gray-900 dark:text-white;
 }

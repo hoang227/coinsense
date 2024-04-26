@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --tag-red: 358deg 100% 67%;
+    --tag-red-dark: 358deg 100% 47%;
+    --tag-yellow: 42deg 100% 60%;
+    --tag-yellow-dark: 42deg 100% 50%;
+    --tag-green: 141deg 61% 50%;
+    --tag-green-dark: 141deg 61% 40%;
+    --tag-blue: 214deg 79% 55%;
+    --tag-blue-dark: 214deg 79% 45%;
+    --tag-purple: 265deg 32% 40%;
+    --tag-purple-dark: 265deg 32% 30%;
+    --tag-pink: 351deg 100% 64%;
+    --tag-pink-dark: 351deg 100% 54%;
+    --tag-gray: 0deg 0% 63%;
+    --tag-gray-dark: 0deg 0% 53%;
+  }
+}

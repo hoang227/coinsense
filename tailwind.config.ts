@@ -7,6 +7,40 @@ module.exports = {
       inter: ['"Inter"']
     },
     extend: {
+      colors: {
+        tagRed: {
+          light: 'hsl(var(--tag-red))',
+          dark: 'hsl(var(--tag-red-dark))'
+        },
+        tagOrange: {
+          light: 'hsl(var(--tag-orange))',
+          dark: 'hsl(var(--tag-orange-dark))'
+        },
+        tagYellow: {
+          light: 'hsl(var(--tag-yellow))',
+          dark: 'hsl(var(--tag-yellow-dark))'
+        },
+        tagGreen: {
+          light: 'hsl(var(--tag-green))',
+          dark: 'hsl(var(--tag-green-dark))'
+        },
+        tagBlue: {
+          light: 'hsl(var(--tag-blue))',
+          dark: 'hsl(var(--tag-blue-dark))'
+        },
+        tagPurple: {
+          light: 'hsl(var(--tag-purple))',
+          dark: 'hsl(var(--tag-purple-dark))'
+        },
+        tagPink: {
+          light: 'hsl(var(--tag-pink))',
+          dark: 'hsl(var(--tag-pink-dark))'
+        },
+        tagGray: {
+          light: 'hsl(var(--tag-gray))',
+          dark: 'hsl(var(--tag-gray-dark))'
+        }
+      },
       width: {
         18: '72px',
         '30p': '30%'

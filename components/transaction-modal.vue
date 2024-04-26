@@ -191,7 +191,7 @@ const initialState = isEditing.value
       amount: props.transaction.amount,
       created_at: props.transaction.created_at.split('T')[0],
       description: props.transaction.description,
-      tags: props.transaction.tags
+      tags: [] as Tag[]
     }
   : {
       type: undefined,

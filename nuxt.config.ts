@@ -4,11 +4,17 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: ['@nuxt/ui', '@nuxtjs/supabase', ['@pinia/nuxt',
-    {
-      autoImports: ['defineStore', 'acceptHMRUpdate']
-    }
-  ], '@nuxt/image'],
+  modules: [
+    '@nuxt/ui',
+    '@nuxtjs/supabase',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: ['defineStore', 'acceptHMRUpdate']
+      }
+    ],
+    '@nuxt/image'
+  ],
   imports: {
     dirs: ['stores']
   },
