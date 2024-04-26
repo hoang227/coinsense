@@ -1,4 +1,7 @@
-export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<TimePeriod>) => {
+export const useFetchTransactions = (
+  current: Ref<TimePeriod>,
+  previous: Ref<TimePeriod>
+) => {
   const currTransactions = ref<Transaction[]>([])
   const prevTransactions = ref<Transaction[]>([])
   const loading = ref(false)
@@ -14,7 +17,7 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
     }
   }
 
-  const refresh = async (state : { month: number, year: number}) => {
+  const refresh = async (state: { month: number; year: number }) => {
     const { current: curr, previous: prev } = useSelectedTimePeriod(state)
     loading.value = true
     try {
@@ -44,7 +47,9 @@ export const useFetchTransactions = (current: Ref<TimePeriod>, previous: Ref<Tim
     return grouped
   })
 
-  const analytics = computed(() => useGetAnalytics(currTransactions.value, prevTransactions.value))
+  const analytics = computed(() =>
+    useGetAnalytics(currTransactions.value, prevTransactions.value)
+  )
 
   return {
     currTransactions: {

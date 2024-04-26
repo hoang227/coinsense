@@ -1,22 +1,30 @@
 <template>
   <div>
-    <div v-if="success">
-      logging you in
-    </div>
+    <div v-if="success">logging you in</div>
     <UTabs v-else :items="items" class="w-full">
       <template #signin="{ item }">
-        <UForm ref="signinForm" :state="signinState" :schema="signinSchema" @submit="handleSignIn">
+        <UForm
+          ref="signinForm"
+          :state="signinState"
+          :schema="signinSchema"
+          @submit="handleSignIn"
+        >
           <UCard>
-            <template #header>
-              {{ item.label }} now !
-            </template>
+            <template #header> {{ item.label }} now ! </template>
 
             <div class="space-y-3">
               <UFormGroup label="email" name="email">
-                <UInput v-model="signinState.email" placeholder="email@example.com" />
+                <UInput
+                  v-model="signinState.email"
+                  placeholder="email@example.com"
+                />
               </UFormGroup>
               <UFormGroup label="password" name="password">
-                <UInput v-model="signinState.password" type="password" placeholder="password" />
+                <UInput
+                  v-model="signinState.password"
+                  type="password"
+                  placeholder="password"
+                />
               </UFormGroup>
             </div>
 
@@ -30,15 +38,21 @@
       </template>
 
       <template #signup="{ item }">
-        <UForm ref="signupForm" :state="signupState" :schema="signupSchema" @submit="handleSignUp">
+        <UForm
+          ref="signupForm"
+          :state="signupState"
+          :schema="signupSchema"
+          @submit="handleSignUp"
+        >
           <UCard>
-            <template #header>
-              {{ item.label }} now !
-            </template>
+            <template #header> {{ item.label }} now ! </template>
 
             <div class="space-y-3">
               <UFormGroup label="email" name="email" required>
-                <UInput v-model="signupState.email" placeholder="email@example.com" />
+                <UInput
+                  v-model="signupState.email"
+                  placeholder="email@example.com"
+                />
               </UFormGroup>
               <UFormGroup label="username" name="username" required>
                 <UInput v-model="signupState.username" placeholder="username" />
@@ -50,14 +64,11 @@
                   type="password"
                 />
               </UFormGroup>
+              <p>• password must be at least 8 characters</p>
+              <p>• password must be at most 20 characters</p>
               <p>
-                • password must be at least 8 characters
-              </p>
-              <p>
-                • password must be at most 20 characters
-              </p>
-              <p>
-                • password must contain at least one uppercase letter, one lowercase letter and one digit.
+                • password must contain at least one uppercase letter, one
+                lowercase letter and one digit.
               </p>
             </div>
 
@@ -83,13 +94,16 @@ const isLoading = ref(false)
 const signinForm = ref()
 const signupForm = ref()
 
-const items = [{
-  slot: 'signin',
-  label: 'sign in'
-}, {
-  slot: 'signup',
-  label: 'sign up'
-}]
+const items = [
+  {
+    slot: 'signin',
+    label: 'sign in'
+  },
+  {
+    slot: 'signup',
+    label: 'sign up'
+  }
+]
 
 const signinSchema = z.object({
   email: z.string().email({ message: 'invalid email address' }).optional(),
@@ -99,7 +113,14 @@ const signinSchema = z.object({
 const signupSchema = z.object({
   email: z.string().email({ message: 'invalid email address' }),
   username: z.string(),
-  password: z.string().min(8, { message: 'password must be at least 8 characters' }).max(20, { message: 'password must be at most 20 characters' }).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$/, { message: 'password must contain at least one uppercase letter, one lowercase letter and one digit.' })
+  password: z
+    .string()
+    .min(8, { message: 'password must be at least 8 characters' })
+    .max(20, { message: 'password must be at most 20 characters' })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$/, {
+      message:
+        'password must contain at least one uppercase letter, one lowercase letter and one digit.'
+    })
 })
 
 const initialSigninState = {
@@ -190,6 +211,6 @@ const handleSignUp = async () => {
 
 <style scoped>
 p {
-  @apply text-xs text-gray-400
+  @apply text-xs text-gray-400;
 }
 </style>

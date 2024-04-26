@@ -1,11 +1,24 @@
 <template>
   <div>
-    <UFormGroup label="Current Avatar" class="w-full mb-4">
-      <img v-if="url" :src="url" class="size-40 object-cover rounded-full mt-6"></img>
-      <img v-else src="/public/img/blank_profile.png" class="size-40 object-cover rounded-full mt-6"></img>
+    <UFormGroup label="Current Avatar" class="mb-4 w-full">
+      <img
+        v-if="url"
+        :src="url"
+        class="mt-6 size-40 rounded-full object-cover"
+      />
+      <img
+        v-else
+        src="/public/img/blank_profile.png"
+        class="mt-6 size-40 rounded-full object-cover"
+      />
     </UFormGroup>
 
-    <UFormGroup label="New Avatar" class="w-full mb-4" name="avatar" help="Choose an image">
+    <UFormGroup
+      label="New Avatar"
+      class="mb-4 w-full"
+      name="avatar"
+      help="Choose an image"
+    >
       <UInput ref="fileInput" type="file" />
     </UFormGroup>
 
@@ -35,7 +48,7 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
-const { url } : { url: Ref<string | undefined> } = useAvatarUrl()
+const { url }: { url: Ref<string | undefined> } = useAvatarUrl()
 const { toastSuccess, toastError } = useAppToast()
 
 const uploading = ref(false)
@@ -57,14 +70,15 @@ const saveAvatar = async () => {
   try {
     uploading.value = true
 
-    const currentAvatarUrl : string = user.value?.user_metadata?.avatar_url
+    const currentAvatarUrl: string = user.value?.user_metadata?.avatar_url
 
-    const { error } = await supabase
-      .storage
+    const { error } = await supabase.storage
       .from('avatars')
       .upload(fileName, file)
 
-    if (error) { throw error }
+    if (error) {
+      throw error
+    }
 
     await supabase.auth.updateUser({
       data: {
@@ -74,11 +88,12 @@ const saveAvatar = async () => {
 
     // remove old avatar from database
     if (currentAvatarUrl) {
-      const { error } = await supabase
-        .storage
+      const { error } = await supabase.storage
         .from('avatars')
         .remove([currentAvatarUrl])
-      if (error) { throw error }
+      if (error) {
+        throw error
+      }
     }
 
     fileInput.value.input.value = null
@@ -99,7 +114,7 @@ const saveAvatar = async () => {
 const deleteAvatar = async () => {
   try {
     deleting.value = true
-    const currentAvatarUrl : string = user.value?.user_metadata?.avatar_url
+    const currentAvatarUrl: string = user.value?.user_metadata?.avatar_url
 
     if (!currentAvatarUrl) {
       throw new Error('no avatar chosen')
@@ -113,11 +128,12 @@ const deleteAvatar = async () => {
 
     // remove old avatar from database
     if (currentAvatarUrl) {
-      const { error } = await supabase
-        .storage
+      const { error } = await supabase.storage
         .from('avatars')
         .remove([currentAvatarUrl])
-      if (error) { throw error }
+      if (error) {
+        throw error
+      }
     }
 
     fileInput.value.input.value = null

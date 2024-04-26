@@ -1,4 +1,4 @@
 declare interface Tag {
-  name: String;
-  color: String;
+  name: String
+  color: String
 }

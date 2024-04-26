@@ -1,39 +1,101 @@
 <template>
   <UModal v-model="isOpen">
     <UCard>
-      <template #header>
-        add transaction
-      </template>
+      <template #header> add transaction </template>
       <UForm ref="form" :state="state" :schema="schema" @submit="save">
-        <UFormGroup label="transaction type" :required="true" name="type" class="mb-4">
-          <USelect v-model="state.type" :disabled="isEditing" placeholder="select transaction type" :options="types" />
+        <UFormGroup
+          label="transaction type"
+          :required="true"
+          name="type"
+          class="mb-4"
+        >
+          <USelect
+            v-model="state.type"
+            :disabled="isEditing"
+            placeholder="select transaction type"
+            :options="types"
+          />
         </UFormGroup>
 
-        <UFormGroup label="account" :required="true" name="account" class="mb-4">
-          <USelect v-model="state.account" placeholder="select account" :options="accounts" />
+        <UFormGroup
+          label="account"
+          :required="true"
+          name="account"
+          class="mb-4"
+        >
+          <USelect
+            v-model="state.account"
+            placeholder="select account"
+            :options="accounts"
+          />
         </UFormGroup>
 
         <UFormGroup label="amount" :required="true" name="amount" class="mb-4">
           <UInput v-model="state.amount" placeholder="amount" />
         </UFormGroup>
 
-        <UFormGroup label="date" :required="true" name="created_at" class="mb-4">
-          <UInput v-model="state.created_at" type="date" placeholder="amount" icon="i-heroicons-calendar-days-20-solid" />
-          <UButton class="-ml-2 opacity-60" label="today" color="black" variant="link" @click="setDateToToday" />
-          <UButton class="-ml-2 opacity-60" label="clear" color="black" variant="link" @click="clearDate" />
-          <UButton class="-ml-2 opacity-60" label="stubIncome" color="black" variant="link" @click="addStubIncome" />
-          <UButton class="-ml-2 opacity-60" label="stubExpense" color="black" variant="link" @click="addStubExpense" />
+        <UFormGroup
+          label="date"
+          :required="true"
+          name="created_at"
+          class="mb-4"
+        >
+          <UInput
+            v-model="state.created_at"
+            type="date"
+            placeholder="amount"
+            icon="i-heroicons-calendar-days-20-solid"
+          />
+          <UButton
+            class="-ml-2 opacity-60"
+            label="today"
+            color="black"
+            variant="link"
+            @click="setDateToToday"
+          />
+          <UButton
+            class="-ml-2 opacity-60"
+            label="clear"
+            color="black"
+            variant="link"
+            @click="clearDate"
+          />
+          <UButton
+            class="-ml-2 opacity-60"
+            label="stubIncome"
+            color="black"
+            variant="link"
+            @click="addStubIncome"
+          />
+          <UButton
+            class="-ml-2 opacity-60"
+            label="stubExpense"
+            color="black"
+            variant="link"
+            @click="addStubExpense"
+          />
         </UFormGroup>
 
         <UFormGroup label="description" name="description" class="mb-4">
           <UInput v-model="state.description" placeholder="description" />
         </UFormGroup>
 
-        <UFormGroup v-if="state.type==='expense'" label="tag" name="tag" class="mb-4">
-          <USelect v-model="state.tag" placeholder="select tag" :options="tags" />
+        <UFormGroup label="tag" name="tag" class="mb-4">
+          <USelectMenu
+            v-model="state.tag"
+            placeholder="select tag"
+            multiple
+            :options="tags"
+          />
         </UFormGroup>
 
-        <UButton type="submit" color="black" variant="solid" label="save" :loading="isLoading" />
+        <UButton
+          type="submit"
+          color="black"
+          variant="solid"
+          label="save"
+          :loading="isLoading"
+        />
       </UForm>
     </UCard>
   </UModal>
@@ -41,9 +103,10 @@
 
 <script setup lang="ts">
 import { z } from 'zod'
-import { types, tags } from '~/constants'
+import { types } from '~/constants'
 
 const accountsStore = useAccountsStore()
+const tagsStore = useTagsStore()
 
 const props = defineProps({
   modelValue: Boolean,
@@ -55,32 +118,19 @@ const props = defineProps({
 })
 
 const accounts = accountsStore.getAccounts
+const tags: string[] = tagsStore.getTags.map((tag: Tag) => tag.name)
 
 const isEditing = computed(() => !!props.transaction)
-const emit = defineEmits([
-  'update:modelValue',
-  'saved'
-])
+const emit = defineEmits(['update:modelValue', 'saved'])
 
-const defaultSchema = z.object({
+const schema = z.object({
+  type: z.enum(['income', 'expense']),
   created_at: z.string(),
   description: z.string().optional(),
   amount: z.number().positive('amount needs to be greater than 0'),
-  account: z.enum(accounts as [string, ...[string]])
-})
-
-const incomeSchema = z.object({
-  type: z.literal('income')
-})
-const expenseSchema = z.object({
-  type: z.literal('expense'),
+  account: z.enum(accounts as [string, ...[string]]),
   tag: z.enum(tags as [string, ...[string]]).optional()
 })
-
-const schema = z.intersection(
-  z.discriminatedUnion('type', [incomeSchema, expenseSchema]),
-  defaultSchema
-)
 
 const form = ref()
 const isLoading = ref(false)
@@ -88,16 +138,17 @@ const supabase = useSupabaseClient()
 const { toastSuccess, toastError } = useAppToast()
 
 const save = async () => {
-  if (form.value.errors.length) { return }
+  if (form.value.errors.length) {
+    return
+  }
 
   isLoading.value = true
   try {
-    const { error } = await supabase.from('transactions')
-      .upsert({
-        ...state.value,
-        tag: state.value.tag ?? 'none',
-        id: props.transaction?.id
-      } as never)
+    const { error } = await supabase.from('transactions').upsert({
+      ...state.value,
+      tag: state.value.tag ?? 'none',
+      id: props.transaction?.id
+    } as never)
 
     if (!error) {
       toastSuccess({
@@ -107,7 +158,7 @@ const save = async () => {
       emit('saved')
       return
     }
-    throw (error)
+    throw error
   } catch (error) {
     toastError({
       title: 'transaction not saved',
@@ -133,7 +184,7 @@ const initialState = isEditing.value
       amount: 0,
       created_at: undefined,
       description: undefined,
-      tag: undefined
+      tag: [] as string[]
     }
 
 const state = ref({ ...initialState })
@@ -144,8 +195,10 @@ const resetForm = () => {
 }
 const isOpen = computed({
   get: () => props.modelValue,
-  set: (value) => {
-    if (!value) { resetForm() }
+  set: value => {
+    if (!value) {
+      resetForm()
+    }
     emit('update:modelValue', value)
   }
 })
@@ -171,7 +224,6 @@ const addStubExpense = () => {
   state.value.created_at = useDateTime(new Date())
   state.value.amount = 1000
   state.value.description = 'some expense'
-  state.value.tag = 'food'
+  state.value.tag = ['food']
 }
-
 </script>

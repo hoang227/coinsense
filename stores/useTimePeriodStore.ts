@@ -7,7 +7,7 @@ export const useTimePeriodStore = defineStore({
   getters: {
     getMonth: state => state.month,
     getYear: state => state.year,
-    getState: (state) => {
+    getState: state => {
       return {
         month: state.month,
         year: state.year
@@ -15,10 +15,10 @@ export const useTimePeriodStore = defineStore({
     }
   },
   actions: {
-    setMonth (month : number) {
+    setMonth(month: number) {
       this.month = month
     },
-    setYear (year : number) {
+    setYear(year: number) {
       this.year = year
     }
   }

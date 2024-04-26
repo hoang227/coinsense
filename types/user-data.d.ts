@@ -1,5 +1,5 @@
 declare interface UserData {
-  email: string,
+  email: string
   data: {
     username: string
   }

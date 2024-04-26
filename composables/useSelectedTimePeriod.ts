@@ -1,4 +1,7 @@
-export const useSelectedTimePeriod = (period : { month: number, year: number }) : { current: Ref<TimePeriod>, previous: Ref<TimePeriod> } => {
+export const useSelectedTimePeriod = (period: {
+  month: number
+  year: number
+}): { current: Ref<TimePeriod>; previous: Ref<TimePeriod> } => {
   const current = computed<TimePeriod>(() => {
     if (period.month === -1) {
       const from = new Date(period.year, 0)

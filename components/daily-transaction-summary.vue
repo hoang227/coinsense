@@ -1,9 +1,11 @@
 <template>
-  <div class="grid grid-cols-2 py-4 border-b border-neutral-300 dark:border-gray-700 text-gray-500 dark:text-gray-400">
+  <div
+    class="grid grid-cols-2 border-b border-neutral-300 py-4 text-gray-500 dark:border-gray-700 dark:text-gray-400"
+  >
     <div class="flex items-center justify-between">
       {{ formattedDate }}
     </div>
-    <div class="flex items-center justify-end mr-10" :class="color">
+    <div class="mr-10 flex items-center justify-end" :class="color">
       {{ currency }}
     </div>
   </div>
@@ -35,17 +37,17 @@ const sum = computed(() => {
   return sum
 })
 
-const color = computed(() => sum.value >= 0 ? 'green' : 'red')
+const color = computed(() => (sum.value >= 0 ? 'green' : 'red'))
 
 const { currency } = useCurrency(sum)
 </script>
 
 <style scoped>
 .green {
-  @apply text-green-600 dark:text-green-400
+  @apply text-green-600 dark:text-green-400;
 }
 
 .red {
-  @apply text-red-600 dark:text-red-400
+  @apply text-red-600 dark:text-red-400;
 }
 </style>

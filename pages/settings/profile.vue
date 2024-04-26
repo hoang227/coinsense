@@ -4,7 +4,12 @@
       <UInput v-model="state.username" placeholder="Set new username" />
     </UFormGroup>
 
-    <UFormGroup class="mb-4" label="Email" name="email" help="You will receive a confirmation email on both the old and the new email addresses if you modify the email address">
+    <UFormGroup
+      class="mb-4"
+      label="Email"
+      name="email"
+      help="You will receive a confirmation email on both the old and the new email addresses if you modify the email address"
+    >
       <UInput v-model="state.email" />
     </UFormGroup>
 
@@ -55,7 +60,9 @@ const saveProfile = async () => {
     }
 
     const { error } = await supabase.auth.updateUser(userData)
-    if (error) { throw error }
+    if (error) {
+      throw error
+    }
 
     toastSuccess({
       title: 'profile updated',

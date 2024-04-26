@@ -13,10 +13,10 @@ export const useAccountsStore = defineStore({
     getCount: state => state.accounts.length
   },
   actions: {
-    async addAccount (account : string | string[]) {
+    async addAccount(account: string | string[]) {
       loading.value = true
       try {
-        const newAccounts : string[] = user.value?.user_metadata.accounts
+        const newAccounts: string[] = user.value?.user_metadata.accounts
 
         if (Array.isArray(account)) {
           for (const acc in account) {
@@ -36,15 +36,15 @@ export const useAccountsStore = defineStore({
           newAccounts.push(account)
         }
 
-        const { error } = await supabase
-          .auth
-          .updateUser({
-            data: {
-              accounts: newAccounts
-            }
-          })
+        const { error } = await supabase.auth.updateUser({
+          data: {
+            accounts: newAccounts
+          }
+        })
 
-        if (error) { throw error }
+        if (error) {
+          throw error
+        }
 
         this.accounts = user.value?.user_metadata.accounts
 
@@ -64,21 +64,22 @@ export const useAccountsStore = defineStore({
 
       return loading
     },
-    async removeAccount (account : string) {
+    async removeAccount(account: string) {
       loading.value = true
       try {
-        const newAccounts : string[] = user.value?.user_metadata.accounts
-          .filter((item : string) => item !== account)
+        const newAccounts: string[] = user.value?.user_metadata.accounts.filter(
+          (item: string) => item !== account
+        )
 
-        const { error } = await supabase
-          .auth
-          .updateUser({
-            data: {
-              accounts: newAccounts
-            }
-          })
+        const { error } = await supabase.auth.updateUser({
+          data: {
+            accounts: newAccounts
+          }
+        })
 
-        if (error) { throw error }
+        if (error) {
+          throw error
+        }
 
         this.accounts = user.value?.user_metadata.accounts
 

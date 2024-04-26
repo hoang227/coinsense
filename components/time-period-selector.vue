@@ -1,7 +1,9 @@
 <template>
-  <div class="mx-4 flex justify-start items-center space-x-4">
-    <div class="flex flex-col justify-center items-start">
-      <div class="font-bold tracking-tight pb-2 flex justify-end items-center space-x-1">
+  <div class="mx-4 flex items-center justify-start space-x-4">
+    <div class="flex flex-col items-start justify-center">
+      <div
+        class="flex items-center justify-end space-x-1 pb-2 font-bold tracking-tight"
+      >
         <div class="ml-2 text-green-500">
           {{ useTimePeriodStore().getYear }}
         </div>
@@ -26,23 +28,31 @@
           @click="increasePeriod"
         />
       </div>
-      <UButton class="ml-1 text-neutral-500 font-light" label="now" color="white" variant="link" @click="setCurrPeriod" />
+      <UButton
+        class="ml-1 font-light text-neutral-500"
+        label="now"
+        color="white"
+        variant="link"
+        @click="setCurrPeriod"
+      />
     </div>
     <UTabs class="pt-2" :ui="customTabs" :items="modes" @change="onChange" />
   </div>
 </template>
 
 <script setup lang="ts">
-
 const currPeriod = useTimePeriodStore()
 
 const timeMode = ref('Monthly')
 
-const modes = [{
-  label: 'Monthly'
-}, {
-  label: 'Yearly'
-}]
+const modes = [
+  {
+    label: 'Monthly'
+  },
+  {
+    label: 'Yearly'
+  }
+]
 
 const customTabs = {
   list: {
@@ -53,7 +63,7 @@ const customTabs = {
   }
 }
 
-function onChange (index : any) {
+function onChange(index: any) {
   const mode = modes[index]
   timeMode.value = mode.label
   if (mode.label === 'Monthly') {
@@ -64,7 +74,11 @@ function onChange (index : any) {
 }
 
 // compute years and months
-const months: Ref<string[]> = computed(() => [...Array(12)].map((_, index) => new Date(0, index).toLocaleString('en-US', { month: 'long' })))
+const months: Ref<string[]> = computed(() =>
+  [...Array(12)].map((_, index) =>
+    new Date(0, index).toLocaleString('en-US', { month: 'long' })
+  )
+)
 
 const increasePeriod = () => {
   if (timeMode.value === 'Monthly') {
@@ -101,13 +115,4 @@ const setCurrPeriod = () => {
     currPeriod.setYear(new Date().getFullYear())
   }
 }
-
 </script>
-
-<style scoped>
-
-.focus {
-  @apply bg-green-500 dark:bg-green-400
-}
-
-</style>

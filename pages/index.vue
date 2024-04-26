@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="text-8xl tracking-tighter mt-48 mb-10 w-3/4 leading-[1.2]">
+    <div class="mb-10 mt-48 w-3/4 text-8xl leading-[1.2] tracking-tighter">
       Simple Personal Finance Manager
     </div>
-    <div class="text-2xl ml-2">
+    <div class="ml-2 text-2xl">
       "literally the best finance manager in the world" - hoang
     </div>
   </div>

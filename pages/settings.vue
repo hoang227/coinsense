@@ -1,7 +1,13 @@
 <template>
   <div class="grid grid-cols-6 gap-8">
     <div>
-      <UButton label="Back" color="black" class="mb-4" icon="i-heroicons-arrow-left" @click="navigateTo('/mainpage')" />
+      <UButton
+        label="Back"
+        color="black"
+        class="mb-4"
+        icon="i-heroicons-arrow-left"
+        @click="navigateTo('/mainpage')"
+      />
       <UVerticalNavigation :links="links" />
     </div>
     <div class="col-span-4">

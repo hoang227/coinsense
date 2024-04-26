@@ -1,12 +1,18 @@
 <template>
-  <div class="grid grid-cols-5 py-4 border-b border-neutral-300 dark:border-gray-700 text-gray-900 dark:text-gray-100">
-    <div class="flex items-center justify-between space-x-4 col-span-4">
+  <div
+    class="grid grid-cols-5 border-b border-neutral-300 py-4 text-gray-900 dark:border-gray-700 dark:text-gray-100"
+  >
+    <div class="col-span-4 flex items-center justify-between space-x-4">
       <div>
-        <div class="flex items-center space-x-2 mb-2">
+        <div class="mb-2 flex items-center space-x-2">
           <UIcon :name="icon" :class="iconColor" />
           <div>{{ transaction.description }}</div>
         </div>
-        <UBadge v-if="showTags && transaction.tag && !isNoneTag" color="white" class="ml-[20px] px-3.5 py-1.5">
+        <UBadge
+          v-if="showTags && transaction.tag && !isNoneTag"
+          color="white"
+          class="ml-[20px] px-3.5 py-1.5"
+        >
           {{ transaction.tag }}
         </UBadge>
       </div>
@@ -17,8 +23,17 @@
       </div>
       <div>
         <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
-          <UButton color="white" variant="ghost" trailing-icon="i-heroicons-ellipsis-horizontal" :loading="isLoading" />
-          <TransactionModal v-model="isOpen" :transaction="transaction" @saved="emit('edited')" />
+          <UButton
+            color="white"
+            variant="ghost"
+            trailing-icon="i-heroicons-ellipsis-horizontal"
+            :loading="isLoading"
+          />
+          <TransactionModal
+            v-model="isOpen"
+            :transaction="transaction"
+            @saved="emit('edited')"
+          />
         </UDropdown>
       </div>
     </div>
@@ -38,14 +53,14 @@ const emit = defineEmits(['deleted', 'edited'])
 
 const isIncome = computed(() => props.transaction.type === 'income')
 
-const isNoneTag = computed(() => props.transaction.tag === 'none')
+const isNoneTag = computed(() => props.transaction.tag.length === 0)
 
-const icon = computed(
-  () => isIncome.value ? 'i-heroicons-arrow-up-right' : 'i-heroicons-arrow-down-left'
+const icon = computed(() =>
+  isIncome.value ? 'i-heroicons-arrow-up-right' : 'i-heroicons-arrow-down-left'
 )
 
-const iconColor = computed(
-  () => isIncome.value ? 'text-green-600' : 'text-red-600'
+const iconColor = computed(() =>
+  isIncome.value ? 'text-green-600' : 'text-red-600'
 )
 
 const { currency } = useCurrency(props.transaction.amount)
@@ -60,10 +75,7 @@ const deleteTransaction = async () => {
   isLoading.value = true
 
   try {
-    await supabase
-      .from('transactions')
-      .delete()
-      .eq('id', props.transaction.id)
+    await supabase.from('transactions').delete().eq('id', props.transaction.id)
     toastSuccess({
       title: 'transaction deleted'
     })
@@ -78,17 +90,21 @@ const deleteTransaction = async () => {
 }
 
 const items = [
-  [{
-    label: 'edit',
-    icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => {
-      isOpen.value = true
+  [
+    {
+      label: 'edit',
+      icon: 'i-heroicons-pencil-square-20-solid',
+      click: () => {
+        isOpen.value = true
+      }
     }
-  }],
-  [{
-    label: 'delete',
-    icon: 'i-heroicons-trash-20-solid',
-    click: deleteTransaction
-  }]
+  ],
+  [
+    {
+      label: 'delete',
+      icon: 'i-heroicons-trash-20-solid',
+      click: deleteTransaction
+    }
+  ]
 ]
 </script>

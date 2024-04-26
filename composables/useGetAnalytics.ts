@@ -1,9 +1,11 @@
-export const useGetAnalytics = (currTransactions: Transaction[], prevTransactions: Transaction[])
-  : {
-    currAnalytics: Record<string, Record<string, number>>,
-    prevAnalytics: Record<string, Record<string, number>>,
-    accounts: string[]
-  } => {
+export const useGetAnalytics = (
+  currTransactions: Transaction[],
+  prevTransactions: Transaction[]
+): {
+  currAnalytics: Record<string, Record<string, number>>
+  prevAnalytics: Record<string, Record<string, number>>
+  accounts: string[]
+} => {
   // calculate the income and expenses for each account
   const currByAccount = {} as Record<string, Transaction[]>
   const prevByAccount = {} as Record<string, Transaction[]>
@@ -47,8 +49,14 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
   }
 
   // split all transactions into income and expense transactions
-  const currByAccountThenType = {} as Record<string, Record<string, Transaction[]>>
-  const prevByAccountThenType = {} as Record<string, Record<string, Transaction[]>>
+  const currByAccountThenType = {} as Record<
+    string,
+    Record<string, Transaction[]>
+  >
+  const prevByAccountThenType = {} as Record<
+    string,
+    Record<string, Transaction[]>
+  >
 
   for (const [account, transactions] of Object.entries(currByAccount)) {
     const currAccount = {
@@ -82,8 +90,14 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
     prevByAccountThenType[account] = currAccount
   }
 
-  const currByAccountThenTypeTotal = {} as Record<string, Record<string, number>>
-  const prevByAccountThenTypeTotal = {} as Record<string, Record<string, number>>
+  const currByAccountThenTypeTotal = {} as Record<
+    string,
+    Record<string, number>
+  >
+  const prevByAccountThenTypeTotal = {} as Record<
+    string,
+    Record<string, number>
+  >
 
   for (const [account, transactions] of Object.entries(currByAccountThenType)) {
     const currAccount = {
@@ -91,8 +105,14 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
       expense: 0
     } as Record<string, number>
 
-    currAccount.income = transactions.income.reduce((sum, transaction) => sum + transaction.amount, 0)
-    currAccount.expense = transactions.expense.reduce((sum, transaction) => sum + transaction.amount, 0)
+    currAccount.income = transactions.income.reduce(
+      (sum, transaction) => sum + transaction.amount,
+      0
+    )
+    currAccount.expense = transactions.expense.reduce(
+      (sum, transaction) => sum + transaction.amount,
+      0
+    )
 
     currByAccountThenTypeTotal[account] = currAccount
   }
@@ -103,8 +123,14 @@ export const useGetAnalytics = (currTransactions: Transaction[], prevTransaction
       expense: 0
     } as Record<string, number>
 
-    currAccount.income = transactions.income.reduce((sum, transaction) => sum + transaction.amount, 0)
-    currAccount.expense = transactions.expense.reduce((sum, transaction) => sum + transaction.amount, 0)
+    currAccount.income = transactions.income.reduce(
+      (sum, transaction) => sum + transaction.amount,
+      0
+    )
+    currAccount.expense = transactions.expense.reduce(
+      (sum, transaction) => sum + transaction.amount,
+      0
+    )
 
     prevByAccountThenTypeTotal[account] = currAccount
   }

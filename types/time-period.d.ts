@@ -1,4 +1,4 @@
 declare interface TimePeriod {
-  from: Date;
-  to: Date;
+  from: Date
+  to: Date
 }

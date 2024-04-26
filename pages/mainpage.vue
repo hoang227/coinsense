@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="section">
-      <div class="flex justify-between items-center -mx-4">
+    <div
+      class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 shadow-md shadow-neutral-400 dark:bg-neutral-800"
+    >
+      <div class="-mx-4 flex items-center justify-between">
         <TimePeriodSelector />
 
         <div class="mr-4 flex justify-between space-x-4">
@@ -24,7 +26,10 @@
             />
           </div>
           <div>
-            <TransactionModal v-model="isOpen" @saved="refresh(useTimePeriodStore().getState)" />
+            <TransactionModal
+              v-model="isOpen"
+              @saved="refresh(useTimePeriodStore().getState)"
+            />
             <UButton
               class="shadow-md shadow-neutral-400"
               color="black"
@@ -38,14 +43,16 @@
       </div>
     </div>
 
-    <div class="section">
-      <div class="flex justify-between items-center mb-5">
-        <h2 class="ml-1">
-          Accounts
-        </h2>
+    <div
+      class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 shadow-md shadow-neutral-400 dark:bg-neutral-800"
+    >
+      <div class="mb-5 flex items-center justify-between">
+        <h2 class="ml-1">Accounts</h2>
       </div>
 
-      <div class="summary-grid">
+      <div
+        class="grid grid-cols-1 pb-3 max-[900px]:gap-y-10 min-[900px]:grid-cols-2 min-[900px]:gap-x-10 min-[900px]:gap-y-6"
+      >
         <div v-for="account in useAccountsStore().getAccounts" :key="account">
           <AccountSummary
             :curr-income="getAnalytics(account).currIncome"
@@ -59,14 +66,21 @@
       </div>
     </div>
 
-    <div class="section">
-      <h2 class="my-4">
-        Transactions
-      </h2>
+    <div
+      class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 shadow-md shadow-neutral-400 dark:bg-neutral-800"
+    >
+      <h2 class="my-4">Transactions</h2>
 
       <div v-if="!loading">
-        <div v-for="(transactionsOnDay, date) in byDate" :key="date" class="mb-10">
-          <DailyTransactionSummary :date="date" :transactions="transactionsOnDay" />
+        <div
+          v-for="(transactionsOnDay, date) in byDate"
+          :key="date"
+          class="mb-10"
+        >
+          <DailyTransactionSummary
+            :date="date"
+            :transactions="transactionsOnDay"
+          />
           <SingleTransaction
             v-for="transaction in transactionsOnDay"
             :key="transaction.id"
@@ -82,18 +96,18 @@
 </template>
 
 <script setup lang="ts">
-
 const timePeriod = useTimePeriodStore()
 const { current, previous } = useSelectedTimePeriod(timePeriod.getState)
 const isOpen = ref(false)
 const showTags = ref(false)
 
 const {
-  loading, firstFetch, refresh, analytics,
+  loading,
+  firstFetch,
+  refresh,
+  analytics,
   currTransactions: {
-    grouped: {
-      byDate
-    }
+    grouped: { byDate }
   }
 } = useFetchTransactions(current, previous)
 await firstFetch()
@@ -116,31 +130,22 @@ const getAnalytics = (account: string) => {
     prevExpense: analytics.value.prevAnalytics[account].expense
   }
 }
-
 </script>
 
 <style scoped>
 .green {
-  @apply text-green-600 dark:text-green-400
+  @apply text-green-600 dark:text-green-400;
 }
 
 .red {
-  @apply text-red-600 dark:text-red-400
+  @apply text-red-600 dark:text-red-400;
 }
 
 .blue {
-  @apply text-blue-600 dark:text-blue-400
+  @apply text-blue-600 dark:text-blue-400;
 }
 
 .yellow {
-  @apply text-yellow-600 dark:text-yellow-400
-}
-
-.summary-grid {
-  @apply  grid grid-cols-1 pb-3 min-[900px]:grid-cols-2 min-[900px]:gap-x-10 min-[900px]:gap-y-6 max-[900px]:gap-y-10
-}
-
-.section {
-  @apply shadow-md shadow-neutral-400 bg-neutral-100 dark:bg-neutral-800 -mx-6 p-4 my-6 rounded-2xl
+  @apply text-yellow-600 dark:text-yellow-400;
 }
 </style>

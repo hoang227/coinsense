@@ -13,26 +13,30 @@ export const useTagsStore = defineStore({
     getCount: state => state.tags.length
   },
   actions: {
-    async addTag (tag : { name: string, color: string }) {
+    async addTag(tag: { name: string; color: string }) {
       loading.value = true
       try {
-        const newTags : Tag[] = user.value?.user_metadata.tags
+        const newTags: Tag[] = user.value?.user_metadata.tags
 
-        if (newTags.some(currTag => (currTag.name === tag.name || currTag.color === tag.color))) {
+        if (
+          newTags.some(
+            currTag => currTag.name === tag.name || currTag.color === tag.color
+          )
+        ) {
           throw new Error('Tag already exists.')
         }
 
         newTags.push(tag)
 
-        const { error } = await supabase
-          .auth
-          .updateUser({
-            data: {
-              tags: newTags
-            }
-          })
+        const { error } = await supabase.auth.updateUser({
+          data: {
+            tags: newTags
+          }
+        })
 
-        if (error) { throw error }
+        if (error) {
+          throw error
+        }
 
         this.tags = user.value?.user_metadata.tags
 
@@ -52,22 +56,23 @@ export const useTagsStore = defineStore({
 
       return loading
     },
-    async removeTag (tag : string) {
+    async removeTag(tag: string) {
       loading.value = true
       try {
-        const newTags : Tag[] = user.value?.user_metadata.tags
-          .filter((item : Tag) => {
+        const newTags: Tag[] = user.value?.user_metadata.tags.filter(
+          (item: Tag) => {
             return item.name !== tag
-          })
-        const { error } = await supabase
-          .auth
-          .updateUser({
-            data: {
-              tags: newTags
-            }
-          })
+          }
+        )
+        const { error } = await supabase.auth.updateUser({
+          data: {
+            tags: newTags
+          }
+        })
 
-        if (error) { throw error }
+        if (error) {
+          throw error
+        }
 
         this.tags = user.value?.user_metadata.tags
 

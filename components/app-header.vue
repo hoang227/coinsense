@@ -1,10 +1,8 @@
 <template>
-  <header class="flex items-center justify-between mt-4 mx-10">
+  <header class="mx-10 mt-4 flex items-center justify-between">
     <div class="flex items-center justify-between space-x-8">
       <NuxtLink to="/">
-        <h1>
-          Coinsense
-        </h1>
+        <h1>Coinsense</h1>
       </NuxtLink>
       <UButton
         v-if="user && isWelcomePage"
@@ -16,20 +14,30 @@
       />
     </div>
     <div class="flex items-center justify-between space-x-2">
-      <UDropdown v-if="user" :items="items" :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }">
-        <div class="flex justify-between items-center space-x-4">
+      <UDropdown
+        v-if="user"
+        :items="items"
+        :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
+      >
+        <div class="flex items-center justify-between space-x-4">
           <p class="text-stone-700">
             {{ user?.user_metadata.username ?? user?.email }}
           </p>
-          <img v-if="url" :src="url" class="shadow-md size-14 object-cover rounded-full"></img>
-          <img v-else src="/public/img/blank_profile.png" class="shadow-md size-14 object-cover rounded-full"></img>
+          <img
+            v-if="url"
+            :src="url"
+            class="size-14 rounded-full object-cover shadow-md"
+          />
+          <img
+            v-else
+            src="/public/img/blank_profile.png"
+            class="size-14 rounded-full object-cover shadow-md"
+          />
         </div>
 
         <template #account>
           <div class="text-left">
-            <p>
-              Signed in as
-            </p>
+            <p>Signed in as</p>
             <p class="text-gray-900 dark:text-white">
               {{ user?.user_metadata.username ?? user?.email }}
             </p>
@@ -40,7 +48,10 @@
           <p class="truncate">
             {{ item.label }}
           </p>
-          <UIcon :name="item.icon" class="flex-shrink-0 size-4 text-gray-400 dark:text-gray-500 ms-auto" />
+          <UIcon
+            :name="item.icon"
+            class="ms-auto size-4 flex-shrink-0 text-gray-400 dark:text-gray-500"
+          />
         </template>
       </UDropdown>
       <UButton
@@ -87,20 +98,23 @@ const handleLogout = async () => {
 }
 
 const items = [
-  [{
-    slot: 'account',
-    disabled: true
-  }],
-  [{
-    label: 'settings',
-    icon: 'i-heroicons-cog-8-tooth',
-    click: () => navigateTo('/settings/profile')
-  },
-  {
-    label: 'logout',
-    icon: 'i-heroicons-arrow-left-on-rectangle',
-    click: () => handleLogout()
-  }]
+  [
+    {
+      slot: 'account',
+      disabled: true
+    }
+  ],
+  [
+    {
+      label: 'settings',
+      icon: 'i-heroicons-cog-8-tooth',
+      click: () => navigateTo('/settings/profile')
+    },
+    {
+      label: 'logout',
+      icon: 'i-heroicons-arrow-left-on-rectangle',
+      click: () => handleLogout()
+    }
+  ]
 ] as DropdownItem[][]
-
 </script>
