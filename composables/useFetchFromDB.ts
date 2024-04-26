@@ -24,7 +24,21 @@ export const useFetchFromDB = async (
         return []
       }
 
-      return { currData, prevData }
+      const currDataWithTags = currData.map((transaction: any) => {
+        return {
+          ...transaction,
+          tags: useJsonToTags(transaction.tags)
+        }
+      })
+
+      const prevDataWithTags = prevData.map((transaction: any) => {
+        return {
+          ...transaction,
+          tags: useJsonToTags(transaction.tags)
+        }
+      })
+
+      return { currData: currDataWithTags, prevData: prevDataWithTags }
     }
   )
   return data.value as { currData: Transaction[]; prevData: Transaction[] }

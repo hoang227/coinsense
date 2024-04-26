@@ -8,16 +8,16 @@
           <UIcon :name="icon" :class="iconColor" />
           <div>{{ transaction.description }}</div>
         </div>
-        <UBadge color="white" class="ml-[20px] px-3.5 py-1.5">
+        <div v-if="showTags" class="flex items-center justify-start">
           <div v-for="tag in transaction.tags" :key="`${tag.name as string}`">
-            <span
-              class="h-2 w-2 rounded-full"
-              :class="`bg-${tag.color}-500 dark:bg-${tag.color}-400`"
-            />
-            <span class="truncate">{{ tag.name }}</span>
-            {{ tag }}
+            <UBadge
+              :class="`bg-${tag.color}-500`"
+              class="ml-[20px] rounded-full px-3.5 py-1.5"
+            >
+              <span class="truncate">{{ tag.name }}</span>
+            </UBadge>
           </div>
-        </UBadge>
+        </div>
       </div>
     </div>
     <div class="flex items-center justify-end space-x-2">
@@ -53,8 +53,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['deleted', 'edited'])
-
-console.log(props.transaction)
 
 const isIncome = computed(() => props.transaction.type === 'income')
 
