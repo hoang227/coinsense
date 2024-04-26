@@ -86,7 +86,15 @@
             placeholder="select tag"
             multiple
             :options="tags"
-          />
+          >
+            <template #option="{ option: tag }">
+              <span
+                class="h-2 w-2 rounded-full"
+                :class="`bg-${tag.color}-500 dark:bg-${tag.color}-400`"
+              />
+              <span class="truncate">{{ tag.name }}</span>
+            </template>
+          </USelectMenu>
         </UFormGroup>
 
         <UButton
@@ -118,7 +126,7 @@ const props = defineProps({
 })
 
 const accounts = accountsStore.getAccounts
-const tags: string[] = tagsStore.getTags.map((tag: Tag) => tag.name)
+const tags: Tag[] = tagsStore.getTags
 
 const isEditing = computed(() => !!props.transaction)
 const emit = defineEmits(['update:modelValue', 'saved'])
@@ -129,7 +137,14 @@ const schema = z.object({
   description: z.string().optional(),
   amount: z.number().positive('amount needs to be greater than 0'),
   account: z.enum(accounts as [string, ...[string]]),
-  tag: z.enum(tags as [string, ...[string]]).optional()
+  tag: z
+    .array(
+      z.object({
+        name: z.string(),
+        color: z.string()
+      })
+    )
+    .optional()
 })
 
 const form = ref()
@@ -146,7 +161,7 @@ const save = async () => {
   try {
     const { error } = await supabase.from('transactions').upsert({
       ...state.value,
-      tag: state.value.tag ?? 'none',
+      tag: state.value.tag,
       id: props.transaction?.id
     } as never)
 
@@ -184,7 +199,7 @@ const initialState = isEditing.value
       amount: 0,
       created_at: undefined,
       description: undefined,
-      tag: [] as string[]
+      tag: [] as Tag[]
     }
 
 const state = ref({ ...initialState })
@@ -224,6 +239,5 @@ const addStubExpense = () => {
   state.value.created_at = useDateTime(new Date())
   state.value.amount = 1000
   state.value.description = 'some expense'
-  state.value.tag = ['food']
 }
 </script>
