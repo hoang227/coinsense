@@ -6,6 +6,7 @@ module.exports = {
     fontFamily: {
       inter: ['"Inter"']
     },
+    colors: {},
     extend: {
       width: {
         18: '72px',

@@ -26,10 +26,6 @@ useHead({
     }
   ]
 })
-
-const color = useColorMode()
-
-color.preference = 'light'
 </script>
 
 <style>
