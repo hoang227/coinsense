@@ -5,5 +5,5 @@ declare interface Transaction {
   amount: number
   type: string
   description?: string
-  tag: Tag[]
+  tags: Tag[]
 }

@@ -8,12 +8,15 @@
           <UIcon :name="icon" :class="iconColor" />
           <div>{{ transaction.description }}</div>
         </div>
-        <UBadge
-          v-if="showTags && transaction.tag && !isNoneTag"
-          color="white"
-          class="ml-[20px] px-3.5 py-1.5"
-        >
-          {{ transaction.tag }}
+        <UBadge color="white" class="ml-[20px] px-3.5 py-1.5">
+          <div v-for="tag in transaction.tags" :key="`${tag.name as string}`">
+            <span
+              class="h-2 w-2 rounded-full"
+              :class="`bg-${tag.color}-500 dark:bg-${tag.color}-400`"
+            />
+            <span class="truncate">{{ tag.name }}</span>
+            {{ tag }}
+          </div>
         </UBadge>
       </div>
     </div>
@@ -51,9 +54,9 @@ const props = defineProps({
 
 const emit = defineEmits(['deleted', 'edited'])
 
-const isIncome = computed(() => props.transaction.type === 'income')
+console.log(props.transaction)
 
-const isNoneTag = computed(() => props.transaction.tag.length === 0)
+const isIncome = computed(() => props.transaction.type === 'income')
 
 const icon = computed(() =>
   isIncome.value ? 'i-heroicons-arrow-up-right' : 'i-heroicons-arrow-down-left'

@@ -82,7 +82,7 @@
 
         <UFormGroup label="tag" name="tag" class="mb-4">
           <USelectMenu
-            v-model="state.tag"
+            v-model="state.tags"
             placeholder="select tag"
             multiple
             :options="tags"
@@ -161,7 +161,7 @@ const save = async () => {
   try {
     const { error } = await supabase.from('transactions').upsert({
       ...state.value,
-      tag: state.value.tag,
+      tags: useTagsToJson(state.value.tags),
       id: props.transaction?.id
     } as never)
 
@@ -191,7 +191,7 @@ const initialState = isEditing.value
       amount: props.transaction.amount,
       created_at: props.transaction.created_at.split('T')[0],
       description: props.transaction.description,
-      tag: props.transaction.tag
+      tags: props.transaction.tags
     }
   : {
       type: undefined,
@@ -199,7 +199,7 @@ const initialState = isEditing.value
       amount: 0,
       created_at: undefined,
       description: undefined,
-      tag: [] as Tag[]
+      tags: [] as Tag[]
     }
 
 const state = ref({ ...initialState })
