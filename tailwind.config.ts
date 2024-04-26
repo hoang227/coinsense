@@ -4,7 +4,6 @@ module.exports = {
   darkMode: 'class',
   theme: {
     fontFamily: {
-      clean: ['SF Pro Display', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
       inter: ['"Inter"']
     },
     extend: {

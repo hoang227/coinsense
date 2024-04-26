@@ -8,26 +8,49 @@
   </div>
 </template>
 
-<style>
+<script setup lang="ts">
+useHead({
+  link: [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com'
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossorigin: ''
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'
+    }
+  ]
+})
 
+const color = useColorMode()
+
+color.preference = 'light'
+</script>
+
+<style>
 body {
-  @apply font-inter dark:bg-gray-900 bg-white text-neutral-900 dark:text-white
+  @apply bg-white font-inter text-neutral-900 dark:bg-gray-900 dark:text-white;
 }
 
 h1 {
-  @apply text-4xl tracking-tighter font-bold
+  @apply text-4xl font-bold tracking-tighter;
 }
 
 h2 {
-  @apply text-3xl tracking-tighter font-semibold
+  @apply text-3xl font-semibold tracking-tighter;
 }
 
 h3 {
-  @apply text-2xl tracking-tight font-semibold
+  @apply text-2xl font-semibold tracking-tight;
 }
 
 p {
-  @apply text-sm
+  @apply text-sm;
 }
 
 ::-webkit-scrollbar {
