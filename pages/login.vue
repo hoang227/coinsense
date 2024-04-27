@@ -1,5 +1,16 @@
 <template>
-  <UTabs :items="items" class="w-full">
+  <UCard v-if="success">
+    <template #header> Email has been sent </template>
+
+    <div class="text-center">
+      <p class="mb-4">
+        We have sent an email to <strong>{{ signupState.email }}</strong> with a
+        link to sign-in.
+      </p>
+      <p><strong>Important:</strong> The link will expire in 10 minutes.</p>
+    </div>
+  </UCard>
+  <UTabs v-else :items="items" class="w-full">
     <template #signin="{ item }">
       <UForm
         ref="signinForm"
@@ -90,6 +101,7 @@ const { toastSuccess, toastError } = useAppToast()
 const isLoading = ref(false)
 const signinForm = ref()
 const signupForm = ref()
+const linkEmail = ref('')
 
 const items = [
   {
@@ -147,7 +159,6 @@ const handleSignIn = async () => {
       toastSuccess({
         title: 'signed in'
       })
-      success.value = true
       setTimeout(() => useRedirectIfAuthenticated(), 2000)
     } else {
       throw error
@@ -177,7 +188,8 @@ const handleSignUp = async () => {
           username: signupState.value.username,
           accounts: [] as string[],
           tags: [] as string[]
-        }
+        },
+        emailRedirectTo: 'https://localhost:3000/mainpage'
       }
     })
 
@@ -185,12 +197,8 @@ const handleSignUp = async () => {
       toastSuccess({
         title: 'account created'
       })
-      await supabase.auth.signInWithPassword({
-        email: signupState.value.email,
-        password: signupState.value.password
-      })
+      linkEmail.value = signupState.value.email
       success.value = true
-      setTimeout(() => useRedirectIfAuthenticated(), 2000)
     } else {
       throw error
     }

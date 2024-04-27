@@ -60,7 +60,6 @@
 import { z } from 'zod'
 
 const supabase = useSupabaseClient()
-const user = useSupabaseUser()
 
 definePageMeta({
   layout: 'setup'
