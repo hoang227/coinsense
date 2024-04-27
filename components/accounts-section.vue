@@ -1,11 +1,12 @@
 <template>
   <div>
-    <div class="flex items-center justify-between space-x-4">
+    <div class="mb-4 flex items-center justify-between space-x-4">
       <h3>Accounts</h3>
       <UButton
+        :ui="customButtonAdd"
         size="xs"
         label="add account"
-        color="black"
+        color="emerald"
         icon="i-heroicons-plus-circle"
         @click="isOpen = true"
       />
@@ -36,15 +37,15 @@
       <div
         v-for="account in useAccountsStore().getAccounts"
         :key="account"
-        class="mt-4 rounded-lg bg-neutral-200 hover:bg-neutral-400"
+        class="mt-4 rounded-lg bg-gray-200 text-sm hover:bg-gray-400"
       >
         <div class="group col-span-1 flex items-center justify-between">
-          <div class="pl-2">
+          <div class="pl-2 dark:text-gray-800">
             {{ account }}
           </div>
           <UButton
             :ui="customButton"
-            class="pr-2 text-neutral-200 hover:bg-neutral-400 group-hover:text-neutral-800"
+            class="pr-2 text-gray-200 hover:bg-gray-400 group-hover:text-gray-800 dark:text-gray-800 dark:hover:bg-gray-400 dark:group-hover:text-gray-800"
             color="white"
             icon="i-heroicons-x-mark"
             variant="ghost"
@@ -128,6 +129,19 @@ const addAccount = async () => {
     isOpen.value = false
     state.value.newAccount = ''
     navigateTo('/settings/settings')
+  }
+}
+
+const customButtonAdd = {
+  color: {
+    emerald: {
+      solid:
+        'ring-1 ring-inset ring-emerald-600 dark:ring-emerald-500 text-white bg-emerald-600 hover:bg-emerald-500 disabled:bg-white dark:bg-emerald-600 dark:hover:bg-emerald-500 dark:disabled:bg-emerald-500 focus-visible:ring-2 focus-visible:ring-emerald-600 dark:focus-visible:ring-emerald-500'
+    },
+    redwood: {
+      solid:
+        'ring-1 ring-inset ring-tagRedwood-light text-white bg-tagRedwood-light hover:bg-tagRedwood-dark disabled:bg-white dark:bg-tagRedwood-dark dark:hover:bg-tagRedwood-light dark:disabled:bg-gray-900 focus-visible:ring-2 focus-visible:ring-tagRedwood-dark dark:focus-visible:ring-tagRedwood-light'
+    }
   }
 }
 </script>
