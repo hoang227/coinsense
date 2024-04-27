@@ -36,6 +36,8 @@ export const useAccountsStore = defineStore({
           newAccounts.push(account)
         }
 
+        this.accounts = newAccounts
+
         const { error } = await supabase.auth.updateUser({
           data: {
             accounts: newAccounts
@@ -45,8 +47,6 @@ export const useAccountsStore = defineStore({
         if (error) {
           throw error
         }
-
-        this.accounts = user.value?.user_metadata.accounts
 
         navigateTo('/settings/settings')
 
@@ -71,6 +71,8 @@ export const useAccountsStore = defineStore({
           (item: string) => item !== account
         )
 
+        this.accounts = newAccounts
+
         const { error } = await supabase.auth.updateUser({
           data: {
             accounts: newAccounts
@@ -80,8 +82,6 @@ export const useAccountsStore = defineStore({
         if (error) {
           throw error
         }
-
-        this.accounts = user.value?.user_metadata.accounts
 
         navigateTo('/settings/settings')
 

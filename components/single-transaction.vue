@@ -11,7 +11,8 @@
         <div v-if="showTags" class="flex items-center justify-start">
           <div v-for="tag in transaction.tags" :key="`${tag.name as string}`">
             <UBadge
-              :class="`bg-${tag.color}-500`"
+              :ui="customBadge"
+              :color="tag.color"
               class="ml-[20px] rounded-full px-3.5 py-1.5"
             >
               <span class="truncate">{{ tag.name }}</span>
@@ -61,7 +62,9 @@ const icon = computed(() =>
 )
 
 const iconColor = computed(() =>
-  isIncome.value ? 'text-green-600' : 'text-red-600'
+  isIncome.value
+    ? 'text-emerald-600 dark:text-emerald-500'
+    : 'text-tagRedwood-light'
 )
 
 const { currency } = useCurrency(props.transaction.amount)
@@ -108,4 +111,33 @@ const items = [
     }
   ]
 ]
+
+const customBadge = {
+  color: {
+    cashew: {
+      solid: 'bg-tagCashew-light dark:bg-tagCashew-light'
+    },
+    brass: {
+      solid: 'bg-tagBrass-light dark:bg-tagBrass-light'
+    },
+    redwood: {
+      solid: 'bg-tagRedwood-light dark:bg-tagRedwood-light'
+    },
+    leather: {
+      solid: 'bg-tagLeather-light dark:bg-tagLeather-light'
+    },
+    apricot: {
+      solid: 'bg-tagApricot-light dark:bg-tagApricot-light'
+    },
+    camel: {
+      solid: 'bg-tagCamel-light dark:bg-tagCamel-light'
+    },
+    ocean: {
+      solid: 'bg-tagOcean-light dark:bg-tagOcean-light'
+    },
+    night: {
+      solid: 'bg-tagNight-light dark:bg-tagNight-light'
+    }
+  }
+}
 </script>

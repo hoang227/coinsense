@@ -4,19 +4,52 @@
 
 @layer base {
   :root {
-    --tag-red: 358deg 100% 67%;
-    --tag-red-dark: 358deg 100% 47%;
-    --tag-yellow: 42deg 100% 60%;
-    --tag-yellow-dark: 42deg 100% 50%;
-    --tag-green: 141deg 61% 50%;
-    --tag-green-dark: 141deg 61% 40%;
-    --tag-blue: 214deg 79% 55%;
-    --tag-blue-dark: 214deg 79% 45%;
-    --tag-purple: 265deg 32% 40%;
-    --tag-purple-dark: 265deg 32% 30%;
-    --tag-pink: 351deg 100% 64%;
-    --tag-pink-dark: 351deg 100% 54%;
-    --tag-gray: 0deg 0% 63%;
-    --tag-gray-dark: 0deg 0% 53%;
+    --tag-cashew: 354deg 16% 24%;
+    --tag-cashew-dark: 354deg 16% 14%;
+    --tag-brass: 2deg 48% 47%;
+    --tag-brass-dark: 2deg 48% 37%;
+    --tag-redwood: 5deg 57% 50%;
+    --tag-redwood-dark: 5deg 57% 40%;
+    --tag-leather: 24deg 60% 52%;
+    --tag-leather-dark: 24deg 60% 42%;
+    --tag-apricot: 40deg 73% 58%;
+    --tag-apricot-dark: 40deg 73% 48%;
+    --tag-camel: 40deg 57% 75%;
+    --tag-camel-dark: 40deg 57% 65%;
+    --tag-ocean: 178deg 33% 56%;
+    --tag-ocean-dark: 178deg 33% 46%;
+    --tag-night: 195deg 42% 34%;
+    --tag-night-dark: 195deg 42% 24%;
   }
+}
+.cashew {
+  @apply bg-tagCashew-light hover:bg-tagCashew-dark dark:bg-tagCashew-light dark:hover:bg-tagCashew-dark;
+}
+
+.brass {
+  @apply bg-tagBrass-light hover:bg-tagBrass-dark dark:bg-tagBrass-light dark:hover:bg-tagBrass-dark;
+}
+
+.redwood {
+  @apply bg-tagRedwood-light hover:bg-tagRedwood-dark dark:bg-tagRedwood-light dark:hover:bg-tagRedwood-dark;
+}
+
+.leather {
+  @apply bg-tagLeather-light hover:bg-tagLeather-dark dark:bg-tagLeather-light dark:hover:bg-tagLeather-dark;
+}
+
+.apricot {
+  @apply bg-tagApricot-light hover:bg-tagApricot-dark dark:bg-tagApricot-light dark:hover:bg-tagApricot-dark;
+}
+
+.camel {
+  @apply bg-tagCamel-light hover:bg-tagCamel-dark dark:bg-tagCamel-light dark:hover:bg-tagCamel-dark;
+}
+
+.ocean {
+  @apply bg-tagOcean-light hover:bg-tagOcean-dark dark:bg-tagOcean-light dark:hover:bg-tagOcean-dark;
+}
+
+.night {
+  @apply bg-tagNight-light hover:bg-tagNight-dark dark:bg-tagNight-light dark:hover:bg-tagNight-dark;
 }

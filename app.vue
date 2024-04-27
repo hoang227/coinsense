@@ -33,7 +33,7 @@ useHead({
 @import url('@/assets/main.css');
 
 body {
-  @apply bg-white font-inter text-neutral-900 dark:bg-gray-900 dark:text-white;
+  @apply bg-gray-50 font-inter text-gray-900 dark:bg-gray-900 dark:text-white;
 }
 
 h1 {

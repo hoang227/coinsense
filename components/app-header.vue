@@ -21,18 +21,15 @@
           :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
         >
           <div class="flex items-center justify-between space-x-4">
-            <p class="text-stone-700">
-              {{ user?.user_metadata.username ?? user?.email }}
-            </p>
             <img
               v-if="url"
               :src="url"
-              class="size-14 rounded-full object-cover shadow-md"
+              class="size-14 rounded-full object-cover"
             />
             <img
               v-else
               src="/public/img/blank_profile.png"
-              class="size-14 rounded-full object-cover shadow-md"
+              class="size-14 rounded-full object-cover"
             />
           </div>
 
@@ -51,7 +48,7 @@
             </p>
             <UIcon
               :name="item.icon"
-              class="text-gray-400 dark:text-gray-500 ms-auto size-4 flex-shrink-0"
+              class="ms-auto size-4 flex-shrink-0 text-gray-400 dark:text-gray-500"
             />
           </template>
         </UDropdown>

@@ -39,23 +39,19 @@
         v-for="tag in useTagsStore().getTags"
         :key="`${tag.name as string}`"
         :class="tag.color.toLowerCase()"
-        class="mt-4 rounded-2xl shadow-sm shadow-neutral-400"
+        class="group col-span-1 mt-4 flex items-center justify-between rounded-2xl text-neutral-100"
       >
-        <div
-          class="group col-span-1 flex items-center justify-between rounded-2xl text-neutral-100"
-        >
-          <div class="ml-2 group-hover:text-neutral-100">
-            {{ tag.name }}
-          </div>
-          <UButton
-            :ui="customButton"
-            class="pr-2 text-white"
-            color="black"
-            icon="i-heroicons-x-mark"
-            variant="link"
-            @click="handleRemoveTag(tag.name)"
-          />
+        <div class="ml-2">
+          {{ tag.name }}
         </div>
+        <UButton
+          :ui="customButton"
+          class="pr-2 text-white"
+          color="black"
+          icon="i-heroicons-x-mark"
+          variant="link"
+          @click="handleRemoveTag(tag.name)"
+        />
       </div>
       <UModal v-model="isSure">
         <UCard>
@@ -99,14 +95,14 @@ const customButton = {
 }
 
 const colors: string[] = [
-  'Red',
-  'Orange',
-  'Yellow',
-  'Green',
-  'Blue',
-  'Purple',
-  'Pink',
-  'Gray'
+  'cashew',
+  'brass',
+  'redwood',
+  'leather',
+  'apricot',
+  'camel',
+  'ocean',
+  'night'
 ]
 
 const state = ref({
@@ -150,33 +146,3 @@ const addTag = async () => {
   }
 }
 </script>
-
-<style scoped>
-.red {
-  @apply bg-tagRed-light hover:bg-tagRed-dark;
-}
-
-.green {
-  @apply bg-tagGreen-light hover:bg-tagGreen-dark;
-}
-
-.blue {
-  @apply bg-tagBlue-light hover:bg-tagBlue-dark;
-}
-
-.yellow {
-  @apply bg-tagYellow-light hover:bg-tagYellow-dark;
-}
-
-.pink {
-  @apply bg-tagPink-light hover:bg-tagPink-dark;
-}
-
-.purple {
-  @apply bg-tagPurple-light hover:bg-tagPurple-dark;
-}
-
-.orange {
-  @apply bg-tagOrange-light hover:bg-tagOrange-dark;
-}
-</style>

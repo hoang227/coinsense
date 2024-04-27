@@ -1,11 +1,9 @@
 <template>
   <div>
-    <h3
-      class="mb-3 rounded-lg bg-neutral-200 text-2xl font-bold shadow-md shadow-neutral-400 dark:bg-gray-700"
-    >
+    <h3 class="mb-3 rounded-lg bg-gray-200 text-2xl font-bold dark:bg-gray-700">
       <button
         :class="isPinnedStyle"
-        class="flex w-full items-center justify-between rounded-t-lg px-2 py-1 text-left hover:bg-neutral-700 hover:text-neutral-200"
+        class="flex w-full items-center justify-between rounded-t-lg px-2 py-1 text-left hover:bg-gray-700 hover:text-white dark:hover:bg-gray-700"
         @click="isPinned = !isPinned"
         @mouseenter="isOpen = true"
         @mouseleave="isOpen = false"
@@ -17,7 +15,7 @@
       </button>
       <div
         :class="balanceColor"
-        class="rounded-b-lg bg-neutral-200 px-2 py-1 text-xl font-bold dark:bg-gray-900"
+        class="rounded-b-lg bg-gray-200 px-2 py-1 text-xl font-bold dark:bg-gray-900"
       >
         {{ balance?.currency }}
       </div>
@@ -26,14 +24,16 @@
       <div v-if="isPinned ? true : isOpen">
         <div class="grid grid-cols-2 gap-10">
           <div
-            class="rounded-lg bg-neutral-200 pb-4 pl-2 pt-2 shadow-md shadow-neutral-400 dark:bg-gray-900 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-2 min-[1300px]:pb-1"
+            class="rounded-lg bg-gray-200 pb-4 pl-2 pt-2 dark:bg-gray-900 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-2 min-[1300px]:pb-1"
           >
             <div class="mb-2 text-xl font-extrabold text-black dark:text-white">
-              <div class="green font-bold">Income</div>
+              <div class="font-bold text-emerald-600 dark:text-emerald-500">
+                Income
+              </div>
               <USkeleton
                 v-if="loading"
                 class="mr-2 h-8 min-[1300px]:w-24"
-                :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }"
+                :ui="{ rounded: 'bg-gray-200 dark:bg-gray-700' }"
               />
               <div v-else class="mr-2 h-8">
                 {{ income?.currency }}
@@ -43,7 +43,7 @@
               <USkeleton
                 v-if="loading"
                 class="mr-2 h-9 min-[1300px]:-ml-2 min-[1300px]:h-14 min-[1300px]:w-24"
-                :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }"
+                :ui="{ rounded: 'bg-gray-200 dark:bg-gray-700' }"
               />
               <div v-else class="mr-2 flex h-9 flex-col items-start text-sm">
                 <div class="flex items-center space-x-2">
@@ -56,7 +56,7 @@
                     {{ incomePercentageTrend }}
                   </div>
                 </div>
-                <div class="text-stone-500 dark:text-gray-400">
+                <div class="text-gray-500 dark:text-gray-400">
                   vs last period
                 </div>
               </div>
@@ -64,14 +64,14 @@
           </div>
 
           <div
-            class="rounded-lg bg-neutral-200 pb-4 pl-2 pt-2 shadow-md shadow-neutral-400 dark:bg-gray-900 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-2 min-[1300px]:pb-1"
+            class="rounded-lg bg-gray-200 pb-4 pl-2 pt-2 dark:bg-gray-900 min-[1300px]:flex min-[1300px]:items-center min-[1300px]:justify-start min-[1300px]:gap-2 min-[1300px]:pb-1"
           >
             <div class="mb-2 text-xl font-extrabold text-black dark:text-white">
-              <div class="red font-bold">Expenses</div>
+              <div class="text-tagRedwood-light font-bold">Expenses</div>
               <USkeleton
                 v-if="loading"
                 class="mr-2 h-8 min-[1300px]:w-24"
-                :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }"
+                :ui="{ rounded: 'bg-gray-200 dark:bg-gray-700' }"
               />
               <div v-else class="mr-2 h-8">
                 {{ expense.currency }}
@@ -81,7 +81,7 @@
               <USkeleton
                 v-if="loading"
                 class="mr-2 h-9 min-[1300px]:-ml-2 min-[1300px]:h-14 min-[1300px]:w-24"
-                :ui="{ rounded: 'bg-stone-200 dark:bg-gray-700' }"
+                :ui="{ rounded: 'bg-gray-200 dark:bg-gray-700' }"
               />
               <div v-else class="mr-2 flex h-9 flex-col items-start text-sm">
                 <div class="flex items-center space-x-2">
@@ -97,7 +97,7 @@
                     {{ expensePercentageTrend }}
                   </div>
                 </div>
-                <div class="text-stone-500 dark:text-gray-400">
+                <div class="text-gray-500 dark:text-gray-400">
                   vs last period
                 </div>
               </div>
@@ -149,7 +149,9 @@ const accountIcon = computed(() => {
 })
 
 const isPinnedStyle = computed(() => {
-  return isPinned.value ? 'bg-neutral-700 text-neutral-200' : 'bg-neutral-200'
+  return isPinned.value
+    ? 'bg-gray-700 text-white'
+    : 'bg-gray-200 dark:bg-gray-900'
 })
 
 const income = computed(() => useCurrency(props.currIncome))
@@ -161,9 +163,9 @@ const balance = computed(() =>
 
 const balanceColor = computed(() => {
   return props.currIncome < props.currExpense
-    ? 'red'
+    ? 'text-Redwood-light'
     : props.currIncome > props.currExpense
-      ? 'green'
+      ? 'text-emerald-600 dark:text-emerald-500'
       : ''
 })
 
@@ -208,14 +210,6 @@ const expensePercentageTrend = computed(() => {
 </script>
 
 <style scoped>
-.green {
-  @apply text-green-600 dark:text-green-400;
-}
-
-.red {
-  @apply text-red-600 dark:text-red-400;
-}
-
 .summary-enter-active {
   transform-origin: top;
   animation: expand-down 0.7s;

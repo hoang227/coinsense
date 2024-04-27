@@ -8,37 +8,37 @@ module.exports = {
     },
     extend: {
       colors: {
-        tagRed: {
-          light: 'hsl(var(--tag-red))',
-          dark: 'hsl(var(--tag-red-dark))'
+        tagCashew: {
+          light: 'hsl(var(--tag-cashew))',
+          dark: 'hsl(var(--tag-cashew-dark))'
         },
-        tagOrange: {
-          light: 'hsl(var(--tag-orange))',
-          dark: 'hsl(var(--tag-orange-dark))'
+        tagBrass: {
+          light: 'hsl(var(--tag-brass))',
+          dark: 'hsl(var(--tag-brass-dark))'
         },
-        tagYellow: {
-          light: 'hsl(var(--tag-yellow))',
-          dark: 'hsl(var(--tag-yellow-dark))'
+        tagRedwood: {
+          light: 'hsl(var(--tag-redwood))',
+          dark: 'hsl(var(--tag-redwood-dark))'
         },
-        tagGreen: {
-          light: 'hsl(var(--tag-green))',
-          dark: 'hsl(var(--tag-green-dark))'
+        tagLeather: {
+          light: 'hsl(var(--tag-leather))',
+          dark: 'hsl(var(--tag-leather-dark))'
         },
-        tagBlue: {
-          light: 'hsl(var(--tag-blue))',
-          dark: 'hsl(var(--tag-blue-dark))'
+        tagApricot: {
+          light: 'hsl(var(--tag-apricot))',
+          dark: 'hsl(var(--tag-apricot-dark))'
         },
-        tagPurple: {
-          light: 'hsl(var(--tag-purple))',
-          dark: 'hsl(var(--tag-purple-dark))'
+        tagCamel: {
+          light: 'hsl(var(--tag-camel))',
+          dark: 'hsl(var(--tag-camel-dark))'
         },
-        tagPink: {
-          light: 'hsl(var(--tag-pink))',
-          dark: 'hsl(var(--tag-pink-dark))'
+        tagOcean: {
+          light: 'hsl(var(--tag-ocean))',
+          dark: 'hsl(var(--tag-ocean-dark))'
         },
-        tagGray: {
-          light: 'hsl(var(--tag-gray))',
-          dark: 'hsl(var(--tag-gray-dark))'
+        tagNight: {
+          light: 'hsl(var(--tag-night))',
+          dark: 'hsl(var(--tag-night-dark))'
         }
       },
       width: {

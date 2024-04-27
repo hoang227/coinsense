@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 dark:bg-neutral-800">
+    <div class="-mx-6 my-6 rounded-2xl bg-gray-100 p-4 dark:bg-gray-800">
       <div class="-mx-4 flex items-center justify-between">
         <TimePeriodSelector />
 
@@ -8,16 +8,16 @@
           <div class="flex space-x-4">
             <UButton
               v-if="showTags"
-              class="shadow-md shadow-neutral-400"
-              color="red"
+              :ui="customButton"
+              color="emerald"
               label="hide tags"
               variant="solid"
               @click="showTags = !showTags"
             />
             <UButton
               v-else
-              class="shadow-md shadow-neutral-400"
-              color="green"
+              :ui="customButton"
+              color="redwood"
               label="show tags"
               variant="solid"
               @click="showTags = !showTags"
@@ -29,8 +29,8 @@
               @saved="refresh(useTimePeriodStore().getState)"
             />
             <UButton
-              class="shadow-md shadow-neutral-400"
-              color="black"
+              :ui="customButton"
+              color="emerald"
               icon="i-heroicons-plus-circle"
               label="add transaction"
               variant="solid"
@@ -41,9 +41,7 @@
       </div>
     </div>
 
-    <div
-      class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 shadow-md shadow-neutral-400 dark:bg-neutral-800"
-    >
+    <div class="-mx-6 my-6 rounded-2xl bg-gray-100 p-4 dark:bg-gray-800">
       <div class="mb-5 flex items-center justify-between">
         <h2 class="ml-1">Accounts</h2>
       </div>
@@ -64,9 +62,7 @@
       </div>
     </div>
 
-    <div
-      class="-mx-6 my-6 rounded-2xl bg-neutral-100 p-4 shadow-md shadow-neutral-400 dark:bg-neutral-800"
-    >
+    <div class="-mx-6 my-6 rounded-2xl bg-gray-100 p-4 dark:bg-gray-800">
       <h2 class="my-4">Transactions</h2>
 
       <div v-if="!loading">
@@ -128,22 +124,17 @@ const getAnalytics = (account: string) => {
     prevExpense: analytics.value.prevAnalytics[account].expense
   }
 }
+
+const customButton = {
+  color: {
+    emerald: {
+      solid:
+        'ring-1 ring-inset ring-emerald-600 dark:ring-emerald-500 text-white bg-emerald-600 hover:bg-emerald-500 disabled:bg-white dark:bg-emerald-600 dark:hover:bg-emerald-500 dark:disabled:bg-emerald-500 focus-visible:ring-2 focus-visible:ring-emerald-600 dark:focus-visible:ring-emerald-500'
+    },
+    redwood: {
+      solid:
+        'ring-1 ring-inset ring-tagRedwood-light text-white bg-tagRedwood-light hover:bg-tagRedwood-dark disabled:bg-white dark:bg-tagRedwood-dark dark:hover:bg-tagRedwood-light dark:disabled:bg-gray-900 focus-visible:ring-2 focus-visible:ring-tagRedwood-dark dark:focus-visible:ring-tagRedwood-light'
+    }
+  }
+}
 </script>
-
-<style scoped>
-.green {
-  @apply text-green-600 dark:text-green-400;
-}
-
-.red {
-  @apply text-red-600 dark:text-red-400;
-}
-
-.blue {
-  @apply text-blue-600 dark:text-blue-400;
-}
-
-.yellow {
-  @apply text-yellow-600 dark:text-yellow-400;
-}
-</style>

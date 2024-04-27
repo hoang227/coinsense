@@ -36,7 +36,7 @@
       <div
         v-for="account in useAccountsStore().getAccounts"
         :key="account"
-        class="mt-4 rounded-lg bg-neutral-200 shadow-sm shadow-neutral-400 hover:bg-neutral-400"
+        class="mt-4 rounded-lg bg-neutral-200 hover:bg-neutral-400"
       >
         <div class="group col-span-1 flex items-center justify-between">
           <div class="pl-2">

@@ -4,10 +4,13 @@
       <div
         class="flex items-center justify-end space-x-1 pb-2 font-bold tracking-tight"
       >
-        <div class="ml-2 text-green-500">
+        <div class="ml-2 text-emerald-600 dark:text-emerald-500">
           {{ useTimePeriodStore().getYear }}
         </div>
-        <div v-if="timeMode === 'Monthly'" class="w-[80px] text-neutral-700">
+        <div
+          v-if="timeMode === 'Monthly'"
+          class="w-[80px] text-gray-700 dark:text-gray-100"
+        >
           {{ months[useTimePeriodStore().getMonth] }}
         </div>
         <div v-else class="w-[80px]" />
@@ -29,7 +32,7 @@
         />
       </div>
       <UButton
-        class="ml-1 font-light text-neutral-500"
+        class="ml-1 font-light text-gray-500"
         label="now"
         color="white"
         variant="link"
@@ -56,7 +59,10 @@ const modes = [
 
 const customTabs = {
   list: {
-    background: 'bg-neutral-200 dark:bg-gray-800',
+    background: 'bg-gray-200 dark:bg-gray-900',
+    marker: {
+      background: 'bg-white dark:bg-gray-800'
+    },
     tab: {
       font: 'font-light'
     }
