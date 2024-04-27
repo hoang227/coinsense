@@ -5,7 +5,13 @@ export const useRedirectIfAuthenticated = (url = '/mainpage') => {
     user,
     user => {
       if (user) {
-        return navigateTo(url)
+        if (user.user_metadata.set_up_complete) {
+          setTimeout(() => {
+            navigateTo(url)
+          }, 1000)
+        } else {
+          return navigateTo('/setup')
+        }
       }
     },
     { immediate: true }

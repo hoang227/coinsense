@@ -12,7 +12,7 @@
       />
       <UModal v-model="isOpen">
         <UCard>
-          <template #header> New account </template>
+          <template #header>New account </template>
           <UForm
             ref="form"
             :state="state"
@@ -20,12 +20,12 @@
             @submit="addAccount"
           >
             <UFormGroup
-              label="name"
+              label="Name"
               :required="true"
               name="newAccount"
               class="mb-4"
             >
-              <UInput v-model="state.newAccount" placeholder="account" />
+              <UInput v-model="state.newAccount" placeholder="Account" />
             </UFormGroup>
 
             <UButton type="submit" color="black" variant="solid" label="save" />

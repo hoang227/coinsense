@@ -13,7 +13,7 @@
             <UBadge
               :ui="customBadge"
               :color="tag.color"
-              class="ml-[20px] rounded-full px-3.5 py-1.5"
+              class="ml-[20px] rounded-full px-3.5 py-1.5 text-white"
             >
               <span class="truncate">{{ tag.name }}</span>
             </UBadge>

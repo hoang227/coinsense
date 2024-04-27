@@ -14,23 +14,34 @@
         <UCard>
           <template #header> New tag </template>
           <UForm ref="form" :state="state" :schema="schema" @submit="addTag">
-            <UFormGroup label="name" :required="true" name="name" class="mb-4">
+            <UFormGroup label="Name" :required="true" name="name" class="mb-4">
               <UInput v-model="state.name" placeholder="tag" />
             </UFormGroup>
 
             <UFormGroup
               label="color"
               :required="true"
-              name="color"
+              name="Color"
               class="mb-4"
             >
-              <USelect
+              <USelectMenu
                 v-model="state.color"
-                placeholder="select color"
                 :options="colors"
-              />
+                placeholder="Select a color"
+              >
+                <template #option="{ option: color }">
+                  <span class="h-2 w-2 rounded-full" :class="color" />
+                  <span class="truncate">{{ color }}</span>
+                </template>
+              </USelectMenu>
             </UFormGroup>
-            <UButton type="submit" color="black" variant="solid" label="save" />
+            <UButton
+              :ui="customButtonAdd"
+              type="submit"
+              color="emerald"
+              variant="solid"
+              label="save"
+            />
           </UForm>
         </UCard>
       </UModal>

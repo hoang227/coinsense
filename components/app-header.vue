@@ -15,51 +15,56 @@
     </div>
     <div class="flex items-center justify-between space-x-4">
       <div class="flex items-center justify-between space-x-2">
-        <UDropdown
-          v-if="user"
-          :items="items"
-          :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
-        >
-          <div class="flex items-center justify-between space-x-4">
-            <img
-              v-if="url"
-              :src="url"
-              class="size-14 rounded-full object-cover"
-            />
-            <img
-              v-else
-              src="/public/img/blank_profile.png"
-              class="size-14 rounded-full object-cover"
-            />
-          </div>
-
-          <template #account>
-            <div class="text-left">
-              <p>Signed in as</p>
-              <p class="text-gray-900 dark:text-white">
-                {{ user?.user_metadata.username ?? user?.email }}
-              </p>
+        <div v-if="!isSetupPage">
+          <UDropdown
+            v-if="user"
+            :items="items"
+            :ui="{
+              item: { disabled: 'cursor-text select-text' },
+              width: 'w-64'
+            }"
+          >
+            <div class="flex items-center justify-between space-x-4">
+              <img
+                v-if="url"
+                :src="url"
+                class="size-14 rounded-full object-cover"
+              />
+              <img
+                v-else
+                src="/public/img/blank_profile.png"
+                class="size-14 rounded-full object-cover"
+              />
             </div>
-          </template>
 
-          <template #item="{ item }">
-            <p class="truncate">
-              {{ item.label }}
-            </p>
-            <UIcon
-              :name="item.icon"
-              class="ms-auto size-4 flex-shrink-0 text-gray-400 dark:text-gray-500"
-            />
-          </template>
-        </UDropdown>
-        <UButton
-          v-else
-          class="text-xl font-light"
-          color="white"
-          label="Log In"
-          variant="ghost"
-          @click="navigateTo('/login')"
-        />
+            <template #account>
+              <div class="text-left">
+                <p>Signed in as</p>
+                <p class="text-gray-900 dark:text-white">
+                  {{ user?.user_metadata.username ?? user?.email }}
+                </p>
+              </div>
+            </template>
+
+            <template #item="{ item }">
+              <p class="truncate">
+                {{ item.label }}
+              </p>
+              <UIcon
+                :name="item.icon"
+                class="ms-auto size-4 flex-shrink-0 text-gray-400 dark:text-gray-500"
+              />
+            </template>
+          </UDropdown>
+          <UButton
+            v-else
+            class="text-xl font-light"
+            color="white"
+            label="Log In"
+            variant="ghost"
+            @click="navigateTo('/login')"
+          />
+        </div>
       </div>
       <ClientOnly>
         <ColorModeSelector />
@@ -78,6 +83,7 @@ const { toastSuccess, toastError } = useAppToast()
 const { url } = useAvatarUrl()
 
 const isWelcomePage = computed(() => route.path === '/')
+const isSetupPage = computed(() => route.path === '/setup')
 
 const handleLogout = async () => {
   try {

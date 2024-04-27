@@ -1,10 +1,10 @@
 <template>
   <UModal v-model="isOpen">
     <UCard>
-      <template #header> add transaction </template>
+      <template #header> Add transaction </template>
       <UForm ref="form" :state="state" :schema="schema" @submit="save">
         <UFormGroup
-          label="transaction type"
+          label="Transaction type"
           :required="true"
           name="type"
           class="mb-4"
@@ -12,30 +12,34 @@
           <USelect
             v-model="state.type"
             :disabled="isEditing"
-            placeholder="select transaction type"
+            placeholder="Select transaction type"
             :options="types"
           />
         </UFormGroup>
 
         <UFormGroup
-          label="account"
+          label="Account"
           :required="true"
           name="account"
           class="mb-4"
         >
           <USelect
             v-model="state.account"
-            placeholder="select account"
+            placeholder="Select account"
             :options="accounts"
           />
         </UFormGroup>
 
-        <UFormGroup label="amount" :required="true" name="amount" class="mb-4">
-          <UInput v-model="state.amount" placeholder="amount" />
+        <UFormGroup label="Amount" :required="true" name="amount" class="mb-4">
+          <UInput
+            v-model.number="state.amount"
+            type="number"
+            placeholder="Amount"
+          />
         </UFormGroup>
 
         <UFormGroup
-          label="date"
+          label="Date"
           :required="true"
           name="created_at"
           class="mb-4"
@@ -43,7 +47,6 @@
           <UInput
             v-model="state.created_at"
             type="date"
-            placeholder="amount"
             icon="i-heroicons-calendar-days-20-solid"
           />
           <UButton
@@ -60,38 +63,23 @@
             variant="link"
             @click="clearDate"
           />
-          <UButton
-            class="-ml-2 opacity-60"
-            label="stubIncome"
-            color="black"
-            variant="link"
-            @click="addStubIncome"
-          />
-          <UButton
-            class="-ml-2 opacity-60"
-            label="stubExpense"
-            color="black"
-            variant="link"
-            @click="addStubExpense"
-          />
         </UFormGroup>
 
-        <UFormGroup label="description" name="description" class="mb-4">
-          <UInput v-model="state.description" placeholder="description" />
+        <UFormGroup label="Description" name="description" class="mb-4">
+          <UInput v-model="state.description" placeholder="Description" />
         </UFormGroup>
 
-        <UFormGroup label="tag" name="tag" class="mb-4">
+        <UFormGroup label="Tags" name="tag" class="mb-4">
           <USelectMenu
             v-model="state.tags"
-            placeholder="select tag"
+            :uiMenu="customSelectMenu"
+            placeholder="Select tag(s)"
             multiple
             :options="tags"
+            :popper="{ placement: 'right-end' }"
           >
             <template #option="{ option: tag }">
-              <span
-                class="h-2 w-2 rounded-full"
-                :class="`bg-${tag.color}-500 dark:bg-${tag.color}-400`"
-              />
+              <span class="h-2 w-2 rounded-full" :class="tag.color" />
               <span class="truncate">{{ tag.name }}</span>
             </template>
           </USelectMenu>
@@ -226,18 +214,7 @@ const clearDate = () => {
   state.value.created_at = undefined
 }
 
-const addStubIncome = () => {
-  state.value.type = 'income'
-  state.value.account = 'checking'
-  state.value.created_at = useDateTime(new Date())
-  state.value.amount = 1000
-  state.value.description = 'some income'
-}
-const addStubExpense = () => {
-  state.value.type = 'expense'
-  state.value.account = 'checking'
-  state.value.created_at = useDateTime(new Date())
-  state.value.amount = 1000
-  state.value.description = 'some expense'
+const customSelectMenu = {
+  width: 'w-1/2'
 }
 </script>

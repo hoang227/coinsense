@@ -50,7 +50,11 @@
                   <UIcon
                     :name="incomeIcon"
                     class="size-6"
-                    :class="{ green: incomeTrendingUp, red: !incomeTrendingUp }"
+                    :class="{
+                      'text-emerald-600 dark:text-emerald-500':
+                        incomeTrendingUp,
+                      'text-tagRedwood-light': !incomeTrendingUp
+                    }"
                   />
                   <div class="font-bold">
                     {{ incomePercentageTrend }}
@@ -89,8 +93,9 @@
                     :name="expenseIcon"
                     class="size-6"
                     :class="{
-                      red: expenseTrendingUp,
-                      green: !expenseTrendingUp
+                      'bg-tagRedwood-light': expenseTrendingUp,
+                      'text-emerald-600 dark:text-emerald-500':
+                        !expenseTrendingUp
                     }"
                   />
                   <div class="font-bold">
