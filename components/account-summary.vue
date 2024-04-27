@@ -168,7 +168,7 @@ const balance = computed(() =>
 
 const balanceColor = computed(() => {
   return props.currIncome < props.currExpense
-    ? 'text-Redwood-light'
+    ? 'text-tagRedwood-light'
     : props.currIncome > props.currExpense
       ? 'text-emerald-600 dark:text-emerald-500'
       : ''
