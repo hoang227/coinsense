@@ -13,4 +13,14 @@
 definePageMeta({
   layout: 'welcome'
 })
+useHead({
+  title: 'Coinsense',
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }
+  ]
+})
 </script>
